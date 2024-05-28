@@ -1,0 +1,84 @@
+.lkt-progress {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--progress-gap);
+    color: var(--text-color);
+    box-shadow: var(--progress-shadow);
+    cursor: default;
+    text-align: var(--progress-text-align);
+    transition: var(--progress-transition);
+    font-family: var(--progress-font-family);
+    font-size: var(--progress-font-size);
+    font-weight: var(--progress-font-weight);
+    line-height: var(--progress-line-height);
+    min-width: var(--progress-min-width);
+    min-height: var(--progress-min-height);
+    padding: var(--progress-padding);
+}
+
+.lkt-progress-header,
+.lkt-progress-indicator {
+    display: block;
+    font-weight: var(--progress-header-font-weight);
+    font-size: var(--progress-header-font-size);
+    line-height: var(--progress-header-line-height);
+    margin: var(--progress-header-margin);
+}
+
+.lkt-progress-content {
+    display: flex;
+    align-items: center;
+    gap: var(--gap);
+    justify-content: space-between;
+}
+
+.lkt-progress-bar {
+    width: 100%;
+    height: var(--progress-bar-height);
+    border-radius: var(--progress-bar-border-radius);
+    border-width: var(--progress-bar-border-width);
+    border-style: var(--progress-bar-border-style);
+    border-color: var(--progress-bar-border-color);
+}
+
+.lkt-progress-bar-percentage {
+    height: 100%;
+    background: var(--progress-bar-percentage-color);
+}
+
+.lkt-progress--alert .lkt-progress-bar-percentage {
+    background: var(--alert-color);
+    color: var(--alert-contrast);
+    border-color: var(--alert-color);
+}
+
+.lkt-progress--danger .lkt-progress-bar-percentage {
+    background: var(--danger-color);
+    color: var(--danger-contrast);
+    border-color: var(--danger-color);
+}
+
+.lkt-progress--success .lkt-progress-bar-percentage {
+    background: var(--success-color);
+    color: var(--success-contrast);
+    border-color: var(--success-color);
+}
+
+.lkt-progress--info .lkt-progress-bar-percentage {
+    background: var(--info-color);
+    color: var(--info-contrast);
+    border-color: var(--info-color);
+}
+
+.lkt-progress--warning .lkt-progress-bar-percentage {
+    background: var(--warning-color);
+    color: var(--warning-contrast);
+    border-color: var(--warning-color);
+}
+
+.lkt-progress--target .lkt-progress-bar-percentage {
+    background: var(--target-color);
+    color: var(--target-contrast);
+    border-color: var(--target-color);
+}
