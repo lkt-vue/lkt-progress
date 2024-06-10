@@ -13,8 +13,9 @@
     --lkt-progress-min-width: 100%;
     --lkt-progress-min-height: 35px;
     --lkt-progress-bar-height: 35px;
-    --lkt-progress-padding: 15px;
-    --lkt-progress-gap: 15px;
+    --lkt-progress-padding: 0;
+    --lkt-progress-gap: 0;
+    --lkt-progress-content-gap: 15px;
     --lkt-progress-header-margin: 0 0 3px;
 
     /** Border */

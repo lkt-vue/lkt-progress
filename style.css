@@ -29,7 +29,7 @@
 .lkt-progress-content {
     display: flex;
     align-items: center;
-    gap: var(--lkt-progress-gap);
+    gap: var(--lkt-progress-content-gap);
     justify-content: space-between;
 }
 
