@@ -1,53 +1,152 @@
 <script setup lang="ts">
-import {computed, useSlots} from "vue";
+import {computed, onMounted, ref, useSlots, watch} from "vue";
+
+// Emits
+const emit = defineEmits([
+    'update:modelValue',
+    'mouseenter',
+    'mouseleave',
+    'end',
+])
 
 // Slots
 const slots = useSlots();
 
 // Props
 const props = withDefaults(defineProps<{
-    modelValue: number
-    header: string
-    palette: string
+    modelValue?: number
+    header?: string
+    palette?: string
+    type?: '' | 'decremental' | 'incremental'
+    valueFormat?: '' | 'hidden' | 'integer' | 'decimal' | 'auto'
+    duration?: number
+    pauseOnHover?: boolean
 }>(), {
     modelValue: 0,
     header: '',
     palette: '',
+    type: '',
+    valueFormat: '',
+    duration: 10000,
+    pauseOnHover: false,
 });
+
+
+const progress = ref(Number(props.modelValue));
+if (progress.value > 100) progress.value = 100;
+if (progress.value < 0) progress.value = 0;
+
+const progressHigherLimit = ref(100);
+if (props.type === 'incremental') {
+    progressHigherLimit.value = progress.value;
+    progress.value = 0;
+}
+
+watch(() => props.modelValue, (v) => {
+    if (v > 100) v = 100;
+    if (v < 0) v = 0;
+    progress.value = v;
+});
+
+watch(progress, (v) => {
+    emit('update:modelValue', v);
+})
+
+const isAnimating = ref(false);
+let intervalId: any;
+const progressDuration = ref(props.duration);
+const animationStep = ref(progressDuration.value === 0 ? 1 : (100 / (progressDuration.value / 100)));
+
+function updateProgress() {
+    if (props.type === 'decremental' && progress.value > 0) {
+        progress.value -= animationStep.value;
+
+    } else if (props.type === 'incremental' && progress.value < progressHigherLimit.value) {
+        progress.value += animationStep.value;
+
+    } else {
+        clearInterval(intervalId);
+        isAnimating.value = false;
+        emit('end');
+    }
+}
+
+function startProgress() {
+    if (props.type === 'incremental' || props.type === 'decremental') {
+        if (isAnimating.value) return;
+        intervalId = setInterval(updateProgress, 100); // Actualización cada 100 ms
+        isAnimating.value = true;
+    }
+}
+
+// Función para pausar el progreso
+function pauseProgress() {
+    clearInterval(intervalId);
+    isAnimating.value = false;
+}
 
 const classes = computed(() => {
         let r = [];
 
         if (props.palette) r.push(`lkt-progress--${props.palette}`);
 
-        if (computedPercentage.value >= 10) r.push('lkt-progress--fill-10');
-        if (computedPercentage.value >= 20) r.push('lkt-progress--fill-20');
-        if (computedPercentage.value >= 30) r.push('lkt-progress--fill-30');
-        if (computedPercentage.value >= 40) r.push('lkt-progress--fill-40');
-        if (computedPercentage.value >= 50) r.push('lkt-progress--fill-50');
-        if (computedPercentage.value >= 60) r.push('lkt-progress--fill-60');
-        if (computedPercentage.value >= 70) r.push('lkt-progress--fill-70');
-        if (computedPercentage.value >= 80) r.push('lkt-progress--fill-80');
-        if (computedPercentage.value >= 90) r.push('lkt-progress--fill-90');
-        if (computedPercentage.value >= 100) r.push('lkt-progress--fill-100');
+        if (progress.value >= 10) r.push('lkt-progress--fill-10');
+        if (progress.value >= 20) r.push('lkt-progress--fill-20');
+        if (progress.value >= 30) r.push('lkt-progress--fill-30');
+        if (progress.value >= 40) r.push('lkt-progress--fill-40');
+        if (progress.value >= 50) r.push('lkt-progress--fill-50');
+        if (progress.value >= 60) r.push('lkt-progress--fill-60');
+        if (progress.value >= 70) r.push('lkt-progress--fill-70');
+        if (progress.value >= 80) r.push('lkt-progress--fill-80');
+        if (progress.value >= 90) r.push('lkt-progress--fill-90');
+        if (progress.value >= 100) r.push('lkt-progress--fill-100');
 
         return r.join(' ');
     }),
-    computedPercentage = computed(() => {
-        if (props.modelValue > 100) return 100;
-        if (props.modelValue < 0) return 0;
-        return Number(Number(props.modelValue).toFixed(2));
-    }),
     computedVisiblePercentage = computed(() => {
-        return Number(props.modelValue).toFixed(2);
+        let r = Number(progress.value).toFixed(2);
+        if (props.valueFormat === 'auto') {
+            if (r.indexOf('.00') > -1) r = r.replace('.00', '');
+        }
+        else if (props.valueFormat === 'integer') {
+            //@ts-ignore
+            r = parseInt(r);
+        }
+        return r;
     }),
     progressBarStyles = computed(() => {
-        return 'width: calc(' + computedPercentage.value + '%)';
+        return 'width: calc(' + computedVisiblePercentage.value + '%)';
     });
+
+const onMouseEnter = (event: MouseEvent) => {
+        if (props.pauseOnHover) {
+            pauseProgress();
+        }
+        emit('mouseenter', event);
+    },
+    onMouseLeave = (event: MouseEvent) => {
+        if (props.pauseOnHover) {
+            startProgress();
+        }
+        emit('mouseleave', event);
+    };
+
+onMounted(() => {
+    startProgress();
+})
+
+defineExpose({
+    start: startProgress,
+    pause: pauseProgress,
+})
 </script>
 
 <template>
-    <section class="lkt-progress" :class="classes">
+    <section
+        class="lkt-progress"
+        :class="classes"
+        @mouseenter="onMouseEnter"
+        @mouseleave="onMouseLeave">
         <header class="lkt-progress-header">
             <template v-if="!!slots.header">
                 <slot name="header"/>
@@ -60,11 +159,7 @@ const classes = computed(() => {
             <div class="lkt-progress-bar">
                 <div class="lkt-progress-bar-percentage" :style="progressBarStyles"></div>
             </div>
-            <div class="lkt-progress-indicator">{{computedVisiblePercentage}}%</div>
+            <div v-if="valueFormat !== 'hidden'" class="lkt-progress-indicator">{{ computedVisiblePercentage }}%</div>
         </div>
     </section>
 </template>
-
-<style scoped>
-
-</style>
