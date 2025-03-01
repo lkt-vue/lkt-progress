@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {computed, onMounted, ref, useSlots, watch} from "vue";
+import {getDefaultValues, Progress, ProgressConfig, ProgressType, ProgressValueFormat} from "lkt-vue-kernel";
 
 // Emits
 const emit = defineEmits([
@@ -13,31 +14,14 @@ const emit = defineEmits([
 const slots = useSlots();
 
 // Props
-const props = withDefaults(defineProps<{
-    modelValue?: number
-    header?: string
-    palette?: string
-    type?: '' | 'decremental' | 'incremental'
-    valueFormat?: '' | 'hidden' | 'integer' | 'decimal' | 'auto'
-    duration?: number
-    pauseOnHover?: boolean
-}>(), {
-    modelValue: 0,
-    header: '',
-    palette: '',
-    type: '',
-    valueFormat: '',
-    duration: 10000,
-    pauseOnHover: false,
-});
-
+const props = withDefaults(defineProps<ProgressConfig>(), getDefaultValues(Progress));
 
 const progress = ref(Number(props.modelValue));
 if (progress.value > 100) progress.value = 100;
 if (progress.value < 0) progress.value = 0;
 
 const progressHigherLimit = ref(100);
-if (props.type === 'incremental') {
+if (props.type === ProgressType.Incremental) {
     progressHigherLimit.value = progress.value;
     progress.value = 0;
 }
@@ -58,10 +42,10 @@ const progressDuration = ref(props.duration);
 const animationStep = ref(progressDuration.value === 0 ? 1 : (100 / (progressDuration.value / 100)));
 
 function updateProgress() {
-    if (props.type === 'decremental' && progress.value > 0) {
+    if (props.type === ProgressType.Decremental && progress.value > 0) {
         progress.value -= animationStep.value;
 
-    } else if (props.type === 'incremental' && progress.value < progressHigherLimit.value) {
+    } else if (props.type === ProgressType.Incremental && progress.value < progressHigherLimit.value) {
         progress.value += animationStep.value;
 
     } else {
@@ -72,7 +56,7 @@ function updateProgress() {
 }
 
 function startProgress() {
-    if (props.type === 'incremental' || props.type === 'decremental') {
+    if (props.type === ProgressType.Incremental || props.type === ProgressType.Decremental) {
         if (isAnimating.value) return;
         intervalId = setInterval(updateProgress, 100); // Actualización cada 100 ms
         isAnimating.value = true;
@@ -105,10 +89,10 @@ const classes = computed(() => {
     }),
     computedVisiblePercentage = computed(() => {
         let r = Number(progress.value).toFixed(2);
-        if (props.valueFormat === 'auto') {
+        if (props.valueFormat === ProgressValueFormat.Auto) {
             if (r.indexOf('.00') > -1) r = r.replace('.00', '');
         }
-        else if (props.valueFormat === 'integer') {
+        else if (props.valueFormat === ProgressValueFormat.Integer) {
             //@ts-ignore
             r = parseInt(r);
         }

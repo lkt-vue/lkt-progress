@@ -1,6 +1,6 @@
 {
   "name": "lkt-progress",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "",
   "type": "module",
   "module": "./dist/build.js",
@@ -42,7 +42,7 @@
   "dependencies": {
   },
   "peerDependencies": {
-    "lkt-vue-kernel": "^1.0.23",
-    "vue": "^3.2.37"
+    "lkt-vue-kernel": "^1.0.32",
+    "vue": "^3.3.0"
   }
 }
