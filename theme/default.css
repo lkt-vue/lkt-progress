@@ -1,39 +1,36 @@
-:root {
-    /** Font */
-    --lkt-progress-font-family: system-ui, Helvetica;
-    --lkt-progress-font-size: 16px;
-    --lkt-progress-header-font-size: 13px;
-    --lkt-progress-font-weight: 300;
-    --lkt-progress-header-font-weight: bold;
-    --lkt-progress-line-height: 1.425;
-    --lkt-progress-header-line-height: 1.4em;
-    --lkt-progress-text-align: left;
+.lkt-progress {
+    --lkt-progress--font-family: system-ui, Helvetica;
+    --lkt-progress--font-size: 16px;
+    --lkt-progress--font-weight: 300;
+    --lkt-progress--line-height: 1.425;
+    --lkt-progress--text-align: left;
+    --lkt-progress--min-width: 100%;
+    --lkt-progress--min-height: 35px;
+    --lkt-progress--padding: 0;
+    --lkt-progress--gap: 0;
+    --lkt-progress--border-radius: 5px;
+    --lkt-progress--border-width: 1px;
+    --lkt-progress--border-style: solid;
+    --lkt-progress--color: #444444;
+    --lkt-progress--background: transparent;
+    --lkt-progress--border-color: #ddd;
+    --lkt-progress--shadow: none;
+    --lkt-progress--transition: all linear 100ms;
 
-    /** Sizing */
-    --lkt-progress-min-width: 100%;
-    --lkt-progress-min-height: 35px;
-    --lkt-progress-bar-height: 35px;
-    --lkt-progress-padding: 0;
-    --lkt-progress-gap: 0;
-    --lkt-progress-content-gap: 15px;
-    --lkt-progress-header-margin: 0 0 3px;
+    /** Element: Header */
+    --lkt-progress--header--font-size: 13px;
+    --lkt-progress--header--font-weight: bold;
+    --lkt-progress--header--line-height: 1.4em;
+    --lkt-progress--header--margin: 0 0 3px;
 
-    /** Border */
-    --lkt-progress-border-radius: 5px;
-    --lkt-progress-bar-border-radius: 5px;
-    --lkt-progress-border-width: 1px;
-    --lkt-progress-bar-border-width: 1px;
-    --lkt-progress-border-style: solid;
-    --lkt-progress-bar-border-style: solid;
+    /** Element: Content */
+    --lkt-progress--content--gap: 15px;
 
-    /** Colors */
-    --lkt-progress-color: #444444;
-    --lkt-progress-bg: transparent;
-    --lkt-progress-border-color: #ddd;
-    --lkt-progress-bar-border-color: #ddd;
-    --lkt-progress-bar-percentage-color: #444444;
-
-    /** Effects */
-    --lkt-progress-shadow: none;
-    --lkt-progress-transition: all linear 100ms;
+    /** Element: Bar */
+    --lkt-progress--bar--height: 35px;
+    --lkt-progress--bar--border-radius: 5px;
+    --lkt-progress--bar--border-width: 1px;
+    --lkt-progress--bar--border-style: solid;
+    --lkt-progress--bar--border-color: #ddd;
+    --lkt-progress--bar--percentage-color: #444444;
 }
