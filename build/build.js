@@ -149,7 +149,6 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     }
     const classes = computed(() => {
       let r = [];
-      if (props.palette) r.push(`lkt-progress--${props.palette}`);
       if (progress.value >= 10) r.push("lkt-progress--fill-10");
       if (progress.value >= 20) r.push("lkt-progress--fill-20");
       if (progress.value >= 30) r.push("lkt-progress--fill-30");

@@ -5,7 +5,7 @@
     cursor: default;
     gap: var(--lkt-progress--gap);
     color: var(--lkt-progress--color);
-    box-shadow: var(--lkt-progress--shadow);
+    box-shadow: var(--lkt-progress--box-shadow);
     text-align: var(--lkt-progress--text-align);
     transition: var(--lkt-progress--transition);
     font-family: var(--lkt-progress--font-family), serif;
@@ -46,40 +46,4 @@
     height: 100%;
     background: var(--lkt-progress--bar--percentage-color);
     transition: var(--lkt-progress--transition);
-}
-
-.lkt-progress--alert .lkt-progress-bar-percentage {
-    background: var(--alert-color);
-    color: var(--alert-contrast);
-    border-color: var(--alert-color);
-}
-
-.lkt-progress--danger .lkt-progress-bar-percentage {
-    background: var(--danger-color);
-    color: var(--danger-contrast);
-    border-color: var(--danger-color);
-}
-
-.lkt-progress--success .lkt-progress-bar-percentage {
-    background: var(--success-color);
-    color: var(--success-contrast);
-    border-color: var(--success-color);
-}
-
-.lkt-progress--info .lkt-progress-bar-percentage {
-    background: var(--info-color);
-    color: var(--info-contrast);
-    border-color: var(--info-color);
-}
-
-.lkt-progress--warning .lkt-progress-bar-percentage {
-    background: var(--warning-color);
-    color: var(--warning-contrast);
-    border-color: var(--warning-color);
-}
-
-.lkt-progress--target .lkt-progress-bar-percentage {
-    background: var(--target-color);
-    color: var(--target-contrast);
-    border-color: var(--target-color);
 }

@@ -1,20 +1,20 @@
 .lkt-progress {
+    --lkt-progress--background: transparent;
+    --lkt-progress--border-color: #ddd;
+    --lkt-progress--border-radius: 5px;
+    --lkt-progress--border-style: solid;
+    --lkt-progress--border-width: 1px;
+    --lkt-progress--box-shadow: none;
+    --lkt-progress--color: #444444;
     --lkt-progress--font-family: system-ui, Helvetica;
     --lkt-progress--font-size: 16px;
     --lkt-progress--font-weight: 300;
-    --lkt-progress--line-height: 1.425;
-    --lkt-progress--text-align: left;
-    --lkt-progress--min-width: 100%;
-    --lkt-progress--min-height: 35px;
-    --lkt-progress--padding: 0;
     --lkt-progress--gap: 0;
-    --lkt-progress--border-radius: 5px;
-    --lkt-progress--border-width: 1px;
-    --lkt-progress--border-style: solid;
-    --lkt-progress--color: #444444;
-    --lkt-progress--background: transparent;
-    --lkt-progress--border-color: #ddd;
-    --lkt-progress--shadow: none;
+    --lkt-progress--line-height: 1.425;
+    --lkt-progress--min-height: 35px;
+    --lkt-progress--min-width: 100%;
+    --lkt-progress--padding: 0;
+    --lkt-progress--text-align: left;
     --lkt-progress--transition: all linear 100ms;
 
     /** Element: Header */
@@ -27,10 +27,10 @@
     --lkt-progress--content--gap: 15px;
 
     /** Element: Bar */
-    --lkt-progress--bar--height: 35px;
-    --lkt-progress--bar--border-radius: 5px;
-    --lkt-progress--bar--border-width: 1px;
-    --lkt-progress--bar--border-style: solid;
     --lkt-progress--bar--border-color: #ddd;
+    --lkt-progress--bar--border-radius: 5px;
+    --lkt-progress--bar--border-style: solid;
+    --lkt-progress--bar--border-width: 1px;
+    --lkt-progress--bar--height: 35px;
     --lkt-progress--bar--percentage-color: #444444;
 }
