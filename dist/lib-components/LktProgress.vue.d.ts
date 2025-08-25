@@ -1,23 +1,33 @@
-import { ProgressConfig, ProgressType, ProgressValueFormat } from "lkt-vue-kernel";
+import { ProgressConfig, ProgressInterface, ProgressType } from "lkt-vue-kernel";
+import ProgressCircle from "@/components/ProgressCircle.vue";
 declare const slots: Readonly<{
     [name: string]: import("vue").Slot<any> | undefined;
 }>;
+declare const progress: import("vue").Ref<number, number>;
 declare function startProgress(): void;
 declare function pauseProgress(): void;
-declare const classes: import("vue").ComputedRef<string>, computedVisiblePercentage: import("vue").ComputedRef<string>, progressBarStyles: import("vue").ComputedRef<string>;
+declare const classes: import("vue").ComputedRef<string>, computedVisiblePercentage: import("vue").ComputedRef<any>, progressBarStyles: import("vue").ComputedRef<string>, computedProgressCircleStyles: import("vue").ComputedRef<string>;
 declare const onMouseEnter: (event: MouseEvent) => void, onMouseLeave: (event: MouseEvent) => void;
+declare const strokeWidth: import("vue").Ref<number, number>;
+declare const circleWidth: import("vue").Ref<number, number>;
 declare const __VLS_ctx: InstanceType<__VLS_PickNotAny<typeof __VLS_self, new () => {}>>;
 declare var __VLS_1: {};
 type __VLS_Slots = __VLS_PrettifyGlobal<__VLS_OmitStringIndex<typeof __VLS_ctx.$slots> & {
     header?: (props: typeof __VLS_1) => any;
 }>;
 declare const __VLS_self: import("vue").DefineComponent<ProgressConfig, {
+    ProgressInterface: typeof ProgressInterface;
+    ProgressCircle: typeof ProgressCircle;
     slots: typeof slots;
+    progress: typeof progress;
     classes: typeof classes;
     computedVisiblePercentage: typeof computedVisiblePercentage;
     progressBarStyles: typeof progressBarStyles;
+    computedProgressCircleStyles: typeof computedProgressCircleStyles;
     onMouseEnter: typeof onMouseEnter;
     onMouseLeave: typeof onMouseLeave;
+    strokeWidth: typeof strokeWidth;
+    circleWidth: typeof circleWidth;
 }, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
     end: (...args: any[]) => void;
     mouseenter: (...args: any[]) => void;
@@ -31,10 +41,12 @@ declare const __VLS_self: import("vue").DefineComponent<ProgressConfig, {
 }>, {
     type: ProgressType;
     header: string;
+    circle: import("lkt-vue-kernel").CircleConfig;
     duration: number;
     modelValue: number;
+    interface: ProgressInterface;
     pauseOnHover: boolean;
-    valueFormat: ProgressValueFormat;
+    valueFormat: import("lkt-vue-kernel").ProgressValueFormat;
     palette: string;
 }, {}, {}, {}, string, import("vue").ComponentProvideOptions, false, {}, any>;
 declare const __VLS_component: import("vue").DefineComponent<ProgressConfig, {
@@ -53,10 +65,12 @@ declare const __VLS_component: import("vue").DefineComponent<ProgressConfig, {
 }>, {
     type: ProgressType;
     header: string;
+    circle: import("lkt-vue-kernel").CircleConfig;
     duration: number;
     modelValue: number;
+    interface: ProgressInterface;
     pauseOnHover: boolean;
-    valueFormat: ProgressValueFormat;
+    valueFormat: import("lkt-vue-kernel").ProgressValueFormat;
     palette: string;
 }, {}, {}, {}, string, import("vue").ComponentProvideOptions, false, {}, any>;
 declare const _default: __VLS_WithSlots<typeof __VLS_component, __VLS_Slots>;

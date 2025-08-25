@@ -47,3 +47,34 @@
     background: var(--lkt-progress--bar--percentage-color);
     transition: var(--lkt-progress--transition);
 }
+
+
+
+
+
+
+
+
+
+/*.lkt-progress.is-circle .lkt-progress-content {*/
+/*    position: relative;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*}*/
+
+/*!* Circle *!*/
+/*.lkt-progress-ring--circle {*/
+/*    fill: transparent;*/
+/*    stroke: var(--lkt-progress--bar--percentage-color, blue);*/
+/*    transform: rotate(-90deg);*/
+/*    transform-origin: 50% 50%;*/
+/*    transition: all 100ms ease-out;*/
+/*}*/
+
+/*.lkt-progress.is-circle .lkt-progress-indicator {*/
+/*    position: absolute;*/
+/*    font-size: 1.2rem;*/
+/*    font-weight: bold;*/
+/*    color: #333;*/
+/*}*/

@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import {computed, onMounted, ref, useSlots, watch} from "vue";
-import {getDefaultValues, Progress, ProgressConfig, ProgressType, ProgressValueFormat} from "lkt-vue-kernel";
+import {
+    getDefaultValues,
+    Progress,
+    ProgressConfig,
+    ProgressInterface,
+    ProgressType
+} from "lkt-vue-kernel";
+import ProgressCircle from "@/components/ProgressCircle.vue";
+import {getVisiblePercentage} from "@/functions/functions";
 
 // Emits
 const emit = defineEmits([
@@ -56,14 +64,15 @@ function updateProgress() {
 }
 
 function startProgress() {
-    if (props.type === ProgressType.Incremental || props.type === ProgressType.Decremental) {
-        if (isAnimating.value) return;
-        intervalId = setInterval(updateProgress, 100); // Actualización cada 100 ms
-        isAnimating.value = true;
+    if (props.interface === ProgressInterface.Bar) {
+        if (props.type === ProgressType.Incremental || props.type === ProgressType.Decremental) {
+            if (isAnimating.value) return;
+            intervalId = setInterval(updateProgress, 100); // Update each 100 ms
+            isAnimating.value = true;
+        }
     }
 }
 
-// Función para pausar el progreso
 function pauseProgress() {
     clearInterval(intervalId);
     isAnimating.value = false;
@@ -72,6 +81,8 @@ function pauseProgress() {
 const classes = computed(() => {
         let r = [];
 
+        if (props.interface === ProgressInterface.Circle) r.push('is-circle');
+        if (props.interface === ProgressInterface.Bar) r.push('is-bar');
         if (progress.value >= 10) r.push('lkt-progress--fill-10');
         if (progress.value >= 20) r.push('lkt-progress--fill-20');
         if (progress.value >= 30) r.push('lkt-progress--fill-30');
@@ -86,18 +97,16 @@ const classes = computed(() => {
         return r.join(' ');
     }),
     computedVisiblePercentage = computed(() => {
-        let r = Number(progress.value).toFixed(2);
-        if (props.valueFormat === ProgressValueFormat.Auto) {
-            if (r.indexOf('.00') > -1) r = r.replace('.00', '');
-        }
-        else if (props.valueFormat === ProgressValueFormat.Integer) {
-            //@ts-ignore
-            r = parseInt(r);
-        }
-        return r;
+        return getVisiblePercentage(progress.value, props.valueFormat);
     }),
     progressBarStyles = computed(() => {
         return 'width: calc(' + computedVisiblePercentage.value + '%)';
+    }),
+    computedProgressCircleStyles = computed(() => {
+
+        let degrees = (props.modelValue)/100;
+
+        return `--lkt-progress--percent: ${degrees};`
     });
 
 const onMouseEnter = (event: MouseEvent) => {
@@ -112,6 +121,10 @@ const onMouseEnter = (event: MouseEvent) => {
         }
         emit('mouseleave', event);
     };
+
+const circleRadius = ref(props.circle?.radius ?? 50);
+const strokeWidth = ref(props.circle?.strokeWidth ?? 10);
+const circleWidth = ref(circleRadius.value * 2);
 
 onMounted(() => {
     startProgress();
@@ -137,9 +150,23 @@ defineExpose({
                 {{ header }}
             </template>
         </header>
-        <div class="lkt-progress-content">
+
+        <div v-if="interface === ProgressInterface.Circle"  class="lkt-progress-content" :style="computedProgressCircleStyles">
+            <progress-circle
+                :progress="progress"
+                :size="circleWidth"
+                :stroke-width="strokeWidth"
+            />
+        </div>
+
+        <div v-else class="lkt-progress-content">
             <div class="lkt-progress-bar">
-                <div class="lkt-progress-bar-percentage" :style="progressBarStyles"></div>
+                <div class="lkt-progress-bar-percentage"
+                     :style="progressBarStyles"
+                     role="progressbar"
+                     :aria-valuenow="computedVisiblePercentage"
+                     :aria-valuemin="0"
+                     :aria-valuemax="100"/>
             </div>
             <div v-if="valueFormat !== 'hidden'" class="lkt-progress-indicator">{{ computedVisiblePercentage }}%</div>
         </div>
