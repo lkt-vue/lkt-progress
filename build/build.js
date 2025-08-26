@@ -2,7 +2,7 @@ var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
 var _a, _b;
-import { defineComponent, ref, computed, watch, createElementBlock, openBlock, createElementVNode, unref, normalizeStyle, toDisplayString, mergeDefaults, useSlots, onMounted, normalizeClass, renderSlot, Fragment, createTextVNode, createVNode, createCommentVNode } from "vue";
+import { defineComponent, ref, computed, watch, createElementBlock, openBlock, createElementVNode, toDisplayString, mergeDefaults, useSlots, onMounted, normalizeClass, renderSlot, unref, Fragment, createTextVNode, normalizeStyle, createVNode, createCommentVNode } from "vue";
 import "lkt-i18n";
 import "lkt-string-tools";
 var Bt = ((c) => (c.Button = "button", c.Submit = "submit", c.Reset = "reset", c.Anchor = "anchor", c.Content = "content", c.Switch = "switch", c.HiddenSwitch = "hidden-switch", c.Split = "split", c.SplitLazy = "split-lazy", c.SplitEver = "split-ever", c.Tooltip = "tooltip", c.TooltipLazy = "tooltip-lazy", c.TooltipEver = "tooltip-ever", c.FileUpload = "file-upload", c.ImageUpload = "image-upload", c))(Bt || {});
@@ -102,46 +102,51 @@ const getVisiblePercentage = (progress, format) => {
   return r;
 };
 const _hoisted_1$1 = { class: "progress-circle" };
-const _hoisted_2$1 = ["width", "height"];
-const _hoisted_3$1 = ["cx", "cy", "r"];
-const _hoisted_4$1 = ["cx", "cy", "r"];
-const _hoisted_5$1 = ["cx", "cy"];
-const _hoisted_6 = { class: "progress-ring__text" };
+const _hoisted_2$1 = ["width", "height", "viewBox"];
+const _hoisted_3$1 = ["cx", "cy", "r", "stroke-width"];
+const _hoisted_4$1 = ["cx", "cy", "r", "stroke-dasharray", "stroke-dashoffset", "stroke-width"];
+const _hoisted_5$1 = ["cx", "cy", "r", "stroke-dasharray", "stroke-dashoffset", "stroke-width"];
+const _hoisted_6 = ["cx", "cy", "r", "stroke-dasharray"];
+const _hoisted_7 = { class: "progress-ring__text" };
 const _sfc_main$1 = /* @__PURE__ */ defineComponent({
   __name: "ProgressCircle",
   props: {
     progress: {},
-    size: {},
-    strokeWidth: {},
-    duration: {}
+    size: { default: 120 },
+    strokeWidth: { default: 12 },
+    duration: { default: 1e3 },
+    borderThickness: { default: 0.05 }
   },
   setup(__props) {
     var _a2, _b2, _c;
     const props = __props;
     const currentProgress = ref(0);
-    const size = (_a2 = props.size) != null ? _a2 : 120;
-    const strokeWidth = (_b2 = props.strokeWidth) != null ? _b2 : 12;
-    const duration = (_c = props.duration) != null ? _c : 2e3;
-    const radius = computed(() => (size - strokeWidth) / 2);
+    const size = ref((_a2 = props.size) != null ? _a2 : 120);
+    const center = ref(size.value / 2);
+    const strokeWidth = ref((_b2 = props.strokeWidth) != null ? _b2 : 12);
+    const duration = ref((_c = props.duration) != null ? _c : 1e3);
+    const radius = computed(() => (size.value - strokeWidth.value) / 2);
     const circumference = computed(() => 2 * Math.PI * radius.value);
     const offset = computed(() => circumference.value * (1 - currentProgress.value / 100));
     const ballPos = computed(() => {
       const angle = 2 * Math.PI * (currentProgress.value / 100);
-      const cx = size / 2;
-      const cy = size / 2;
+      const cx = size.value / 2;
+      const cy = size.value / 2;
       const r = radius.value;
       return {
         x: cx + r * Math.cos(angle),
         y: cy + r * Math.sin(angle)
       };
     });
+    const ballRadius = computed(() => (size.value / 2 - strokeWidth.value) / 8);
+    const ballCircumference = computed(() => 2 * Math.PI * ballRadius.value);
     function animateProgress(target) {
       const start = currentProgress.value;
       const change = target - start;
       const startTime = performance.now();
       function animate(time) {
         const elapsed = time - startTime;
-        const progress = Math.min(elapsed / duration, 1);
+        const progress = Math.min(elapsed / duration.value, 1);
         currentProgress.value = start + change * progress;
         if (progress < 1) requestAnimationFrame(animate);
       }
@@ -157,30 +162,53 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
       return openBlock(), createElementBlock("div", _hoisted_1$1, [
         (openBlock(), createElementBlock("svg", {
           class: "progress-ring",
-          width: unref(size),
-          height: unref(size)
+          width: size.value,
+          height: size.value,
+          viewBox: `0 0 ${size.value} ${size.value}`
         }, [
           createElementVNode("circle", {
-            class: "progress-ring__background",
-            cx: unref(size) / 2,
-            cy: unref(size) / 2,
-            r: radius.value
+            class: "progress-ring--background",
+            cx: center.value,
+            cy: center.value,
+            r: radius.value,
+            stroke: "transparent",
+            fill: "transparent",
+            "stroke-width": strokeWidth.value
           }, null, 8, _hoisted_3$1),
           createElementVNode("circle", {
-            class: "progress-ring__circle",
-            cx: unref(size) / 2,
-            cy: unref(size) / 2,
+            class: "progress-ring--circle-border",
+            cx: center.value,
+            cy: center.value,
             r: radius.value,
-            style: normalizeStyle({ strokeDasharray: circumference.value, strokeDashoffset: offset.value })
-          }, null, 12, _hoisted_4$1),
+            "stroke-dasharray": circumference.value,
+            "stroke-dashoffset": offset.value,
+            stroke: "transparent",
+            fill: "transparent",
+            "stroke-width": strokeWidth.value,
+            "stroke-linecap": "round"
+          }, null, 8, _hoisted_4$1),
           createElementVNode("circle", {
-            class: "progress-ring__ball",
+            class: "progress-ring--circle",
+            cx: center.value,
+            cy: center.value,
+            r: radius.value,
+            "stroke-dasharray": circumference.value,
+            "stroke-dashoffset": offset.value,
+            stroke: "transparent",
+            fill: "transparent",
+            "stroke-width": strokeWidth.value - 4,
+            "stroke-linecap": "round"
+          }, null, 8, _hoisted_5$1),
+          createElementVNode("circle", {
+            class: "progress-ring--ball",
             cx: ballPos.value.x,
             cy: ballPos.value.y,
-            r: "8"
-          }, null, 8, _hoisted_5$1)
+            r: ballRadius.value,
+            "stroke-dasharray": ballCircumference.value,
+            "stroke-width": 2
+          }, null, 8, _hoisted_6)
         ], 8, _hoisted_2$1)),
-        createElementVNode("div", _hoisted_6, toDisplayString(computedVisiblePercentage.value) + "%", 1)
+        createElementVNode("div", _hoisted_7, toDisplayString(computedVisiblePercentage.value) + "%", 1)
       ]);
     };
   }
@@ -192,7 +220,7 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const ProgressCircle = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-8ea6e8cd"]]);
+const ProgressCircle = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-41d5211e"]]);
 const _hoisted_1 = { class: "lkt-progress-header" };
 const _hoisted_2 = {
   key: 1,

@@ -56,48 +56,51 @@
 
 
 
-.lkt-progress.is-circle .lkt-progress-content {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+/*.lkt-progress.is-circle .lkt-progress-content {*/
+/*    position: relative;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*}*/
 
-/* Circle */
-.lkt-progress-ring--circle {
-    fill: transparent;
-    stroke: var(--lkt-progress--bar--percentage-color, blue);
-    transform: rotate(-90deg);
-    transform-origin: 50% 50%;
-    transition: all 100ms ease-out;
-}
+/*!* Circle *!*/
+/*.lkt-progress-ring--circle {*/
+/*    fill: transparent;*/
+/*    stroke: var(--lkt-progress--bar--percentage-color, blue);*/
+/*    transform: rotate(-90deg);*/
+/*    transform-origin: 50% 50%;*/
+/*    transition: all 100ms ease-out;*/
+/*}*/
 
-.lkt-progress.is-circle .lkt-progress-indicator {
-    position: absolute;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #333;
-}
-.progress-circle[data-v-8ea6e8cd] {
+/*.lkt-progress.is-circle .lkt-progress-indicator {*/
+/*    position: absolute;*/
+/*    font-size: 1.2rem;*/
+/*    font-weight: bold;*/
+/*    color: #333;*/
+/*}*/
+.progress-circle[data-v-41d5211e] {
     position: relative;
     display: inline-block;
 }
-.progress-ring[data-v-8ea6e8cd] {
+.progress-ring[data-v-41d5211e] {
     transform: rotate(-90deg);
     overflow: visible;
 }
-.progress-ring__background[data-v-8ea6e8cd] {
+.progress-ring--background[data-v-41d5211e] {
     fill: transparent;
-    stroke: #eee;
-    stroke-width: 12;
+    stroke: var(--lkt-progress--track--background);
 }
-.progress-ring__circle[data-v-8ea6e8cd] {
+.progress-ring--circle[data-v-41d5211e] {
     fill: transparent;
-    stroke: #4caf50;
-    stroke-width: 12;
     stroke-linecap: round;
+    stroke: var(--lkt-progress--circle--background);
 }
-.progress-ring__text[data-v-8ea6e8cd] {
+.progress-ring--circle-border[data-v-41d5211e] {
+    fill: transparent;
+    stroke-linecap: round;
+    stroke: var(--lkt-progress--circle--border-color);
+}
+.progress-ring__text[data-v-41d5211e] {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -105,6 +108,8 @@
     font-size: 1.5rem;
     font-weight: bold;
 }
-.progress-ring__ball[data-v-8ea6e8cd] {
-    fill: #4caf50;
+.progress-ring--ball[data-v-41d5211e] {
+    fill: var(--lkt-progress--ball--background);
+    stroke: var(--lkt-progress--ball--border-color);
+    stroke-linecap: round;
 }

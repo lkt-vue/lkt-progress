@@ -8,30 +8,41 @@ interface Props {
     size?: number;
     strokeWidth?: number;
     duration?: number;
+    borderThickness?: number;
 }
 
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+    size: 120,
+    strokeWidth: 12,
+    duration: 1000,
+    borderThickness: 0.05,
+});
+
 const currentProgress = ref(0);
 
-const size = props.size ?? 120;
-const strokeWidth = props.strokeWidth ?? 12;
-const duration = props.duration ?? 2000;
+const size = ref(props.size ?? 120);
+const center = ref(size.value / 2);
+const strokeWidth = ref(props.strokeWidth ?? 12);
+const duration = ref(props.duration ?? 1000);
 
-const radius = computed(() => (size - strokeWidth) / 2);
+const radius = computed(() => (size.value - strokeWidth.value) / 2);
 const circumference = computed(() => 2 * Math.PI * radius.value);
 const offset = computed(() => circumference.value * (1 - currentProgress.value / 100));
 
 
 const ballPos = computed(() => {
     const angle = 2 * Math.PI * (currentProgress.value / 100);
-    const cx = size / 2;
-    const cy = size / 2;
+    const cx = size.value / 2;
+    const cy = size.value / 2;
     const r = radius.value;
     return {
         x: cx + r * Math.cos(angle),
         y: cy + r * Math.sin(angle),
     };
 });
+
+const ballRadius = computed(() => ((size.value / 2) - strokeWidth.value) / 8);
+const ballCircumference = computed(() => 2 * Math.PI * ballRadius.value);
 
 function animateProgress(target: number) {
     const start = currentProgress.value;
@@ -40,7 +51,7 @@ function animateProgress(target: number) {
 
     function animate(time: number) {
         const elapsed = time - startTime;
-        const progress = Math.min(elapsed / duration, 1);
+        const progress = Math.min(elapsed / duration.value, 1);
         currentProgress.value = start + change * progress;
         if (progress < 1) requestAnimationFrame(animate);
     }
@@ -60,26 +71,54 @@ watch(() => props.progress, (newVal) => {
 
 <template>
     <div class="progress-circle">
-        <svg class="progress-ring" :width="size" :height="size">
+        <svg class="progress-ring" :width="size" :height="size"
+             :viewBox="`0 0 ${size} ${size}`">
+
             <circle
-                class="progress-ring__background"
-                :cx="size / 2"
-                :cy="size / 2"
+                class="progress-ring--background"
+                :cx="center"
+                :cy="center"
                 :r="radius"
+                stroke="transparent"
+                fill="transparent"
+                :stroke-width="strokeWidth"
             />
+
             <circle
-                class="progress-ring__circle"
-                :cx="size / 2"
-                :cy="size / 2"
+                class="progress-ring--circle-border"
+                :cx="center"
+                :cy="center"
                 :r="radius"
-                :style="{ strokeDasharray: circumference, strokeDashoffset: offset }"
+                :stroke-dasharray="circumference"
+                :stroke-dashoffset="offset"
+                stroke="transparent"
+                fill="transparent"
+                :stroke-width="strokeWidth"
+                stroke-linecap="round"
             />
+
             <circle
-                class="progress-ring__ball"
+                class="progress-ring--circle"
+                :cx="center"
+                :cy="center"
+                :r="radius"
+                :stroke-dasharray="circumference"
+                :stroke-dashoffset="offset"
+                stroke="transparent"
+                fill="transparent"
+                :stroke-width="strokeWidth - 4"
+                stroke-linecap="round"
+            />
+
+            <circle
+                class="progress-ring--ball"
                 :cx="ballPos.x"
                 :cy="ballPos.y"
-                r="8"
+                :r="ballRadius"
+                :stroke-dasharray="ballCircumference"
+                :stroke-width="2"
             />
+
         </svg>
         <div class="progress-ring__text">{{ computedVisiblePercentage }}%</div>
     </div>
@@ -96,17 +135,21 @@ watch(() => props.progress, (newVal) => {
     overflow: visible;
 }
 
-.progress-ring__background {
+.progress-ring--background {
     fill: transparent;
-    stroke: #eee;
-    stroke-width: 12;
+    stroke: var(--lkt-progress--track--background);
 }
 
-.progress-ring__circle {
+.progress-ring--circle {
     fill: transparent;
-    stroke: #4caf50;
-    stroke-width: 12;
     stroke-linecap: round;
+    stroke: var(--lkt-progress--circle--background);
+}
+
+.progress-ring--circle-border {
+    fill: transparent;
+    stroke-linecap: round;
+    stroke: var(--lkt-progress--circle--border-color);
 }
 
 .progress-ring__text {
@@ -118,7 +161,9 @@ watch(() => props.progress, (newVal) => {
     font-weight: bold;
 }
 
-.progress-ring__ball {
-    fill: #4caf50;
+.progress-ring--ball {
+    fill: var(--lkt-progress--ball--background);
+    stroke: var(--lkt-progress--ball--border-color);
+    stroke-linecap: round;
 }
 </style>

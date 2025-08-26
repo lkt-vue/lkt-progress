@@ -35,6 +35,9 @@
     --lkt-progress--bar--percentage-color: #444444;
 
     /** Element: Circle */
-    --lkt-progress--circle--size: 100px;
-    --lkt-progress--circle--radius: 50; /** SVG units */
+    --lkt-progress--ball--background: #444444;
+    --lkt-progress--ball--border-color: #444444;
+    --lkt-progress--circle--border-color: #444444;
+    --lkt-progress--circle--background: #444444;
+    --lkt-progress--track--background: #eeeeee;
 }
