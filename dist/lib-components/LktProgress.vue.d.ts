@@ -8,6 +8,7 @@ declare function startProgress(): void;
 declare function pauseProgress(): void;
 declare const classes: import("vue").ComputedRef<string>, computedVisiblePercentage: import("vue").ComputedRef<any>, progressBarStyles: import("vue").ComputedRef<string>, computedProgressCircleStyles: import("vue").ComputedRef<string>;
 declare const onMouseEnter: (event: MouseEvent) => void, onMouseLeave: (event: MouseEvent) => void;
+declare const ballRadius: import("vue").Ref<number, number>;
 declare const strokeWidth: import("vue").Ref<number, number>;
 declare const circleWidth: import("vue").Ref<number, number>;
 declare const __VLS_ctx: InstanceType<__VLS_PickNotAny<typeof __VLS_self, new () => {}>>;
@@ -26,6 +27,7 @@ declare const __VLS_self: import("vue").DefineComponent<ProgressConfig, {
     computedProgressCircleStyles: typeof computedProgressCircleStyles;
     onMouseEnter: typeof onMouseEnter;
     onMouseLeave: typeof onMouseLeave;
+    ballRadius: typeof ballRadius;
     strokeWidth: typeof strokeWidth;
     circleWidth: typeof circleWidth;
 }, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {

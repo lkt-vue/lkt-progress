@@ -123,7 +123,8 @@ const onMouseEnter = (event: MouseEvent) => {
     };
 
 const circleRadius = ref(props.circle?.radius ?? 50);
-const strokeWidth = ref(props.circle?.strokeWidth ?? 10);
+const ballRadius = ref(props.circle?.ball?.radius ?? 50);
+const strokeWidth = ref(props.circle?.track?.width ?? 10);
 const circleWidth = ref(circleRadius.value * 2);
 
 onMounted(() => {
@@ -155,7 +156,9 @@ defineExpose({
             <progress-circle
                 :progress="progress"
                 :size="circleWidth"
+                :ball-radius="ballRadius"
                 :stroke-width="strokeWidth"
+                :duration="duration"
             />
         </div>
 

@@ -7,15 +7,16 @@ interface Props {
     progress: number;
     size?: number;
     strokeWidth?: number;
+    borderWidth?: number;
     duration?: number;
-    borderThickness?: number;
+    ballRadius?: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
     size: 120,
     strokeWidth: 12,
+    borderWidth: 2,
     duration: 1000,
-    borderThickness: 0.05,
 });
 
 const currentProgress = ref(0);
@@ -41,7 +42,10 @@ const ballPos = computed(() => {
     };
 });
 
-const ballRadius = computed(() => ((size.value / 2) - strokeWidth.value) / 8);
+const ballRadius = computed(() => {
+    if (props.ballRadius) return props.ballRadius;
+    return ((size.value / 2) - strokeWidth.value) / 8;
+});
 const ballCircumference = computed(() => 2 * Math.PI * ballRadius.value);
 
 function animateProgress(target: number) {
@@ -91,7 +95,7 @@ watch(() => props.progress, (newVal) => {
                 :r="radius"
                 stroke="transparent"
                 fill="transparent"
-                :stroke-width="strokeWidth - 4"
+                :stroke-width="strokeWidth - (2 * borderWidth)"
             />
 
             <circle
@@ -116,7 +120,7 @@ watch(() => props.progress, (newVal) => {
                 :stroke-dashoffset="offset"
                 stroke="transparent"
                 fill="transparent"
-                :stroke-width="strokeWidth - 4"
+                :stroke-width="strokeWidth - (2 * borderWidth)"
                 stroke-linecap="round"
             />
 

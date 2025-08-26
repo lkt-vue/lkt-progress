@@ -5,7 +5,7 @@ var _a, _b;
 import { defineComponent, ref, computed, watch, createElementBlock, openBlock, createElementVNode, toDisplayString, mergeDefaults, useSlots, onMounted, normalizeClass, renderSlot, unref, Fragment, createTextVNode, normalizeStyle, createVNode, createCommentVNode } from "vue";
 import "lkt-i18n";
 import "lkt-string-tools";
-var Bt = ((c) => (c.Button = "button", c.Submit = "submit", c.Reset = "reset", c.Anchor = "anchor", c.Content = "content", c.Switch = "switch", c.HiddenSwitch = "hidden-switch", c.Split = "split", c.SplitLazy = "split-lazy", c.SplitEver = "split-ever", c.Tooltip = "tooltip", c.TooltipLazy = "tooltip-lazy", c.TooltipEver = "tooltip-ever", c.FileUpload = "file-upload", c.ImageUpload = "image-upload", c))(Bt || {});
+var It = ((c) => (c.Button = "button", c.Submit = "submit", c.Reset = "reset", c.Anchor = "anchor", c.Content = "content", c.Switch = "switch", c.HiddenSwitch = "hidden-switch", c.Split = "split", c.SplitLazy = "split-lazy", c.SplitEver = "split-ever", c.Tooltip = "tooltip", c.TooltipLazy = "tooltip-lazy", c.TooltipEver = "tooltip-ever", c.FileUpload = "file-upload", c.ImageUpload = "image-upload", c))(It || {});
 var Et = ((s) => (s.Text = "text", s.Email = "email", s.Tel = "tel", s.Password = "password", s.Search = "search", s.Number = "number", s.Color = "color", s.Range = "range", s.Textarea = "textarea", s.Html = "html", s.Date = "date", s.Time = "time", s.DateTime = "datetime", s.File = "file", s.Image = "image", s.Select = "select", s.Check = "check", s.Switch = "switch", s.Calc = "calc", s.Card = "card", s.Table = "table", s.Radio = "radio", s.ToggleButtonGroup = "toggle-button-group", s))(Et || {});
 var Te = ["lktDateProps", "lktStrictItem", "lktExcludedProps"], a = (_a = class {
   constructor(t) {
@@ -60,11 +60,11 @@ var ot = (_b = class extends a {
     __publicField(this, "pauseOnHover", false);
     __publicField(this, "header", "");
     __publicField(this, "valueFormat", "auto");
-    __publicField(this, "circle", {});
+    __publicField(this, "circle");
     __publicField(this, "palette", "");
     this.feed(t);
   }
-}, __publicField(_b, "lktAllowUndefinedProps", []), __publicField(_b, "lktDefaultValues", ["modelValue", "type", "interface", "duration", "pauseOnHover", "header", "valueFormat", "circle", "palette"]), _b);
+}, __publicField(_b, "lktAllowUndefinedProps", ["circle"]), __publicField(_b, "lktDefaultValues", ["modelValue", "type", "interface", "duration", "pauseOnHover", "header", "valueFormat", "circle", "palette"]), _b);
 var Qt = ((l) => (l.Table = "table", l.Item = "item", l.Ul = "ul", l.Ol = "ol", l.Carousel = "carousel", l.Accordion = "accordion", l))(Qt || {});
 var Zt = ((n) => (n[n.Auto = 0] = "Auto", n[n.PreferItem = 1] = "PreferItem", n[n.PreferCustomItem = 2] = "PreferCustomItem", n[n.PreferColumns = 3] = "PreferColumns", n))(Zt || {});
 var _t = ((o) => (o.NotDefined = "", o.ActionIcon = "action-icon", o))(_t || {});
@@ -85,7 +85,7 @@ var Ce = ((o) => (o.Asc = "asc", o.Desc = "desc", o))(Ce || {});
 var xe = ((f) => (f.Create = "create", f.Update = "update", f.Edit = "edit", f.Drop = "drop", f.Sort = "sort", f.SwitchEditMode = "switch-edit-mode", f.InlineEdit = "inline-edit", f.InlineCreate = "inline-create", f.ModalCreate = "modal-create", f.InlineCreateEver = "inline-create-ever", f))(xe || {});
 var be = ((o) => (o.Lazy = "lazy", o.Ever = "ever", o))(be || {});
 var he = ((o) => (o.Page = "page", o.Element = "element", o))(he || {});
-var Ie = ((o) => (o.Quick = "quick", o.Full = "full", o))(Ie || {});
+var Be = ((o) => (o.Quick = "quick", o.Full = "full", o))(Be || {});
 function la(e) {
   let t = new e(), o = {};
   if (!Array.isArray(e.lktDefaultValues)) throw new Error("lktDefaultValues must be a keys array.");
@@ -115,8 +115,9 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     progress: {},
     size: { default: 120 },
     strokeWidth: { default: 12 },
+    borderWidth: { default: 2 },
     duration: { default: 1e3 },
-    borderThickness: { default: 0.05 }
+    ballRadius: {}
   },
   setup(__props) {
     var _a2, _b2, _c;
@@ -139,7 +140,10 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
         y: cy + r * Math.sin(angle)
       };
     });
-    const ballRadius = computed(() => (size.value / 2 - strokeWidth.value) / 8);
+    const ballRadius = computed(() => {
+      if (props.ballRadius) return props.ballRadius;
+      return (size.value / 2 - strokeWidth.value) / 8;
+    });
     const ballCircumference = computed(() => 2 * Math.PI * ballRadius.value);
     function animateProgress(target) {
       const start = currentProgress.value;
@@ -183,7 +187,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
             r: radius.value,
             stroke: "transparent",
             fill: "transparent",
-            "stroke-width": strokeWidth.value - 4
+            "stroke-width": strokeWidth.value - 2 * _ctx.borderWidth
           }, null, 8, _hoisted_4$1),
           createElementVNode("circle", {
             class: "progress-ring--circle-border",
@@ -206,7 +210,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
             "stroke-dashoffset": offset.value,
             stroke: "transparent",
             fill: "transparent",
-            "stroke-width": strokeWidth.value - 4,
+            "stroke-width": strokeWidth.value - 2 * _ctx.borderWidth,
             "stroke-linecap": "round"
           }, null, 8, _hoisted_6),
           createElementVNode("circle", {
@@ -230,7 +234,7 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const ProgressCircle = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-ec8ab6c6"]]);
+const ProgressCircle = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-60e8af05"]]);
 const _hoisted_1 = { class: "lkt-progress-header" };
 const _hoisted_2 = {
   key: 1,
@@ -262,7 +266,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     "end"
   ],
   setup(__props, { expose: __expose, emit: __emit }) {
-    var _a2, _b2, _c, _d;
+    var _a2, _b2, _c, _d, _e, _f, _g, _h;
     const emit = __emit;
     const slots = useSlots();
     const props = __props;
@@ -345,7 +349,8 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       emit("mouseleave", event);
     };
     const circleRadius = ref((_b2 = (_a2 = props.circle) == null ? void 0 : _a2.radius) != null ? _b2 : 50);
-    const strokeWidth = ref((_d = (_c = props.circle) == null ? void 0 : _c.strokeWidth) != null ? _d : 10);
+    const ballRadius = ref((_e = (_d = (_c = props.circle) == null ? void 0 : _c.ball) == null ? void 0 : _d.radius) != null ? _e : 50);
+    const strokeWidth = ref((_h = (_g = (_f = props.circle) == null ? void 0 : _f.track) == null ? void 0 : _g.width) != null ? _h : 10);
     const circleWidth = ref(circleRadius.value * 2);
     onMounted(() => {
       startProgress();
@@ -373,8 +378,10 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
           createVNode(ProgressCircle, {
             progress: progress.value,
             size: circleWidth.value,
-            "stroke-width": strokeWidth.value
-          }, null, 8, ["progress", "size", "stroke-width"])
+            "ball-radius": ballRadius.value,
+            "stroke-width": strokeWidth.value,
+            duration: _ctx.duration
+          }, null, 8, ["progress", "size", "ball-radius", "stroke-width", "duration"])
         ], 4)) : (openBlock(), createElementBlock("div", _hoisted_2, [
           createElementVNode("div", _hoisted_3, [
             createElementVNode("div", {
