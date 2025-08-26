@@ -104,10 +104,11 @@ const getVisiblePercentage = (progress, format) => {
 const _hoisted_1$1 = { class: "progress-circle" };
 const _hoisted_2$1 = ["width", "height", "viewBox"];
 const _hoisted_3$1 = ["cx", "cy", "r", "stroke-width"];
-const _hoisted_4$1 = ["cx", "cy", "r", "stroke-dasharray", "stroke-dashoffset", "stroke-width"];
+const _hoisted_4$1 = ["cx", "cy", "r", "stroke-width"];
 const _hoisted_5$1 = ["cx", "cy", "r", "stroke-dasharray", "stroke-dashoffset", "stroke-width"];
-const _hoisted_6 = ["cx", "cy", "r", "stroke-dasharray"];
-const _hoisted_7 = { class: "progress-ring__text" };
+const _hoisted_6 = ["cx", "cy", "r", "stroke-dasharray", "stroke-dashoffset", "stroke-width"];
+const _hoisted_7 = ["cx", "cy", "r", "stroke-dasharray"];
+const _hoisted_8 = { class: "progress-ring__text" };
 const _sfc_main$1 = /* @__PURE__ */ defineComponent({
   __name: "ProgressCircle",
   props: {
@@ -167,7 +168,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
           viewBox: `0 0 ${size.value} ${size.value}`
         }, [
           createElementVNode("circle", {
-            class: "progress-ring--background",
+            class: "progress-ring--background-border",
             cx: center.value,
             cy: center.value,
             r: radius.value,
@@ -175,6 +176,15 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
             fill: "transparent",
             "stroke-width": strokeWidth.value
           }, null, 8, _hoisted_3$1),
+          createElementVNode("circle", {
+            class: "progress-ring--background",
+            cx: center.value,
+            cy: center.value,
+            r: radius.value,
+            stroke: "transparent",
+            fill: "transparent",
+            "stroke-width": strokeWidth.value - 4
+          }, null, 8, _hoisted_4$1),
           createElementVNode("circle", {
             class: "progress-ring--circle-border",
             cx: center.value,
@@ -186,7 +196,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
             fill: "transparent",
             "stroke-width": strokeWidth.value,
             "stroke-linecap": "round"
-          }, null, 8, _hoisted_4$1),
+          }, null, 8, _hoisted_5$1),
           createElementVNode("circle", {
             class: "progress-ring--circle",
             cx: center.value,
@@ -198,7 +208,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
             fill: "transparent",
             "stroke-width": strokeWidth.value - 4,
             "stroke-linecap": "round"
-          }, null, 8, _hoisted_5$1),
+          }, null, 8, _hoisted_6),
           createElementVNode("circle", {
             class: "progress-ring--ball",
             cx: ballPos.value.x,
@@ -206,9 +216,9 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
             r: ballRadius.value,
             "stroke-dasharray": ballCircumference.value,
             "stroke-width": 2
-          }, null, 8, _hoisted_6)
+          }, null, 8, _hoisted_7)
         ], 8, _hoisted_2$1)),
-        createElementVNode("div", _hoisted_7, toDisplayString(computedVisiblePercentage.value) + "%", 1)
+        createElementVNode("div", _hoisted_8, toDisplayString(computedVisiblePercentage.value) + "%", 1)
       ]);
     };
   }
@@ -220,7 +230,7 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const ProgressCircle = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-41d5211e"]]);
+const ProgressCircle = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-ec8ab6c6"]]);
 const _hoisted_1 = { class: "lkt-progress-header" };
 const _hoisted_2 = {
   key: 1,

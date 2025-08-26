@@ -78,29 +78,33 @@
 /*    font-weight: bold;*/
 /*    color: #333;*/
 /*}*/
-.progress-circle[data-v-41d5211e] {
+.progress-circle[data-v-ec8ab6c6] {
     position: relative;
     display: inline-block;
 }
-.progress-ring[data-v-41d5211e] {
+.progress-ring[data-v-ec8ab6c6] {
     transform: rotate(-90deg);
     overflow: visible;
 }
-.progress-ring--background[data-v-41d5211e] {
+.progress-ring--background-border[data-v-ec8ab6c6] {
+    fill: transparent;
+    stroke: var(--lkt-progress--track--border-color);
+}
+.progress-ring--background[data-v-ec8ab6c6] {
     fill: transparent;
     stroke: var(--lkt-progress--track--background);
 }
-.progress-ring--circle[data-v-41d5211e] {
+.progress-ring--circle[data-v-ec8ab6c6] {
     fill: transparent;
     stroke-linecap: round;
     stroke: var(--lkt-progress--circle--background);
 }
-.progress-ring--circle-border[data-v-41d5211e] {
+.progress-ring--circle-border[data-v-ec8ab6c6] {
     fill: transparent;
     stroke-linecap: round;
     stroke: var(--lkt-progress--circle--border-color);
 }
-.progress-ring__text[data-v-41d5211e] {
+.progress-ring__text[data-v-ec8ab6c6] {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -108,7 +112,7 @@
     font-size: 1.5rem;
     font-weight: bold;
 }
-.progress-ring--ball[data-v-41d5211e] {
+.progress-ring--ball[data-v-ec8ab6c6] {
     fill: var(--lkt-progress--ball--background);
     stroke: var(--lkt-progress--ball--border-color);
     stroke-linecap: round;

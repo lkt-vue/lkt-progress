@@ -75,13 +75,23 @@ watch(() => props.progress, (newVal) => {
              :viewBox="`0 0 ${size} ${size}`">
 
             <circle
-                class="progress-ring--background"
+                class="progress-ring--background-border"
                 :cx="center"
                 :cy="center"
                 :r="radius"
                 stroke="transparent"
                 fill="transparent"
                 :stroke-width="strokeWidth"
+            />
+
+            <circle
+                class="progress-ring--background"
+                :cx="center"
+                :cy="center"
+                :r="radius"
+                stroke="transparent"
+                fill="transparent"
+                :stroke-width="strokeWidth - 4"
             />
 
             <circle
@@ -133,6 +143,11 @@ watch(() => props.progress, (newVal) => {
 .progress-ring {
     transform: rotate(-90deg);
     overflow: visible;
+}
+
+.progress-ring--background-border {
+    fill: transparent;
+    stroke: var(--lkt-progress--track--border-color);
 }
 
 .progress-ring--background {
