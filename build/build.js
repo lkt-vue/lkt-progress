@@ -105,9 +105,9 @@ const _hoisted_1$1 = { class: "progress-circle" };
 const _hoisted_2$1 = ["width", "height", "viewBox"];
 const _hoisted_3$1 = ["cx", "cy", "r", "stroke-width"];
 const _hoisted_4$1 = ["cx", "cy", "r", "stroke-width"];
-const _hoisted_5$1 = ["cx", "cy", "r", "stroke-dasharray", "stroke-dashoffset", "stroke-width"];
-const _hoisted_6 = ["cx", "cy", "r", "stroke-dasharray", "stroke-dashoffset", "stroke-width"];
-const _hoisted_7 = ["cx", "cy", "r", "stroke-dasharray"];
+const _hoisted_5$1 = ["cx", "cy", "r", "stroke-dasharray", "stroke-dashoffset", "stroke-width", "transform"];
+const _hoisted_6 = ["cx", "cy", "r", "stroke-dasharray", "stroke-dashoffset", "stroke-width", "transform"];
+const _hoisted_7 = ["cx", "cy", "r", "stroke-dasharray", "transform"];
 const _hoisted_8 = { class: "progress-ring__text" };
 const _sfc_main$1 = /* @__PURE__ */ defineComponent({
   __name: "ProgressCircle",
@@ -117,7 +117,8 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     strokeWidth: { default: 12 },
     borderWidth: { default: 2 },
     duration: { default: 1e3 },
-    ballRadius: {}
+    ballRadius: {},
+    direction: { default: "right" }
   },
   setup(__props) {
     var _a2, _b2, _c;
@@ -160,6 +161,10 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     const computedVisiblePercentage = computed(() => {
       return getVisiblePercentage(currentProgress.value, Jt.Auto);
     });
+    const computedDirectionStyles = computed(() => {
+      if (props.direction === "left") return `rotate(-180 ${center.value} ${center.value}) scale(-1,1) translate(-${size.value} 0)`;
+      return "";
+    });
     watch(() => props.progress, (newVal) => {
       animateProgress(newVal);
     }, { immediate: true });
@@ -199,7 +204,8 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
             stroke: "transparent",
             fill: "transparent",
             "stroke-width": strokeWidth.value,
-            "stroke-linecap": "round"
+            "stroke-linecap": "round",
+            transform: computedDirectionStyles.value
           }, null, 8, _hoisted_5$1),
           createElementVNode("circle", {
             class: "progress-ring--circle",
@@ -211,7 +217,8 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
             stroke: "transparent",
             fill: "transparent",
             "stroke-width": strokeWidth.value - 2 * _ctx.borderWidth,
-            "stroke-linecap": "round"
+            "stroke-linecap": "round",
+            transform: computedDirectionStyles.value
           }, null, 8, _hoisted_6),
           createElementVNode("circle", {
             class: "progress-ring--ball",
@@ -219,7 +226,8 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
             cy: ballPos.value.y,
             r: ballRadius.value,
             "stroke-dasharray": ballCircumference.value,
-            "stroke-width": 2
+            "stroke-width": 2,
+            transform: computedDirectionStyles.value
           }, null, 8, _hoisted_7)
         ], 8, _hoisted_2$1)),
         createElementVNode("div", _hoisted_8, toDisplayString(computedVisiblePercentage.value) + "%", 1)
@@ -234,7 +242,7 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const ProgressCircle = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-60e8af05"]]);
+const ProgressCircle = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-127deb71"]]);
 const _hoisted_1 = { class: "lkt-progress-header" };
 const _hoisted_2 = {
   key: 1,
@@ -253,6 +261,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     type: {},
     interface: {},
     duration: {},
+    direction: {},
     pauseOnHover: { type: Boolean },
     header: {},
     valueFormat: {},
@@ -380,8 +389,9 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
             size: circleWidth.value,
             "ball-radius": ballRadius.value,
             "stroke-width": strokeWidth.value,
-            duration: _ctx.duration
-          }, null, 8, ["progress", "size", "ball-radius", "stroke-width", "duration"])
+            duration: _ctx.duration,
+            direction: _ctx.direction
+          }, null, 8, ["progress", "size", "ball-radius", "stroke-width", "duration", "direction"])
         ], 4)) : (openBlock(), createElementBlock("div", _hoisted_2, [
           createElementVNode("div", _hoisted_3, [
             createElementVNode("div", {

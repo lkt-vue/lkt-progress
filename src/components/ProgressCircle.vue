@@ -10,6 +10,7 @@ interface Props {
     borderWidth?: number;
     duration?: number;
     ballRadius?: number;
+    direction?: 'right' | 'left';
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -17,6 +18,7 @@ const props = withDefaults(defineProps<Props>(), {
     strokeWidth: 12,
     borderWidth: 2,
     duration: 1000,
+    direction: 'right',
 });
 
 const currentProgress = ref(0);
@@ -68,6 +70,11 @@ const computedVisiblePercentage = computed(() => {
     return getVisiblePercentage(currentProgress.value, ProgressValueFormat.Auto);
 });
 
+const computedDirectionStyles = computed(() => {
+    if (props.direction === 'left') return `rotate(-180 ${center.value} ${center.value}) scale(-1,1) translate(-${size.value} 0)`;
+    return '';
+})
+
 watch(() => props.progress, (newVal) => {
     animateProgress(newVal);
 }, { immediate: true });
@@ -109,6 +116,7 @@ watch(() => props.progress, (newVal) => {
                 fill="transparent"
                 :stroke-width="strokeWidth"
                 stroke-linecap="round"
+                :transform="computedDirectionStyles"
             />
 
             <circle
@@ -122,6 +130,7 @@ watch(() => props.progress, (newVal) => {
                 fill="transparent"
                 :stroke-width="strokeWidth - (2 * borderWidth)"
                 stroke-linecap="round"
+                :transform="computedDirectionStyles"
             />
 
             <circle
@@ -131,6 +140,7 @@ watch(() => props.progress, (newVal) => {
                 :r="ballRadius"
                 :stroke-dasharray="ballCircumference"
                 :stroke-width="2"
+                :transform="computedDirectionStyles"
             />
 
         </svg>

@@ -159,6 +159,7 @@ defineExpose({
                 :ball-radius="ballRadius"
                 :stroke-width="strokeWidth"
                 :duration="duration"
+                :direction="direction"
             />
         </div>
 
