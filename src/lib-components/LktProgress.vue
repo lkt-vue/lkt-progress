@@ -2,9 +2,8 @@
 import {computed, onMounted, ref, useSlots, watch} from "vue";
 import {
     getDefaultValues,
-    Progress,
+    Progress, ProgressAnimation,
     ProgressConfig,
-    ProgressInterface,
     ProgressType
 } from "lkt-vue-kernel";
 import ProgressCircle from "@/components/ProgressCircle.vue";
@@ -29,7 +28,7 @@ if (progress.value > 100) progress.value = 100;
 if (progress.value < 0) progress.value = 0;
 
 const progressHigherLimit = ref(100);
-if (props.type === ProgressType.Incremental) {
+if (props.animation === ProgressAnimation.Incremental) {
     progressHigherLimit.value = progress.value;
     progress.value = 0;
 }
@@ -50,10 +49,10 @@ const progressDuration = ref(props.duration);
 const animationStep = ref(progressDuration.value === 0 ? 1 : (100 / (progressDuration.value / 100)));
 
 function updateProgress() {
-    if (props.type === ProgressType.Decremental && progress.value > 0) {
+    if (props.animation === ProgressAnimation.Decremental && progress.value > 0) {
         progress.value -= animationStep.value;
 
-    } else if (props.type === ProgressType.Incremental && progress.value < progressHigherLimit.value) {
+    } else if (props.animation === ProgressAnimation.Incremental && progress.value < progressHigherLimit.value) {
         progress.value += animationStep.value;
 
     } else {
@@ -64,12 +63,10 @@ function updateProgress() {
 }
 
 function startProgress() {
-    if (props.interface === ProgressInterface.Bar) {
-        if (props.type === ProgressType.Incremental || props.type === ProgressType.Decremental) {
-            if (isAnimating.value) return;
-            intervalId = setInterval(updateProgress, 100); // Update each 100 ms
-            isAnimating.value = true;
-        }
+    if (props.animation === ProgressAnimation.Incremental || props.animation === ProgressAnimation.Decremental) {
+        if (isAnimating.value) return;
+        intervalId = setInterval(updateProgress, 100); // Update each 100 ms
+        isAnimating.value = true;
     }
 }
 
@@ -81,8 +78,8 @@ function pauseProgress() {
 const classes = computed(() => {
         let r = [];
 
-        if (props.interface === ProgressInterface.Circle) r.push('is-circle');
-        if (props.interface === ProgressInterface.Bar) r.push('is-bar');
+        if (props.type === ProgressType.Circle) r.push('is-circle');
+        if (props.type === ProgressType.Bar) r.push('is-bar');
         if (progress.value >= 10) r.push('lkt-progress--fill-10');
         if (progress.value >= 20) r.push('lkt-progress--fill-20');
         if (progress.value >= 30) r.push('lkt-progress--fill-30');
@@ -152,7 +149,7 @@ defineExpose({
             </template>
         </header>
 
-        <div v-if="interface === ProgressInterface.Circle"  class="lkt-progress-content" :style="computedProgressCircleStyles">
+        <div v-if="type === ProgressType.Circle"  class="lkt-progress-content" :style="computedProgressCircleStyles">
             <progress-circle
                 :progress="progress"
                 :size="circleWidth"

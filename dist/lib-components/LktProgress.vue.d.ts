@@ -1,4 +1,4 @@
-import { ProgressConfig, ProgressInterface, ProgressType } from "lkt-vue-kernel";
+import { ProgressAnimation, ProgressConfig, ProgressType } from "lkt-vue-kernel";
 import ProgressCircle from "@/components/ProgressCircle.vue";
 declare const slots: Readonly<{
     [name: string]: import("vue").Slot<any> | undefined;
@@ -17,7 +17,7 @@ type __VLS_Slots = __VLS_PrettifyGlobal<__VLS_OmitStringIndex<typeof __VLS_ctx.$
     header?: (props: typeof __VLS_1) => any;
 }>;
 declare const __VLS_self: import("vue").DefineComponent<ProgressConfig, {
-    ProgressInterface: typeof ProgressInterface;
+    ProgressType: typeof ProgressType;
     ProgressCircle: typeof ProgressCircle;
     slots: typeof slots;
     progress: typeof progress;
@@ -42,14 +42,13 @@ declare const __VLS_self: import("vue").DefineComponent<ProgressConfig, {
     "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
 }>, {
     type: ProgressType;
+    animation: ProgressAnimation;
     header: string;
     circle: import("lkt-vue-kernel").CircleConfig;
     duration: number;
     modelValue: number;
-    interface: ProgressInterface;
     pauseOnHover: boolean;
     valueFormat: import("lkt-vue-kernel").ProgressValueFormat;
-    palette: string;
 }, {}, {}, {}, string, import("vue").ComponentProvideOptions, false, {}, any>;
 declare const __VLS_component: import("vue").DefineComponent<ProgressConfig, {
     start: typeof startProgress;
@@ -66,14 +65,13 @@ declare const __VLS_component: import("vue").DefineComponent<ProgressConfig, {
     "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
 }>, {
     type: ProgressType;
+    animation: ProgressAnimation;
     header: string;
     circle: import("lkt-vue-kernel").CircleConfig;
     duration: number;
     modelValue: number;
-    interface: ProgressInterface;
     pauseOnHover: boolean;
     valueFormat: import("lkt-vue-kernel").ProgressValueFormat;
-    palette: string;
 }, {}, {}, {}, string, import("vue").ComponentProvideOptions, false, {}, any>;
 declare const _default: __VLS_WithSlots<typeof __VLS_component, __VLS_Slots>;
 export default _default;

@@ -54,17 +54,16 @@ var ot = (_b = class extends a {
   constructor(t = {}) {
     super();
     __publicField(this, "modelValue", 0);
-    __publicField(this, "type", "");
-    __publicField(this, "interface", "bar");
+    __publicField(this, "animation", "");
+    __publicField(this, "type", "bar");
     __publicField(this, "duration", 4e3);
     __publicField(this, "pauseOnHover", false);
     __publicField(this, "header", "");
     __publicField(this, "valueFormat", "auto");
     __publicField(this, "circle");
-    __publicField(this, "palette", "");
     this.feed(t);
   }
-}, __publicField(_b, "lktAllowUndefinedProps", ["circle"]), __publicField(_b, "lktDefaultValues", ["modelValue", "type", "interface", "duration", "pauseOnHover", "header", "valueFormat", "circle", "palette"]), _b);
+}, __publicField(_b, "lktAllowUndefinedProps", ["circle"]), __publicField(_b, "lktDefaultValues", ["modelValue", "animation", "type", "duration", "pauseOnHover", "header", "valueFormat", "circle"]), _b);
 var Qt = ((l) => (l.Table = "table", l.Item = "item", l.Ul = "ul", l.Ol = "ol", l.Carousel = "carousel", l.Accordion = "accordion", l))(Qt || {});
 var Zt = ((n) => (n[n.Auto = 0] = "Auto", n[n.PreferItem = 1] = "PreferItem", n[n.PreferCustomItem = 2] = "PreferCustomItem", n[n.PreferColumns = 3] = "PreferColumns", n))(Zt || {});
 var _t = ((o) => (o.NotDefined = "", o.ActionIcon = "action-icon", o))(_t || {});
@@ -123,7 +122,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
   setup(__props) {
     var _a2, _b2, _c;
     const props = __props;
-    const currentProgress = ref(0);
+    const currentProgress = ref(props.progress);
     const size = ref((_a2 = props.size) != null ? _a2 : 120);
     const center = ref(size.value / 2);
     const strokeWidth = ref((_b2 = props.strokeWidth) != null ? _b2 : 12);
@@ -242,7 +241,7 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const ProgressCircle = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-127deb71"]]);
+const ProgressCircle = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-3adf9d8f"]]);
 const _hoisted_1 = { class: "lkt-progress-header" };
 const _hoisted_2 = {
   key: 1,
@@ -259,14 +258,13 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
   props: /* @__PURE__ */ mergeDefaults({
     modelValue: {},
     type: {},
-    interface: {},
+    animation: {},
     duration: {},
     direction: {},
     pauseOnHover: { type: Boolean },
     header: {},
     valueFormat: {},
-    circle: {},
-    palette: {}
+    circle: {}
   }, la(ot)),
   emits: [
     "update:modelValue",
@@ -283,7 +281,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     if (progress.value > 100) progress.value = 100;
     if (progress.value < 0) progress.value = 0;
     const progressHigherLimit = ref(100);
-    if (props.type === zt.Incremental) {
+    if (props.animation === zt.Incremental) {
       progressHigherLimit.value = progress.value;
       progress.value = 0;
     }
@@ -300,9 +298,9 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     const progressDuration = ref(props.duration);
     const animationStep = ref(progressDuration.value === 0 ? 1 : 100 / (progressDuration.value / 100));
     function updateProgress() {
-      if (props.type === zt.Decremental && progress.value > 0) {
+      if (props.animation === zt.Decremental && progress.value > 0) {
         progress.value -= animationStep.value;
-      } else if (props.type === zt.Incremental && progress.value < progressHigherLimit.value) {
+      } else if (props.animation === zt.Incremental && progress.value < progressHigherLimit.value) {
         progress.value += animationStep.value;
       } else {
         clearInterval(intervalId);
@@ -311,12 +309,10 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       }
     }
     function startProgress() {
-      if (props.interface === Yt.Bar) {
-        if (props.type === zt.Incremental || props.type === zt.Decremental) {
-          if (isAnimating.value) return;
-          intervalId = setInterval(updateProgress, 100);
-          isAnimating.value = true;
-        }
+      if (props.animation === zt.Incremental || props.animation === zt.Decremental) {
+        if (isAnimating.value) return;
+        intervalId = setInterval(updateProgress, 100);
+        isAnimating.value = true;
       }
     }
     function pauseProgress() {
@@ -325,8 +321,8 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     }
     const classes = computed(() => {
       let r = [];
-      if (props.interface === Yt.Circle) r.push("is-circle");
-      if (props.interface === Yt.Bar) r.push("is-bar");
+      if (props.type === Yt.Circle) r.push("is-circle");
+      if (props.type === Yt.Bar) r.push("is-bar");
       if (progress.value >= 10) r.push("lkt-progress--fill-10");
       if (progress.value >= 20) r.push("lkt-progress--fill-20");
       if (progress.value >= 30) r.push("lkt-progress--fill-30");
@@ -379,7 +375,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
             createTextVNode(toDisplayString(_ctx.header), 1)
           ], 64))
         ]),
-        _ctx.interface === unref(Yt).Circle ? (openBlock(), createElementBlock("div", {
+        _ctx.type === unref(Yt).Circle ? (openBlock(), createElementBlock("div", {
           key: 0,
           class: "lkt-progress-content",
           style: normalizeStyle(computedProgressCircleStyles.value)

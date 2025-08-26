@@ -21,7 +21,7 @@ const props = withDefaults(defineProps<Props>(), {
     direction: 'right',
 });
 
-const currentProgress = ref(0);
+const currentProgress = ref(props.progress);
 
 const size = ref(props.size ?? 120);
 const center = ref(size.value / 2);
