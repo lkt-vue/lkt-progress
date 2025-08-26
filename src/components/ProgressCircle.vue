@@ -1,16 +1,19 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import {computed, ref, watch} from 'vue';
 import {getVisiblePercentage} from "@/functions/functions";
-import {ProgressValueFormat} from "lkt-vue-kernel";
+import {ProgressAnimation, ProgressValueFormat} from "lkt-vue-kernel";
 
 interface Props {
-    progress: number;
-    size?: number;
-    strokeWidth?: number;
-    borderWidth?: number;
-    duration?: number;
-    ballRadius?: number;
-    direction?: 'right' | 'left';
+    animation: ProgressAnimation
+    progress: number
+    progressHigherLimit: number
+    progressLowerLimit: number
+    size?: number
+    strokeWidth?: number
+    borderWidth?: number
+    duration?: number
+    ballRadius?: number
+    direction?: 'right' | 'left'
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -51,14 +54,19 @@ const ballRadius = computed(() => {
 const ballCircumference = computed(() => 2 * Math.PI * ballRadius.value);
 
 function animateProgress(target: number) {
-    const start = currentProgress.value;
-    const change = target - start;
+    const start = props.animation === ProgressAnimation.Incremental ? currentProgress.value : 100;
+    const change = props.animation === ProgressAnimation.Incremental ? props.progressHigherLimit - start : start - props.progressLowerLimit;
     const startTime = performance.now();
 
     function animate(time: number) {
         const elapsed = time - startTime;
         const progress = Math.min(elapsed / duration.value, 1);
-        currentProgress.value = start + change * progress;
+        if (props.animation === ProgressAnimation.Incremental) {
+            currentProgress.value = start + change * progress;
+
+        } else if (props.animation === ProgressAnimation.Decremental) {
+            currentProgress.value = start - change * progress;
+        }
         if (progress < 1) requestAnimationFrame(animate);
     }
 

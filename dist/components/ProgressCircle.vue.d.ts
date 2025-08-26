@@ -1,5 +1,9 @@
+import { ProgressAnimation } from "lkt-vue-kernel";
 interface Props {
+    animation: ProgressAnimation;
     progress: number;
+    progressHigherLimit: number;
+    progressLowerLimit: number;
     size?: number;
     strokeWidth?: number;
     borderWidth?: number;

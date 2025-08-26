@@ -4,6 +4,8 @@ declare const slots: Readonly<{
     [name: string]: import("vue").Slot<any> | undefined;
 }>;
 declare const progress: import("vue").Ref<number, number>;
+declare const progressHigherLimit: import("vue").Ref<number, number>;
+declare const progressLowerLimit: import("vue").Ref<number, number>;
 declare function startProgress(): void;
 declare function pauseProgress(): void;
 declare const classes: import("vue").ComputedRef<string>, computedVisiblePercentage: import("vue").ComputedRef<any>, progressBarStyles: import("vue").ComputedRef<string>, computedProgressCircleStyles: import("vue").ComputedRef<string>;
@@ -21,6 +23,8 @@ declare const __VLS_self: import("vue").DefineComponent<ProgressConfig, {
     ProgressCircle: typeof ProgressCircle;
     slots: typeof slots;
     progress: typeof progress;
+    progressHigherLimit: typeof progressHigherLimit;
+    progressLowerLimit: typeof progressLowerLimit;
     classes: typeof classes;
     computedVisiblePercentage: typeof computedVisiblePercentage;
     progressBarStyles: typeof progressBarStyles;

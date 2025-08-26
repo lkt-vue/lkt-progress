@@ -1,11 +1,6 @@
 <script setup lang="ts">
 import {computed, onMounted, ref, useSlots, watch} from "vue";
-import {
-    getDefaultValues,
-    Progress, ProgressAnimation,
-    ProgressConfig,
-    ProgressType
-} from "lkt-vue-kernel";
+import {getDefaultValues, Progress, ProgressAnimation, ProgressConfig, ProgressType} from "lkt-vue-kernel";
 import ProgressCircle from "@/components/ProgressCircle.vue";
 import {getVisiblePercentage} from "@/functions/functions";
 
@@ -31,6 +26,12 @@ const progressHigherLimit = ref(100);
 if (props.animation === ProgressAnimation.Incremental) {
     progressHigherLimit.value = progress.value;
     progress.value = 0;
+}
+
+const progressLowerLimit = ref(0);
+if (props.animation === ProgressAnimation.Decremental) {
+    progressLowerLimit.value = progress.value;
+    progress.value = progressHigherLimit.value;
 }
 
 watch(() => props.modelValue, (v) => {
@@ -63,7 +64,7 @@ function updateProgress() {
 }
 
 function startProgress() {
-    if (props.animation === ProgressAnimation.Incremental || props.animation === ProgressAnimation.Decremental) {
+    if (props.type === ProgressType.Bar && (props.animation === ProgressAnimation.Incremental || props.animation === ProgressAnimation.Decremental)) {
         if (isAnimating.value) return;
         intervalId = setInterval(updateProgress, 100); // Update each 100 ms
         isAnimating.value = true;
@@ -152,6 +153,9 @@ defineExpose({
         <div v-if="type === ProgressType.Circle"  class="lkt-progress-content" :style="computedProgressCircleStyles">
             <progress-circle
                 :progress="progress"
+                :progressHigherLimit="progressHigherLimit"
+                :progressLowerLimit="progressLowerLimit"
+                :animation="animation"
                 :size="circleWidth"
                 :ball-radius="ballRadius"
                 :stroke-width="strokeWidth"

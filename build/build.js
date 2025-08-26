@@ -111,7 +111,10 @@ const _hoisted_8 = { class: "progress-ring__text" };
 const _sfc_main$1 = /* @__PURE__ */ defineComponent({
   __name: "ProgressCircle",
   props: {
+    animation: {},
     progress: {},
+    progressHigherLimit: {},
+    progressLowerLimit: {},
     size: { default: 120 },
     strokeWidth: { default: 12 },
     borderWidth: { default: 2 },
@@ -146,13 +149,26 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     });
     const ballCircumference = computed(() => 2 * Math.PI * ballRadius.value);
     function animateProgress(target) {
-      const start = currentProgress.value;
-      const change = target - start;
+      const start = props.animation === zt.Incremental ? currentProgress.value : 100;
+      const change = props.animation === zt.Incremental ? props.progressHigherLimit - start : start - props.progressLowerLimit;
       const startTime = performance.now();
+      if (props.animation === zt.Decremental) {
+        console.log("animateProcess: ", {
+          start,
+          change,
+          currentProgress: currentProgress.value,
+          progressHigherLimit: props.progressHigherLimit,
+          progressLowerLimit: props.progressLowerLimit
+        });
+      }
       function animate(time) {
         const elapsed = time - startTime;
         const progress = Math.min(elapsed / duration.value, 1);
-        currentProgress.value = start + change * progress;
+        if (props.animation === zt.Incremental) {
+          currentProgress.value = start + change * progress;
+        } else if (props.animation === zt.Decremental) {
+          currentProgress.value = start - change * progress;
+        }
         if (progress < 1) requestAnimationFrame(animate);
       }
       requestAnimationFrame(animate);
@@ -165,7 +181,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
       return "";
     });
     watch(() => props.progress, (newVal) => {
-      animateProgress(newVal);
+      animateProgress();
     }, { immediate: true });
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock("div", _hoisted_1$1, [
@@ -241,7 +257,7 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const ProgressCircle = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-3adf9d8f"]]);
+const ProgressCircle = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-926266a7"]]);
 const _hoisted_1 = { class: "lkt-progress-header" };
 const _hoisted_2 = {
   key: 1,
@@ -285,6 +301,11 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       progressHigherLimit.value = progress.value;
       progress.value = 0;
     }
+    const progressLowerLimit = ref(0);
+    if (props.animation === zt.Decremental) {
+      progressLowerLimit.value = progress.value;
+      progress.value = progressHigherLimit.value;
+    }
     watch(() => props.modelValue, (v) => {
       if (v > 100) v = 100;
       if (v < 0) v = 0;
@@ -309,7 +330,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       }
     }
     function startProgress() {
-      if (props.animation === zt.Incremental || props.animation === zt.Decremental) {
+      if (props.type === Yt.Bar && (props.animation === zt.Incremental || props.animation === zt.Decremental)) {
         if (isAnimating.value) return;
         intervalId = setInterval(updateProgress, 100);
         isAnimating.value = true;
@@ -382,12 +403,15 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
         }, [
           createVNode(ProgressCircle, {
             progress: progress.value,
+            progressHigherLimit: progressHigherLimit.value,
+            progressLowerLimit: progressLowerLimit.value,
+            animation: _ctx.animation,
             size: circleWidth.value,
             "ball-radius": ballRadius.value,
             "stroke-width": strokeWidth.value,
             duration: _ctx.duration,
             direction: _ctx.direction
-          }, null, 8, ["progress", "size", "ball-radius", "stroke-width", "duration", "direction"])
+          }, null, 8, ["progress", "progressHigherLimit", "progressLowerLimit", "animation", "size", "ball-radius", "stroke-width", "duration", "direction"])
         ], 4)) : (openBlock(), createElementBlock("div", _hoisted_2, [
           createElementVNode("div", _hoisted_3, [
             createElementVNode("div", {
