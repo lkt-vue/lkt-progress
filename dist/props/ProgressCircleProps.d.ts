@@ -11,4 +11,6 @@ export interface ProgressCircleProps {
     ballRadius?: number;
     direction?: 'right' | 'left';
     valueFormat: ProgressValueFormat;
+    pauseOnHover: boolean;
+    hasHover: boolean;
 }

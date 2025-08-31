@@ -1,19 +1,10 @@
 <script setup lang="ts">
 import {computed, ref, watch} from "vue";
 import {getVisiblePercentage} from "../functions/functions";
-import {ProgressAnimation, ProgressValueFormat} from "lkt-vue-kernel";
+import {ProgressAnimation} from "lkt-vue-kernel";
+import {ProgressBarProps} from "../props/ProgressBarProps";
 
-interface Props {
-    animation: ProgressAnimation
-    progress: number
-    progressHigherLimit: number
-    progressLowerLimit: number
-    duration?: number
-    direction?: 'right' | 'left'
-    valueFormat: ProgressValueFormat
-}
-
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<ProgressBarProps>(), {
     duration: 1000,
     direction: 'right',
 });

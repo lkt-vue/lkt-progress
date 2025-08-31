@@ -2,7 +2,6 @@
 import {computed, onMounted, ref, useSlots, watch} from "vue";
 import {getDefaultValues, Progress, ProgressAnimation, ProgressConfig, ProgressType} from "lkt-vue-kernel";
 import ProgressCircle from "../components/ProgressCircle.vue";
-import {getVisiblePercentage} from "../functions/functions";
 import {ProgressCircleProps} from "../props/ProgressCircleProps";
 import {ProgressBarProps} from "../props/ProgressBarProps";
 import ProgressBar from "../components/ProgressBar.vue";
@@ -36,6 +35,8 @@ if (props.animation === ProgressAnimation.Decremental) {
     progressLowerLimit.value = progress.value;
     progress.value = progressHigherLimit.value;
 }
+
+const hasHover = ref(false);
 
 watch(() => props.modelValue, (v) => {
     if (v > 100) v = 100;
@@ -101,24 +102,20 @@ const classes = computed(() => {
         if (p >= 100) r.push('lkt-progress--fill-100');
 
         return r.join(' ');
-    }),
-    computedVisiblePercentage = computed(() => {
-        return getVisiblePercentage(progress.value, props.valueFormat);
-    }),
-    progressBarStyles = computed(() => {
-        return 'width: calc(' + computedVisiblePercentage.value + '%)';
     });
 
 const onMouseEnter = (event: MouseEvent) => {
-        if (props.pauseOnHover) {
-            pauseProgress();
-        }
+        hasHover.value = true;
+        // if (props.pauseOnHover) {
+        //     pauseProgress();
+        // }
         emit('mouseenter', event);
     },
     onMouseLeave = (event: MouseEvent) => {
-        if (props.pauseOnHover) {
-            startProgress();
-        }
+        hasHover.value = false;
+        // if (props.pauseOnHover) {
+        //     startProgress();
+        // }
         emit('mouseleave', event);
     };
 
@@ -165,6 +162,8 @@ defineExpose({
                     duration,
                     direction,
                     valueFormat,
+                    pauseOnHover,
+                    hasHover
                 }"
                 @progress-updated="updateCircleProgress"
             />
@@ -183,21 +182,11 @@ defineExpose({
                     duration,
                     direction,
                     valueFormat,
+                    pauseOnHover,
+                    hasHover
                 }"
                 @progress-updated="updateCircleProgress"
             />
-        </div>
-
-        <div v-else class="lkt-progress-content">
-            <div class="lkt-progress-bar">
-                <div class="lkt-progress-bar-percentage"
-                     :style="progressBarStyles"
-                     role="progressbar"
-                     :aria-valuenow="computedVisiblePercentage"
-                     :aria-valuemin="0"
-                     :aria-valuemax="100"/>
-            </div>
-            <div v-if="valueFormat !== 'hidden'" class="lkt-progress-indicator">{{ computedVisiblePercentage }}%</div>
         </div>
     </section>
 </template>

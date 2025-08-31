@@ -7,4 +7,6 @@ export interface ProgressBarProps {
     duration?: number;
     direction?: 'right' | 'left';
     valueFormat: ProgressValueFormat;
+    pauseOnHover: boolean;
+    hasHover: boolean;
 }

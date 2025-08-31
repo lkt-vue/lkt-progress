@@ -7,10 +7,11 @@ declare const slots: Readonly<{
 declare const progress: import("vue").Ref<number, number>;
 declare const progressHigherLimit: import("vue").Ref<number, number>;
 declare const progressLowerLimit: import("vue").Ref<number, number>;
+declare const hasHover: import("vue").Ref<boolean, boolean>;
 declare function startProgress(): void;
 declare function pauseProgress(): void;
 declare const updateCircleProgress: (n: number) => number;
-declare const classes: import("vue").ComputedRef<string>, computedVisiblePercentage: import("vue").ComputedRef<string>, progressBarStyles: import("vue").ComputedRef<string>;
+declare const classes: import("vue").ComputedRef<string>;
 declare const onMouseEnter: (event: MouseEvent) => void, onMouseLeave: (event: MouseEvent) => void;
 declare const ballRadius: import("vue").Ref<number, number>;
 declare const strokeWidth: import("vue").Ref<number, number>;
@@ -28,10 +29,9 @@ declare const __VLS_self: import("vue").DefineComponent<ProgressConfig, {
     progress: typeof progress;
     progressHigherLimit: typeof progressHigherLimit;
     progressLowerLimit: typeof progressLowerLimit;
+    hasHover: typeof hasHover;
     updateCircleProgress: typeof updateCircleProgress;
     classes: typeof classes;
-    computedVisiblePercentage: typeof computedVisiblePercentage;
-    progressBarStyles: typeof progressBarStyles;
     onMouseEnter: typeof onMouseEnter;
     onMouseLeave: typeof onMouseLeave;
     ballRadius: typeof ballRadius;

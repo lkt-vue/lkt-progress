@@ -103,10 +103,10 @@ const getVisiblePercentage = (progress, format) => {
 const _hoisted_1$2 = { class: "progress-circle" };
 const _hoisted_2$2 = ["width", "height", "viewBox"];
 const _hoisted_3$2 = ["cx", "cy", "r", "stroke-width"];
-const _hoisted_4$2 = ["cx", "cy", "r", "stroke-width"];
-const _hoisted_5$1 = ["cx", "cy", "r", "stroke-dasharray", "stroke-dashoffset", "stroke-width", "transform"];
-const _hoisted_6$1 = ["cx", "cy", "r", "stroke-dasharray", "stroke-dashoffset", "stroke-width", "transform"];
-const _hoisted_7$1 = ["cx", "cy", "r", "stroke-dasharray", "transform"];
+const _hoisted_4$1 = ["cx", "cy", "r", "stroke-width"];
+const _hoisted_5 = ["cx", "cy", "r", "stroke-dasharray", "stroke-dashoffset", "stroke-width", "transform"];
+const _hoisted_6 = ["cx", "cy", "r", "stroke-dasharray", "stroke-dashoffset", "stroke-width", "transform"];
+const _hoisted_7 = ["cx", "cy", "r", "stroke-dasharray", "transform"];
 const _hoisted_8 = { class: "progress-ring__text" };
 const _sfc_main$2 = /* @__PURE__ */ defineComponent({
   __name: "ProgressCircle",
@@ -121,7 +121,9 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     duration: { default: 1e3 },
     ballRadius: {},
     direction: { default: "right" },
-    valueFormat: {}
+    valueFormat: {},
+    pauseOnHover: { type: Boolean },
+    hasHover: { type: Boolean }
   },
   emits: ["progress-updated"],
   setup(__props, { emit: __emit }) {
@@ -203,7 +205,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
             stroke: "transparent",
             fill: "transparent",
             "stroke-width": strokeWidth.value - 2 * _ctx.borderWidth
-          }, null, 8, _hoisted_4$2),
+          }, null, 8, _hoisted_4$1),
           createElementVNode("circle", {
             class: "progress-ring--circle-border",
             cx: center.value,
@@ -216,7 +218,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
             "stroke-width": strokeWidth.value,
             "stroke-linecap": "round",
             transform: computedDirectionStyles.value
-          }, null, 8, _hoisted_5$1),
+          }, null, 8, _hoisted_5),
           createElementVNode("circle", {
             class: "progress-ring--circle",
             cx: center.value,
@@ -229,7 +231,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
             "stroke-width": strokeWidth.value - 2 * _ctx.borderWidth,
             "stroke-linecap": "round",
             transform: computedDirectionStyles.value
-          }, null, 8, _hoisted_6$1),
+          }, null, 8, _hoisted_6),
           createElementVNode("circle", {
             class: "progress-ring--ball",
             cx: ballPos.value.x,
@@ -238,7 +240,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
             "stroke-dasharray": ballCircumference.value,
             "stroke-width": 2,
             transform: computedDirectionStyles.value
-          }, null, 8, _hoisted_7$1)
+          }, null, 8, _hoisted_7)
         ], 8, _hoisted_2$2)),
         createElementVNode("div", _hoisted_8, toDisplayString(computedVisiblePercentage.value) + "%", 1)
       ]);
@@ -256,7 +258,7 @@ const ProgressCircle = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "
 const _hoisted_1$1 = { class: "lkt-progress-content" };
 const _hoisted_2$1 = { class: "lkt-progress-bar" };
 const _hoisted_3$1 = ["aria-valuenow"];
-const _hoisted_4$1 = {
+const _hoisted_4 = {
   key: 0,
   class: "lkt-progress-indicator"
 };
@@ -269,7 +271,9 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     progressLowerLimit: {},
     duration: { default: 1e3 },
     direction: { default: "right" },
-    valueFormat: {}
+    valueFormat: {},
+    pauseOnHover: { type: Boolean },
+    hasHover: { type: Boolean }
   },
   emits: ["progress-updated"],
   setup(__props, { emit: __emit }) {
@@ -315,7 +319,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
             "aria-valuemax": 100
           }, null, 12, _hoisted_3$1)
         ]),
-        _ctx.valueFormat !== "hidden" ? (openBlock(), createElementBlock("div", _hoisted_4$1, toDisplayString(computedVisiblePercentage.value) + "%", 1)) : createCommentVNode("", true)
+        _ctx.valueFormat !== "hidden" ? (openBlock(), createElementBlock("div", _hoisted_4, toDisplayString(computedVisiblePercentage.value) + "%", 1)) : createCommentVNode("", true)
       ]);
     };
   }
@@ -328,16 +332,6 @@ const _hoisted_2 = {
 const _hoisted_3 = {
   key: 1,
   class: "lkt-progress-content"
-};
-const _hoisted_4 = {
-  key: 2,
-  class: "lkt-progress-content"
-};
-const _hoisted_5 = { class: "lkt-progress-bar" };
-const _hoisted_6 = ["aria-valuenow"];
-const _hoisted_7 = {
-  key: 0,
-  class: "lkt-progress-indicator"
 };
 const _sfc_main = /* @__PURE__ */ defineComponent({
   __name: "LktProgress",
@@ -376,6 +370,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       progressLowerLimit.value = progress.value;
       progress.value = progressHigherLimit.value;
     }
+    const hasHover = ref(false);
     watch(() => props.modelValue, (v) => {
       if (v > 100) v = 100;
       if (v < 0) v = 0;
@@ -428,20 +423,12 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       if (p >= 90) r.push("lkt-progress--fill-90");
       if (p >= 100) r.push("lkt-progress--fill-100");
       return r.join(" ");
-    }), computedVisiblePercentage = computed(() => {
-      return getVisiblePercentage(progress.value, props.valueFormat);
-    }), progressBarStyles = computed(() => {
-      return "width: calc(" + computedVisiblePercentage.value + "%)";
     });
     const onMouseEnter = (event) => {
-      if (props.pauseOnHover) {
-        pauseProgress();
-      }
+      hasHover.value = true;
       emit("mouseenter", event);
     }, onMouseLeave = (event) => {
-      if (props.pauseOnHover) {
-        startProgress();
-      }
+      hasHover.value = false;
       emit("mouseleave", event);
     };
     const circleRadius = ref((_b2 = (_a2 = props.circle) == null ? void 0 : _a2.radius) != null ? _b2 : 50);
@@ -477,7 +464,9 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
             strokeWidth: strokeWidth.value,
             duration: _ctx.duration,
             direction: _ctx.direction,
-            valueFormat: _ctx.valueFormat
+            valueFormat: _ctx.valueFormat,
+            pauseOnHover: _ctx.pauseOnHover,
+            hasHover: hasHover.value
           }, { onProgressUpdated: updateCircleProgress }), null, 16)
         ])) : _ctx.type === unref(Yt).Bar ? (openBlock(), createElementBlock("div", _hoisted_3, [
           createVNode(_sfc_main$1, mergeProps({
@@ -490,21 +479,11 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
             strokeWidth: strokeWidth.value,
             duration: _ctx.duration,
             direction: _ctx.direction,
-            valueFormat: _ctx.valueFormat
+            valueFormat: _ctx.valueFormat,
+            pauseOnHover: _ctx.pauseOnHover,
+            hasHover: hasHover.value
           }, { onProgressUpdated: updateCircleProgress }), null, 16)
-        ])) : (openBlock(), createElementBlock("div", _hoisted_4, [
-          createElementVNode("div", _hoisted_5, [
-            createElementVNode("div", {
-              class: "lkt-progress-bar-percentage",
-              style: normalizeStyle(progressBarStyles.value),
-              role: "progressbar",
-              "aria-valuenow": computedVisiblePercentage.value,
-              "aria-valuemin": 0,
-              "aria-valuemax": 100
-            }, null, 12, _hoisted_6)
-          ]),
-          _ctx.valueFormat !== "hidden" ? (openBlock(), createElementBlock("div", _hoisted_7, toDisplayString(computedVisiblePercentage.value) + "%", 1)) : createCommentVNode("", true)
-        ]))
+        ])) : createCommentVNode("", true)
       ], 34);
     };
   }
