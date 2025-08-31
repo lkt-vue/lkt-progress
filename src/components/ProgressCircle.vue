@@ -1,22 +1,10 @@
 <script setup lang="ts">
 import {computed, ref, watch} from 'vue';
-import {getVisiblePercentage} from "@/functions/functions";
-import {ProgressAnimation, ProgressValueFormat} from "lkt-vue-kernel";
+import {getVisiblePercentage} from "../functions/functions";
+import {ProgressAnimation} from "lkt-vue-kernel";
+import {ProgressCircleProps} from "../props/ProgressCircleProps";
 
-interface Props {
-    animation: ProgressAnimation
-    progress: number
-    progressHigherLimit: number
-    progressLowerLimit: number
-    size?: number
-    strokeWidth?: number
-    borderWidth?: number
-    duration?: number
-    ballRadius?: number
-    direction?: 'right' | 'left'
-}
-
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<ProgressCircleProps>(), {
     size: 120,
     strokeWidth: 12,
     borderWidth: 2,
@@ -78,7 +66,7 @@ function animateProgress(target: number) {
 
 
 const computedVisiblePercentage = computed(() => {
-    return getVisiblePercentage(currentProgress.value, ProgressValueFormat.Auto);
+    return getVisiblePercentage(currentProgress.value, props.valueFormat);
 });
 
 const computedDirectionStyles = computed(() => {

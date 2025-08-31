@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import {computed, onMounted, ref, useSlots, watch} from "vue";
 import {getDefaultValues, Progress, ProgressAnimation, ProgressConfig, ProgressType} from "lkt-vue-kernel";
-import ProgressCircle from "@/components/ProgressCircle.vue";
-import {getVisiblePercentage} from "@/functions/functions";
+import ProgressCircle from "../components/ProgressCircle.vue";
+import {getVisiblePercentage} from "../functions/functions";
+import {ProgressCircleProps} from "../props/ProgressCircleProps";
+import {ProgressBarProps} from "../props/ProgressBarProps";
+import ProgressBar from "../components/ProgressBar.vue";
 
 // Emits
 const emit = defineEmits([
@@ -104,12 +107,6 @@ const classes = computed(() => {
     }),
     progressBarStyles = computed(() => {
         return 'width: calc(' + computedVisiblePercentage.value + '%)';
-    }),
-    computedProgressCircleStyles = computed(() => {
-
-        let degrees = (props.modelValue)/100;
-
-        return `--lkt-progress--percent: ${degrees};`
     });
 
 const onMouseEnter = (event: MouseEvent) => {
@@ -155,17 +152,38 @@ defineExpose({
             </template>
         </header>
 
-        <div v-if="type === ProgressType.Circle"  class="lkt-progress-content" :style="computedProgressCircleStyles">
+        <div v-if="type === ProgressType.Circle"  class="lkt-progress-content">
             <progress-circle
-                :progress="progress"
-                :progressHigherLimit="progressHigherLimit"
-                :progressLowerLimit="progressLowerLimit"
-                :animation="animation"
-                :size="circleWidth"
-                :ball-radius="ballRadius"
-                :stroke-width="strokeWidth"
-                :duration="duration"
-                :direction="direction"
+                v-bind="<ProgressCircleProps>{
+                    progress,
+                    progressHigherLimit,
+                    progressLowerLimit,
+                    animation,
+                    size: circleWidth,
+                    ballRadius,
+                    strokeWidth,
+                    duration,
+                    direction,
+                    valueFormat,
+                }"
+                @progress-updated="updateCircleProgress"
+            />
+        </div>
+
+        <div v-else-if="type === ProgressType.Bar"  class="lkt-progress-content">
+            <progress-bar
+                v-bind="<ProgressBarProps>{
+                    progress,
+                    progressHigherLimit,
+                    progressLowerLimit,
+                    animation,
+                    size: circleWidth,
+                    ballRadius,
+                    strokeWidth,
+                    duration,
+                    direction,
+                    valueFormat,
+                }"
                 @progress-updated="updateCircleProgress"
             />
         </div>

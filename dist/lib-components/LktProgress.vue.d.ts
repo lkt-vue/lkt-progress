@@ -1,5 +1,6 @@
 import { ProgressAnimation, ProgressConfig, ProgressType } from "lkt-vue-kernel";
-import ProgressCircle from "@/components/ProgressCircle.vue";
+import ProgressCircle from "../components/ProgressCircle.vue";
+import ProgressBar from "../components/ProgressBar.vue";
 declare const slots: Readonly<{
     [name: string]: import("vue").Slot<any> | undefined;
 }>;
@@ -9,7 +10,7 @@ declare const progressLowerLimit: import("vue").Ref<number, number>;
 declare function startProgress(): void;
 declare function pauseProgress(): void;
 declare const updateCircleProgress: (n: number) => number;
-declare const classes: import("vue").ComputedRef<string>, computedVisiblePercentage: import("vue").ComputedRef<any>, progressBarStyles: import("vue").ComputedRef<string>, computedProgressCircleStyles: import("vue").ComputedRef<string>;
+declare const classes: import("vue").ComputedRef<string>, computedVisiblePercentage: import("vue").ComputedRef<string>, progressBarStyles: import("vue").ComputedRef<string>;
 declare const onMouseEnter: (event: MouseEvent) => void, onMouseLeave: (event: MouseEvent) => void;
 declare const ballRadius: import("vue").Ref<number, number>;
 declare const strokeWidth: import("vue").Ref<number, number>;
@@ -22,6 +23,7 @@ type __VLS_Slots = __VLS_PrettifyGlobal<__VLS_OmitStringIndex<typeof __VLS_ctx.$
 declare const __VLS_self: import("vue").DefineComponent<ProgressConfig, {
     ProgressType: typeof ProgressType;
     ProgressCircle: typeof ProgressCircle;
+    ProgressBar: typeof ProgressBar;
     slots: typeof slots;
     progress: typeof progress;
     progressHigherLimit: typeof progressHigherLimit;
@@ -30,7 +32,6 @@ declare const __VLS_self: import("vue").DefineComponent<ProgressConfig, {
     classes: typeof classes;
     computedVisiblePercentage: typeof computedVisiblePercentage;
     progressBarStyles: typeof progressBarStyles;
-    computedProgressCircleStyles: typeof computedProgressCircleStyles;
     onMouseEnter: typeof onMouseEnter;
     onMouseLeave: typeof onMouseLeave;
     ballRadius: typeof ballRadius;

@@ -1,19 +1,7 @@
-import { ProgressAnimation } from "lkt-vue-kernel";
-interface Props {
-    animation: ProgressAnimation;
-    progress: number;
-    progressHigherLimit: number;
-    progressLowerLimit: number;
-    size?: number;
-    strokeWidth?: number;
-    borderWidth?: number;
-    duration?: number;
-    ballRadius?: number;
-    direction?: 'right' | 'left';
-}
-declare const _default: import("vue").DefineComponent<Props, {}, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
+import { ProgressCircleProps } from "../props/ProgressCircleProps";
+declare const _default: import("vue").DefineComponent<ProgressCircleProps, {}, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
     "progress-updated": (...args: any[]) => void;
-}, string, import("vue").PublicProps, Readonly<Props> & Readonly<{
+}, string, import("vue").PublicProps, Readonly<ProgressCircleProps> & Readonly<{
     "onProgress-updated"?: ((...args: any[]) => any) | undefined;
 }>, {
     borderWidth: number;

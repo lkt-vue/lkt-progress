@@ -78,35 +78,35 @@
 /*    font-weight: bold;*/
 /*    color: #333;*/
 /*}*/
-.progress-circle[data-v-3a3e6a49] {
+.progress-circle[data-v-bfe74f17] {
     position: relative;
     display: inline-block;
 }
-.progress-ring[data-v-3a3e6a49] {
+.progress-ring[data-v-bfe74f17] {
     transform: rotate(-90deg);
     overflow: visible;
 }
-.progress-ring--background-border[data-v-3a3e6a49] {
+.progress-ring--background-border[data-v-bfe74f17] {
     fill: transparent;
     stroke: var(--lkt-progress--track--border-color);
 }
-.progress-ring--background[data-v-3a3e6a49] {
+.progress-ring--background[data-v-bfe74f17] {
     fill: transparent;
     stroke: var(--lkt-progress--track--background);
     transition: stroke linear 333ms;
 }
-.progress-ring--circle[data-v-3a3e6a49] {
+.progress-ring--circle[data-v-bfe74f17] {
     fill: transparent;
     stroke-linecap: round;
     stroke: var(--lkt-progress--circle--background);
     transition: stroke linear 333ms;
 }
-.progress-ring--circle-border[data-v-3a3e6a49] {
+.progress-ring--circle-border[data-v-bfe74f17] {
     fill: transparent;
     stroke-linecap: round;
     stroke: var(--lkt-progress--circle--border-color);
 }
-.progress-ring__text[data-v-3a3e6a49] {
+.progress-ring__text[data-v-bfe74f17] {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -114,7 +114,7 @@
     font-size: 1.5rem;
     font-weight: bold;
 }
-.progress-ring--ball[data-v-3a3e6a49] {
+.progress-ring--ball[data-v-bfe74f17] {
     fill: var(--lkt-progress--ball--background);
     stroke: var(--lkt-progress--ball--border-color);
     stroke-linecap: round;
