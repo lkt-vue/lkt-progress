@@ -122,10 +122,12 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     ballRadius: {},
     direction: { default: "right" }
   },
-  setup(__props) {
+  emits: ["progress-updated"],
+  setup(__props, { emit: __emit }) {
     var _a2, _b2, _c;
     const props = __props;
     const currentProgress = ref(props.progress);
+    const emit = __emit;
     const size = ref((_a2 = props.size) != null ? _a2 : 120);
     const center = ref(size.value / 2);
     const strokeWidth = ref((_b2 = props.strokeWidth) != null ? _b2 : 12);
@@ -152,15 +154,6 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
       const start = props.animation === zt.Incremental ? currentProgress.value : 100;
       const change = props.animation === zt.Incremental ? props.progressHigherLimit - start : start - props.progressLowerLimit;
       const startTime = performance.now();
-      if (props.animation === zt.Decremental) {
-        console.log("animateProcess: ", {
-          start,
-          change,
-          currentProgress: currentProgress.value,
-          progressHigherLimit: props.progressHigherLimit,
-          progressLowerLimit: props.progressLowerLimit
-        });
-      }
       function animate(time) {
         const elapsed = time - startTime;
         const progress = Math.min(elapsed / duration.value, 1);
@@ -169,6 +162,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
         } else if (props.animation === zt.Decremental) {
           currentProgress.value = start - change * progress;
         }
+        emit("progress-updated", currentProgress.value);
         if (progress < 1) requestAnimationFrame(animate);
       }
       requestAnimationFrame(animate);
@@ -257,7 +251,7 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const ProgressCircle = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-926266a7"]]);
+const ProgressCircle = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-3a3e6a49"]]);
 const _hoisted_1 = { class: "lkt-progress-header" };
 const _hoisted_2 = {
   key: 1,
@@ -319,7 +313,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     const progressDuration = ref(props.duration);
     const animationStep = ref(progressDuration.value === 0 ? 1 : 100 / (progressDuration.value / 100));
     function updateProgress() {
-      if (props.animation === zt.Decremental && progress.value > 0) {
+      if (props.animation === zt.Decremental && progress.value > progressLowerLimit.value) {
         progress.value -= animationStep.value;
       } else if (props.animation === zt.Incremental && progress.value < progressHigherLimit.value) {
         progress.value += animationStep.value;
@@ -340,20 +334,23 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       clearInterval(intervalId);
       isAnimating.value = false;
     }
+    const circleProgress = ref(progress.value);
+    const updateCircleProgress = (n) => circleProgress.value = n;
     const classes = computed(() => {
-      let r = [];
+      let r = ["lkt-progress--fill-0"];
       if (props.type === Yt.Circle) r.push("is-circle");
       if (props.type === Yt.Bar) r.push("is-bar");
-      if (progress.value >= 10) r.push("lkt-progress--fill-10");
-      if (progress.value >= 20) r.push("lkt-progress--fill-20");
-      if (progress.value >= 30) r.push("lkt-progress--fill-30");
-      if (progress.value >= 40) r.push("lkt-progress--fill-40");
-      if (progress.value >= 50) r.push("lkt-progress--fill-50");
-      if (progress.value >= 60) r.push("lkt-progress--fill-60");
-      if (progress.value >= 70) r.push("lkt-progress--fill-70");
-      if (progress.value >= 80) r.push("lkt-progress--fill-80");
-      if (progress.value >= 90) r.push("lkt-progress--fill-90");
-      if (progress.value >= 100) r.push("lkt-progress--fill-100");
+      const p = props.type === Yt.Bar ? progress.value : circleProgress.value;
+      if (p >= 10) r.push("lkt-progress--fill-10");
+      if (p >= 20) r.push("lkt-progress--fill-20");
+      if (p >= 30) r.push("lkt-progress--fill-30");
+      if (p >= 40) r.push("lkt-progress--fill-40");
+      if (p >= 50) r.push("lkt-progress--fill-50");
+      if (p >= 60) r.push("lkt-progress--fill-60");
+      if (p >= 70) r.push("lkt-progress--fill-70");
+      if (p >= 80) r.push("lkt-progress--fill-80");
+      if (p >= 90) r.push("lkt-progress--fill-90");
+      if (p >= 100) r.push("lkt-progress--fill-100");
       return r.join(" ");
     }), computedVisiblePercentage = computed(() => {
       return getVisiblePercentage(progress.value, props.valueFormat);
@@ -410,7 +407,8 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
             "ball-radius": ballRadius.value,
             "stroke-width": strokeWidth.value,
             duration: _ctx.duration,
-            direction: _ctx.direction
+            direction: _ctx.direction,
+            onProgressUpdated: updateCircleProgress
           }, null, 8, ["progress", "progressHigherLimit", "progressLowerLimit", "animation", "size", "ball-radius", "stroke-width", "duration", "direction"])
         ], 4)) : (openBlock(), createElementBlock("div", _hoisted_2, [
           createElementVNode("div", _hoisted_3, [

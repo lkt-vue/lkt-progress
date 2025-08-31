@@ -26,6 +26,8 @@ const props = withDefaults(defineProps<Props>(), {
 
 const currentProgress = ref(props.progress);
 
+const emit = defineEmits(['progress-updated']);
+
 const size = ref(props.size ?? 120);
 const center = ref(size.value / 2);
 const strokeWidth = ref(props.strokeWidth ?? 12);
@@ -67,6 +69,7 @@ function animateProgress(target: number) {
         } else if (props.animation === ProgressAnimation.Decremental) {
             currentProgress.value = start - change * progress;
         }
+        emit('progress-updated', currentProgress.value)
         if (progress < 1) requestAnimationFrame(animate);
     }
 
@@ -175,12 +178,14 @@ watch(() => props.progress, (newVal) => {
 .progress-ring--background {
     fill: transparent;
     stroke: var(--lkt-progress--track--background);
+    transition: stroke linear 333ms;
 }
 
 .progress-ring--circle {
     fill: transparent;
     stroke-linecap: round;
     stroke: var(--lkt-progress--circle--background);
+    transition: stroke linear 333ms;
 }
 
 .progress-ring--circle-border {

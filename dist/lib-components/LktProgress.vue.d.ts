@@ -8,6 +8,7 @@ declare const progressHigherLimit: import("vue").Ref<number, number>;
 declare const progressLowerLimit: import("vue").Ref<number, number>;
 declare function startProgress(): void;
 declare function pauseProgress(): void;
+declare const updateCircleProgress: (n: number) => number;
 declare const classes: import("vue").ComputedRef<string>, computedVisiblePercentage: import("vue").ComputedRef<any>, progressBarStyles: import("vue").ComputedRef<string>, computedProgressCircleStyles: import("vue").ComputedRef<string>;
 declare const onMouseEnter: (event: MouseEvent) => void, onMouseLeave: (event: MouseEvent) => void;
 declare const ballRadius: import("vue").Ref<number, number>;
@@ -25,6 +26,7 @@ declare const __VLS_self: import("vue").DefineComponent<ProgressConfig, {
     progress: typeof progress;
     progressHigherLimit: typeof progressHigherLimit;
     progressLowerLimit: typeof progressLowerLimit;
+    updateCircleProgress: typeof updateCircleProgress;
     classes: typeof classes;
     computedVisiblePercentage: typeof computedVisiblePercentage;
     progressBarStyles: typeof progressBarStyles;

@@ -50,7 +50,7 @@ const progressDuration = ref(props.duration);
 const animationStep = ref(progressDuration.value === 0 ? 1 : (100 / (progressDuration.value / 100)));
 
 function updateProgress() {
-    if (props.animation === ProgressAnimation.Decremental && progress.value > 0) {
+    if (props.animation === ProgressAnimation.Decremental && progress.value > progressLowerLimit.value) {
         progress.value -= animationStep.value;
 
     } else if (props.animation === ProgressAnimation.Incremental && progress.value < progressHigherLimit.value) {
@@ -76,21 +76,26 @@ function pauseProgress() {
     isAnimating.value = false;
 }
 
+const circleProgress = ref(progress.value);
+const updateCircleProgress = (n:number) => circleProgress.value = n;
+
 const classes = computed(() => {
-        let r = [];
+        let r = ['lkt-progress--fill-0'];
 
         if (props.type === ProgressType.Circle) r.push('is-circle');
         if (props.type === ProgressType.Bar) r.push('is-bar');
-        if (progress.value >= 10) r.push('lkt-progress--fill-10');
-        if (progress.value >= 20) r.push('lkt-progress--fill-20');
-        if (progress.value >= 30) r.push('lkt-progress--fill-30');
-        if (progress.value >= 40) r.push('lkt-progress--fill-40');
-        if (progress.value >= 50) r.push('lkt-progress--fill-50');
-        if (progress.value >= 60) r.push('lkt-progress--fill-60');
-        if (progress.value >= 70) r.push('lkt-progress--fill-70');
-        if (progress.value >= 80) r.push('lkt-progress--fill-80');
-        if (progress.value >= 90) r.push('lkt-progress--fill-90');
-        if (progress.value >= 100) r.push('lkt-progress--fill-100');
+        const p = props.type === ProgressType.Bar ? progress.value : circleProgress.value;
+
+        if (p >= 10) r.push('lkt-progress--fill-10');
+        if (p >= 20) r.push('lkt-progress--fill-20');
+        if (p >= 30) r.push('lkt-progress--fill-30');
+        if (p >= 40) r.push('lkt-progress--fill-40');
+        if (p >= 50) r.push('lkt-progress--fill-50');
+        if (p >= 60) r.push('lkt-progress--fill-60');
+        if (p >= 70) r.push('lkt-progress--fill-70');
+        if (p >= 80) r.push('lkt-progress--fill-80');
+        if (p >= 90) r.push('lkt-progress--fill-90');
+        if (p >= 100) r.push('lkt-progress--fill-100');
 
         return r.join(' ');
     }),
@@ -161,6 +166,7 @@ defineExpose({
                 :stroke-width="strokeWidth"
                 :duration="duration"
                 :direction="direction"
+                @progress-updated="updateCircleProgress"
             />
         </div>
 
