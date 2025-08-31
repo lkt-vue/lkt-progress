@@ -271,14 +271,38 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     direction: { default: "right" },
     valueFormat: {}
   },
-  setup(__props) {
+  emits: ["progress-updated"],
+  setup(__props, { emit: __emit }) {
+    var _a2;
     const props = __props;
     const currentProgress = ref(props.progress);
+    const duration = ref((_a2 = props.duration) != null ? _a2 : 1e3);
+    const emit = __emit;
     const computedVisiblePercentage = computed(() => {
       return getVisiblePercentage(currentProgress.value, props.valueFormat);
     }), progressBarStyles = computed(() => {
       return "width: calc(" + computedVisiblePercentage.value + "%)";
     });
+    function animateProgress(target) {
+      const start = props.animation === zt.Incremental ? currentProgress.value : 100;
+      const change = props.animation === zt.Incremental ? props.progressHigherLimit - start : start - props.progressLowerLimit;
+      const startTime = performance.now();
+      function animate(time) {
+        const elapsed = time - startTime;
+        const progress = Math.min(elapsed / duration.value, 1);
+        if (props.animation === zt.Incremental) {
+          currentProgress.value = start + change * progress;
+        } else if (props.animation === zt.Decremental) {
+          currentProgress.value = start - change * progress;
+        }
+        emit("progress-updated", currentProgress.value);
+        if (progress < 1) requestAnimationFrame(animate);
+      }
+      requestAnimationFrame(animate);
+    }
+    watch(() => props.progress, (newVal) => {
+      animateProgress();
+    }, { immediate: true });
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock("div", _hoisted_1$1, [
         createElementVNode("div", _hoisted_2$1, [
