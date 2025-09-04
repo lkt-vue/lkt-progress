@@ -2,7 +2,7 @@ var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
 var _a, _b;
-import { defineComponent, ref, computed, watch, createElementBlock, openBlock, createElementVNode, toDisplayString, createCommentVNode, normalizeStyle, mergeDefaults, useSlots, onMounted, normalizeClass, renderSlot, unref, Fragment, createTextVNode, createVNode, mergeProps } from "vue";
+import { defineComponent, ref, computed, watch, createElementBlock, openBlock, createElementVNode, toDisplayString, createCommentVNode, normalizeStyle, mergeDefaults, useSlots, normalizeClass, renderSlot, unref, Fragment, createTextVNode, createVNode, mergeProps } from "vue";
 import "lkt-i18n";
 import "lkt-string-tools";
 var It = ((c) => (c.Button = "button", c.Submit = "submit", c.Reset = "reset", c.Anchor = "anchor", c.Content = "content", c.Switch = "switch", c.HiddenSwitch = "hidden-switch", c.Split = "split", c.SplitLazy = "split-lazy", c.SplitEver = "split-ever", c.Tooltip = "tooltip", c.TooltipLazy = "tooltip-lazy", c.TooltipEver = "tooltip-ever", c.FileUpload = "file-upload", c.ImageUpload = "image-upload", c))(It || {});
@@ -138,6 +138,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     const radius = computed(() => (size.value - strokeWidth.value) / 2);
     const circumference = computed(() => 2 * Math.PI * radius.value);
     const offset = computed(() => circumference.value * (1 - currentProgress.value / 100));
+    let animationId = null;
     const ballPos = computed(() => {
       const angle = 2 * Math.PI * (currentProgress.value / 100);
       const cx = size.value / 2;
@@ -154,7 +155,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     });
     const ballCircumference = computed(() => 2 * Math.PI * ballRadius.value);
     function animateProgress(target) {
-      const start = props.animation === zt.Incremental ? currentProgress.value : 100;
+      const start = currentProgress.value;
       const change = props.animation === zt.Incremental ? props.progressHigherLimit - start : start - props.progressLowerLimit;
       const startTime = performance.now();
       function animate(time) {
@@ -166,9 +167,15 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
           currentProgress.value = start - change * progress;
         }
         emit("progress-updated", currentProgress.value);
-        if (progress < 1) requestAnimationFrame(animate);
+        if (progress < 1) animationId = requestAnimationFrame(animate);
       }
-      requestAnimationFrame(animate);
+      animationId = requestAnimationFrame(animate);
+    }
+    function pauseAnimation() {
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+        animationId = null;
+      }
     }
     const computedVisiblePercentage = computed(() => {
       return getVisiblePercentage(currentProgress.value, props.valueFormat);
@@ -180,6 +187,15 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     watch(() => props.progress, (newVal) => {
       animateProgress();
     }, { immediate: true });
+    watch(() => props.hasHover, (hasHover) => {
+      if (props.pauseOnHover) {
+        if (hasHover) {
+          pauseAnimation();
+        } else {
+          animateProgress(props.progress);
+        }
+      }
+    });
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock("div", _hoisted_1$2, [
         (openBlock(), createElementBlock("svg", {
@@ -254,7 +270,7 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const ProgressCircle = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-bfe74f17"]]);
+const ProgressCircle = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-306f08c7"]]);
 const _hoisted_1$1 = { class: "lkt-progress-content" };
 const _hoisted_2$1 = { class: "lkt-progress-bar" };
 const _hoisted_3$1 = ["aria-valuenow"];
@@ -281,6 +297,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     const props = __props;
     const currentProgress = ref(props.progress);
     const duration = ref((_a2 = props.duration) != null ? _a2 : 1e3);
+    let animationId = null;
     const emit = __emit;
     const computedVisiblePercentage = computed(() => {
       return getVisiblePercentage(currentProgress.value, props.valueFormat);
@@ -288,7 +305,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
       return "width: calc(" + computedVisiblePercentage.value + "%)";
     });
     function animateProgress(target) {
-      const start = props.animation === zt.Incremental ? currentProgress.value : 100;
+      const start = currentProgress.value;
       const change = props.animation === zt.Incremental ? props.progressHigherLimit - start : start - props.progressLowerLimit;
       const startTime = performance.now();
       function animate(time) {
@@ -300,13 +317,28 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
           currentProgress.value = start - change * progress;
         }
         emit("progress-updated", currentProgress.value);
-        if (progress < 1) requestAnimationFrame(animate);
+        if (progress < 1) animationId = requestAnimationFrame(animate);
       }
-      requestAnimationFrame(animate);
+      animationId = requestAnimationFrame(animate);
+    }
+    function pauseAnimation() {
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+        animationId = null;
+      }
     }
     watch(() => props.progress, (newVal) => {
       animateProgress();
     }, { immediate: true });
+    watch(() => props.hasHover, (hasHover) => {
+      if (props.pauseOnHover) {
+        if (hasHover) {
+          pauseAnimation();
+        } else {
+          animateProgress(props.progress);
+        }
+      }
+    });
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock("div", _hoisted_1$1, [
         createElementVNode("div", _hoisted_2$1, [
@@ -352,7 +384,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     "mouseleave",
     "end"
   ],
-  setup(__props, { expose: __expose, emit: __emit }) {
+  setup(__props, { emit: __emit }) {
     var _a2, _b2, _c, _d, _e, _f, _g, _h;
     const emit = __emit;
     const slots = useSlots();
@@ -379,32 +411,6 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     watch(progress, (v) => {
       emit("update:modelValue", v);
     });
-    const isAnimating = ref(false);
-    let intervalId;
-    const progressDuration = ref(props.duration);
-    const animationStep = ref(progressDuration.value === 0 ? 1 : 100 / (progressDuration.value / 100));
-    function updateProgress() {
-      if (props.animation === zt.Decremental && progress.value > progressLowerLimit.value) {
-        progress.value -= animationStep.value;
-      } else if (props.animation === zt.Incremental && progress.value < progressHigherLimit.value) {
-        progress.value += animationStep.value;
-      } else {
-        clearInterval(intervalId);
-        isAnimating.value = false;
-        emit("end");
-      }
-    }
-    function startProgress() {
-      if (props.type === Yt.Bar && (props.animation === zt.Incremental || props.animation === zt.Decremental)) {
-        if (isAnimating.value) return;
-        intervalId = setInterval(updateProgress, 100);
-        isAnimating.value = true;
-      }
-    }
-    function pauseProgress() {
-      clearInterval(intervalId);
-      isAnimating.value = false;
-    }
     const circleProgress = ref(progress.value);
     const updateCircleProgress = (n) => circleProgress.value = n;
     const classes = computed(() => {
@@ -435,13 +441,6 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     const ballRadius = ref((_e = (_d = (_c = props.circle) == null ? void 0 : _c.ball) == null ? void 0 : _d.radius) != null ? _e : 50);
     const strokeWidth = ref((_h = (_g = (_f = props.circle) == null ? void 0 : _f.track) == null ? void 0 : _g.width) != null ? _h : 10);
     const circleWidth = ref(circleRadius.value * 2);
-    onMounted(() => {
-      startProgress();
-    });
-    __expose({
-      start: startProgress,
-      pause: pauseProgress
-    });
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock("section", {
         class: normalizeClass(["lkt-progress", classes.value]),

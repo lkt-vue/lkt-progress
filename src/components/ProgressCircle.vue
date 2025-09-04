@@ -25,6 +25,8 @@ const radius = computed(() => (size.value - strokeWidth.value) / 2);
 const circumference = computed(() => 2 * Math.PI * radius.value);
 const offset = computed(() => circumference.value * (1 - currentProgress.value / 100));
 
+let animationId: number | null = null;
+
 
 const ballPos = computed(() => {
     const angle = 2 * Math.PI * (currentProgress.value / 100);
@@ -44,7 +46,7 @@ const ballRadius = computed(() => {
 const ballCircumference = computed(() => 2 * Math.PI * ballRadius.value);
 
 function animateProgress(target: number) {
-    const start = props.animation === ProgressAnimation.Incremental ? currentProgress.value : 100;
+    const start = currentProgress.value;
     const change = props.animation === ProgressAnimation.Incremental ? props.progressHigherLimit - start : start - props.progressLowerLimit;
     const startTime = performance.now();
 
@@ -58,10 +60,17 @@ function animateProgress(target: number) {
             currentProgress.value = start - change * progress;
         }
         emit('progress-updated', currentProgress.value)
-        if (progress < 1) requestAnimationFrame(animate);
+        if (progress < 1) animationId = requestAnimationFrame(animate);
     }
 
-    requestAnimationFrame(animate);
+    animationId = requestAnimationFrame(animate);
+}
+
+function pauseAnimation() {
+    if (animationId) {
+        cancelAnimationFrame(animationId);
+        animationId = null;
+    }
 }
 
 
@@ -77,6 +86,17 @@ const computedDirectionStyles = computed(() => {
 watch(() => props.progress, (newVal) => {
     animateProgress(newVal);
 }, { immediate: true });
+
+watch(() => props.hasHover, (hasHover: boolean) => {
+    if (props.pauseOnHover) {
+
+        if (hasHover) {
+            pauseAnimation();
+        } else {
+            animateProgress(props.progress)
+        }
+    }
+})
 </script>
 
 <template>

@@ -12,6 +12,8 @@ const props = withDefaults(defineProps<ProgressBarProps>(), {
 const currentProgress = ref(props.progress);
 const duration = ref(props.duration ?? 1000);
 
+let animationId: number | null = null;
+
 const emit = defineEmits(['progress-updated']);
 
 const
@@ -23,7 +25,7 @@ const
     });
 
 function animateProgress(target: number) {
-    const start = props.animation === ProgressAnimation.Incremental ? currentProgress.value : 100;
+    const start = currentProgress.value;
     const change = props.animation === ProgressAnimation.Incremental ? props.progressHigherLimit - start : start - props.progressLowerLimit;
     const startTime = performance.now();
 
@@ -37,10 +39,17 @@ function animateProgress(target: number) {
             currentProgress.value = start - change * progress;
         }
         emit('progress-updated', currentProgress.value)
-        if (progress < 1) requestAnimationFrame(animate);
+        if (progress < 1) animationId = requestAnimationFrame(animate);
     }
 
-    requestAnimationFrame(animate);
+    animationId = requestAnimationFrame(animate);
+}
+
+function pauseAnimation() {
+    if (animationId) {
+        cancelAnimationFrame(animationId);
+        animationId = null;
+    }
 }
 
 
@@ -48,6 +57,17 @@ function animateProgress(target: number) {
 watch(() => props.progress, (newVal) => {
     animateProgress(newVal);
 }, { immediate: true });
+
+watch(() => props.hasHover, (hasHover: boolean) => {
+    if (props.pauseOnHover) {
+
+        if (hasHover) {
+            pauseAnimation();
+        } else {
+            animateProgress(props.progress)
+        }
+    }
+})
 </script>
 
 <template>

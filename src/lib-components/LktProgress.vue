@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, onMounted, ref, useSlots, watch} from "vue";
+import {computed, ref, useSlots, watch} from "vue";
 import {getDefaultValues, Progress, ProgressAnimation, ProgressConfig, ProgressType} from "lkt-vue-kernel";
 import ProgressCircle from "../components/ProgressCircle.vue";
 import {ProgressCircleProps} from "../props/ProgressCircleProps";
@@ -48,38 +48,6 @@ watch(progress, (v) => {
     emit('update:modelValue', v);
 })
 
-const isAnimating = ref(false);
-let intervalId: any;
-const progressDuration = ref(props.duration);
-const animationStep = ref(progressDuration.value === 0 ? 1 : (100 / (progressDuration.value / 100)));
-
-function updateProgress() {
-    if (props.animation === ProgressAnimation.Decremental && progress.value > progressLowerLimit.value) {
-        progress.value -= animationStep.value;
-
-    } else if (props.animation === ProgressAnimation.Incremental && progress.value < progressHigherLimit.value) {
-        progress.value += animationStep.value;
-
-    } else {
-        clearInterval(intervalId);
-        isAnimating.value = false;
-        emit('end');
-    }
-}
-
-function startProgress() {
-    if (props.type === ProgressType.Bar && (props.animation === ProgressAnimation.Incremental || props.animation === ProgressAnimation.Decremental)) {
-        if (isAnimating.value) return;
-        intervalId = setInterval(updateProgress, 100); // Update each 100 ms
-        isAnimating.value = true;
-    }
-}
-
-function pauseProgress() {
-    clearInterval(intervalId);
-    isAnimating.value = false;
-}
-
 const circleProgress = ref(progress.value);
 const updateCircleProgress = (n:number) => circleProgress.value = n;
 
@@ -106,16 +74,10 @@ const classes = computed(() => {
 
 const onMouseEnter = (event: MouseEvent) => {
         hasHover.value = true;
-        // if (props.pauseOnHover) {
-        //     pauseProgress();
-        // }
         emit('mouseenter', event);
     },
     onMouseLeave = (event: MouseEvent) => {
         hasHover.value = false;
-        // if (props.pauseOnHover) {
-        //     startProgress();
-        // }
         emit('mouseleave', event);
     };
 
@@ -123,15 +85,6 @@ const circleRadius = ref(props.circle?.radius ?? 50);
 const ballRadius = ref(props.circle?.ball?.radius ?? 50);
 const strokeWidth = ref(props.circle?.track?.width ?? 10);
 const circleWidth = ref(circleRadius.value * 2);
-
-onMounted(() => {
-    startProgress();
-})
-
-defineExpose({
-    start: startProgress,
-    pause: pauseProgress,
-})
 </script>
 
 <template>

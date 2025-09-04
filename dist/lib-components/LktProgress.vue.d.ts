@@ -8,8 +8,6 @@ declare const progress: import("vue").Ref<number, number>;
 declare const progressHigherLimit: import("vue").Ref<number, number>;
 declare const progressLowerLimit: import("vue").Ref<number, number>;
 declare const hasHover: import("vue").Ref<boolean, boolean>;
-declare function startProgress(): void;
-declare function pauseProgress(): void;
 declare const updateCircleProgress: (n: number) => number;
 declare const classes: import("vue").ComputedRef<string>;
 declare const onMouseEnter: (event: MouseEvent) => void, onMouseLeave: (event: MouseEvent) => void;
@@ -57,10 +55,7 @@ declare const __VLS_self: import("vue").DefineComponent<ProgressConfig, {
     pauseOnHover: boolean;
     valueFormat: import("lkt-vue-kernel").ProgressValueFormat;
 }, {}, {}, {}, string, import("vue").ComponentProvideOptions, false, {}, any>;
-declare const __VLS_component: import("vue").DefineComponent<ProgressConfig, {
-    start: typeof startProgress;
-    pause: typeof pauseProgress;
-}, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
+declare const __VLS_component: import("vue").DefineComponent<ProgressConfig, {}, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
     end: (...args: any[]) => void;
     mouseenter: (...args: any[]) => void;
     mouseleave: (...args: any[]) => void;
