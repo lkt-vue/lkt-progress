@@ -100,6 +100,19 @@ const getVisiblePercentage = (progress, format) => {
   }
   return r;
 };
+const getAnimationDistance = (currentPercentage, animation, highLimit, lowLimit) => {
+  switch (animation) {
+    case zt.Incremental:
+      return highLimit - currentPercentage;
+    case zt.Decremental:
+      return currentPercentage - lowLimit;
+    default:
+      return 0;
+  }
+};
+const getAnimationDistanceStep = (distance, duration) => {
+  return distance / duration * (duration / 100);
+};
 const _hoisted_1$2 = { class: "progress-circle" };
 const _hoisted_2$2 = ["width", "height", "viewBox"];
 const _hoisted_3$2 = ["cx", "cy", "r", "stroke-width"];
@@ -139,6 +152,11 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     const circumference = computed(() => 2 * Math.PI * radius.value);
     const offset = computed(() => circumference.value * (1 - currentProgress.value / 100));
     let animationId = null;
+    const paused = ref(false);
+    let animationLimit = computed(() => {
+      return props.animation === zt.Incremental ? props.progressHigherLimit : props.progressLowerLimit;
+    });
+    const animationDistance = getAnimationDistance(props.progress, props.animation, props.progressHigherLimit, props.progressLowerLimit);
     const ballPos = computed(() => {
       const angle = 2 * Math.PI * (currentProgress.value / 100);
       const cx = size.value / 2;
@@ -154,20 +172,30 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
       return (size.value / 2 - strokeWidth.value) / 8;
     });
     const ballCircumference = computed(() => 2 * Math.PI * ballRadius.value);
-    function animateProgress(target) {
-      const start = currentProgress.value;
-      const change = props.animation === zt.Incremental ? props.progressHigherLimit - start : start - props.progressLowerLimit;
-      const startTime = performance.now();
+    function animateProgress() {
+      if (paused.value) return;
+      if (currentProgress.value === animationLimit.value) return;
       function animate(time) {
-        const elapsed = time - startTime;
-        const progress = Math.min(elapsed / duration.value, 1);
+        if (paused.value || currentProgress.value === animationLimit.value) {
+          if (animationId) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+          }
+          return;
+        }
+        const progress = getAnimationDistanceStep(animationDistance, duration.value);
         if (props.animation === zt.Incremental) {
-          currentProgress.value = start + change * progress;
+          currentProgress.value = Math.min(currentProgress.value + progress, props.progressHigherLimit);
         } else if (props.animation === zt.Decremental) {
-          currentProgress.value = start - change * progress;
+          currentProgress.value = Math.max(currentProgress.value - progress, props.progressLowerLimit);
         }
         emit("progress-updated", currentProgress.value);
-        if (progress < 1) animationId = requestAnimationFrame(animate);
+        if (currentProgress.value !== animationLimit.value) {
+          animationId = requestAnimationFrame(animate);
+        } else {
+          cancelAnimationFrame(animationId);
+          animationId = null;
+        }
       }
       animationId = requestAnimationFrame(animate);
     }
@@ -175,6 +203,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
       if (animationId) {
         cancelAnimationFrame(animationId);
         animationId = null;
+        paused.value = true;
       }
     }
     const computedVisiblePercentage = computed(() => {
@@ -191,8 +220,9 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
       if (props.pauseOnHover) {
         if (hasHover) {
           pauseAnimation();
-        } else {
-          animateProgress(props.progress);
+        } else if (currentProgress.value !== animationLimit.value) {
+          paused.value = false;
+          animateProgress();
         }
       }
     });
@@ -270,7 +300,7 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const ProgressCircle = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-306f08c7"]]);
+const ProgressCircle = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-8e3fd6d6"]]);
 const _hoisted_1$1 = { class: "lkt-progress-content" };
 const _hoisted_2$1 = { class: "lkt-progress-bar" };
 const _hoisted_3$1 = ["aria-valuenow"];
@@ -298,26 +328,41 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     const currentProgress = ref(props.progress);
     const duration = ref((_a2 = props.duration) != null ? _a2 : 1e3);
     let animationId = null;
+    const paused = ref(false);
+    let animationLimit = computed(() => {
+      return props.animation === zt.Incremental ? props.progressHigherLimit : props.progressLowerLimit;
+    });
+    const animationDistance = getAnimationDistance(props.progress, props.animation, props.progressHigherLimit, props.progressLowerLimit);
     const emit = __emit;
     const computedVisiblePercentage = computed(() => {
       return getVisiblePercentage(currentProgress.value, props.valueFormat);
     }), progressBarStyles = computed(() => {
       return "width: calc(" + computedVisiblePercentage.value + "%)";
     });
-    function animateProgress(target) {
-      const start = currentProgress.value;
-      const change = props.animation === zt.Incremental ? props.progressHigherLimit - start : start - props.progressLowerLimit;
-      const startTime = performance.now();
+    function animateProgress() {
+      if (paused.value) return;
+      if (currentProgress.value === animationLimit.value) return;
       function animate(time) {
-        const elapsed = time - startTime;
-        const progress = Math.min(elapsed / duration.value, 1);
+        if (paused.value || currentProgress.value === animationLimit.value) {
+          if (animationId) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+          }
+          return;
+        }
+        const progress = getAnimationDistanceStep(animationDistance, duration.value);
         if (props.animation === zt.Incremental) {
-          currentProgress.value = start + change * progress;
+          currentProgress.value = Math.min(currentProgress.value + progress, props.progressHigherLimit);
         } else if (props.animation === zt.Decremental) {
-          currentProgress.value = start - change * progress;
+          currentProgress.value = Math.max(currentProgress.value - progress, props.progressLowerLimit);
         }
         emit("progress-updated", currentProgress.value);
-        if (progress < 1) animationId = requestAnimationFrame(animate);
+        if (currentProgress.value !== animationLimit.value) {
+          animationId = requestAnimationFrame(animate);
+        } else {
+          cancelAnimationFrame(animationId);
+          animationId = null;
+        }
       }
       animationId = requestAnimationFrame(animate);
     }
@@ -325,6 +370,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
       if (animationId) {
         cancelAnimationFrame(animationId);
         animationId = null;
+        paused.value = true;
       }
     }
     watch(() => props.progress, (newVal) => {
@@ -334,8 +380,9 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
       if (props.pauseOnHover) {
         if (hasHover) {
           pauseAnimation();
-        } else {
-          animateProgress(props.progress);
+        } else if (currentProgress.value !== animationLimit.value) {
+          paused.value = false;
+          animateProgress();
         }
       }
     });
