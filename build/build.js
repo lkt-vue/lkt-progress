@@ -2,7 +2,7 @@ var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
 var _a, _b;
-import { defineComponent, ref, useSlots, computed, watch, createElementBlock, openBlock, createElementVNode, unref, renderSlot, normalizeProps, guardReactiveProps, toDisplayString, createCommentVNode, normalizeStyle, mergeDefaults, resolveComponent, normalizeClass, createBlock, mergeProps, createSlots, withCtx, createVNode } from "vue";
+import { defineComponent, ref, useSlots, computed, watch, createElementBlock, openBlock, createElementVNode, unref, renderSlot, normalizeProps, guardReactiveProps, toDisplayString, createCommentVNode, normalizeStyle, mergeDefaults, resolveComponent, normalizeClass, createBlock, mergeProps, createSlots, withCtx } from "vue";
 import "lkt-i18n";
 import "lkt-string-tools";
 var It = ((c) => (c.Button = "button", c.Submit = "submit", c.Reset = "reset", c.Anchor = "anchor", c.Content = "content", c.Switch = "switch", c.HiddenSwitch = "hidden-switch", c.Split = "split", c.SplitLazy = "split-lazy", c.SplitEver = "split-ever", c.Tooltip = "tooltip", c.TooltipLazy = "tooltip-lazy", c.TooltipEver = "tooltip-ever", c.FileUpload = "file-upload", c.ImageUpload = "image-upload", c))(It || {});
@@ -127,7 +127,7 @@ const getAnimationDistanceStep = (distance, duration) => {
   return distance / duration * (duration / 100);
 };
 const _hoisted_1$2 = { class: "progress-circle" };
-const _hoisted_2$2 = ["width", "height", "viewBox"];
+const _hoisted_2$1 = ["width", "height", "viewBox"];
 const _hoisted_3$1 = ["cx", "cy", "r", "stroke-width"];
 const _hoisted_4$1 = ["cx", "cy", "r", "stroke-width"];
 const _hoisted_5$1 = ["cx", "cy", "r", "stroke-dasharray", "stroke-dashoffset", "stroke-width", "transform"];
@@ -316,7 +316,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
             "stroke-width": 2,
             transform: computedDirectionStyles.value
           }, null, 8, _hoisted_7)
-        ], 8, _hoisted_2$2)),
+        ], 8, _hoisted_2$1)),
         unref(slots).text ? (openBlock(), createElementBlock("div", _hoisted_8, [
           renderSlot(_ctx.$slots, "text", normalizeProps(guardReactiveProps({
             text: _ctx.text,
@@ -329,7 +329,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
   }
 });
 const _hoisted_1$1 = { class: "lkt-progress--content" };
-const _hoisted_2$1 = { class: "lkt-progress--bar" };
+const _hoisted_2 = { class: "lkt-progress--bar" };
 const _hoisted_3 = ["aria-valuenow"];
 const _hoisted_4 = {
   key: 0,
@@ -429,7 +429,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     });
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock("div", _hoisted_1$1, [
-        createElementVNode("div", _hoisted_2$1, [
+        createElementVNode("div", _hoisted_2, [
           createElementVNode("div", {
             class: "lkt-progress--bar-percentage",
             style: normalizeStyle(progressBarStyles.value),
@@ -450,14 +450,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _hoisted_1 = {
-  key: 1,
-  class: "lkt-progress--content"
-};
-const _hoisted_2 = {
-  key: 2,
-  class: "lkt-progress--content"
-};
+const _hoisted_1 = { class: "lkt-progress--content" };
 const _sfc_main = /* @__PURE__ */ defineComponent({
   __name: "LktProgress",
   props: /* @__PURE__ */ mergeDefaults({
@@ -555,7 +548,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
         onMouseenter: onMouseEnter,
         onMouseleave: onMouseLeave
       }, [
-        ((_a3 = _ctx.header) == null ? void 0 : _a3.text) || unref(slots).header ? (openBlock(), createBlock(_component_lkt_header, mergeProps({ key: 0 }, _ctx.header, { class: "lkt-banner--header" }), createSlots({ _: 2 }, [
+        ((_a3 = _ctx.header) == null ? void 0 : _a3.text) || unref(slots).header ? (openBlock(), createBlock(_component_lkt_header, mergeProps({ key: 0 }, _ctx.header, { class: "lkt-progress--header" }), createSlots({ _: 2 }, [
           unref(slots).header ? {
             name: "text",
             fn: withCtx(() => [
@@ -564,8 +557,9 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
             key: "0"
           } : void 0
         ]), 1040)) : createCommentVNode("", true),
-        _ctx.type === unref(Yt).Circle ? (openBlock(), createElementBlock("div", _hoisted_1, [
-          createVNode(_sfc_main$2, mergeProps({
+        createElementVNode("div", _hoisted_1, [
+          _ctx.type === unref(Yt).Circle ? (openBlock(), createBlock(_sfc_main$2, mergeProps({
+            key: 0,
             ref_key: "progressRef",
             ref: progressRef
           }, {
@@ -595,9 +589,8 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
               ]),
               key: "0"
             } : void 0
-          ]), 1040)
-        ])) : _ctx.type === unref(Yt).Bar ? (openBlock(), createElementBlock("div", _hoisted_2, [
-          createVNode(_sfc_main$1, mergeProps({
+          ]), 1040)) : _ctx.type === unref(Yt).Bar ? (openBlock(), createBlock(_sfc_main$1, mergeProps({
+            key: 1,
             ref_key: "progressRef",
             ref: progressRef
           }, {
@@ -627,8 +620,8 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
               ]),
               key: "0"
             } : void 0
-          ]), 1040)
-        ])) : createCommentVNode("", true)
+          ]), 1040)) : createCommentVNode("", true)
+        ])
       ], 34);
     };
   }

@@ -118,14 +118,16 @@ defineExpose({
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave">
 
-        <lkt-header v-if="header?.text || slots.header" v-bind="header" class="lkt-banner--header">
+        <lkt-header v-if="header?.text || slots.header" v-bind="header" class="lkt-progress--header">
             <template v-if="slots.header" #text>
                 <slot name="header" />
             </template>
         </lkt-header>
 
-        <div v-if="type === ProgressType.Circle"  class="lkt-progress--content">
+
+        <div class="lkt-progress--content">
             <progress-circle
+                v-if="type === ProgressType.Circle"
                 ref="progressRef"
                 v-bind="<ProgressCircleProps>{
                     progress,
@@ -153,10 +155,9 @@ defineExpose({
                     }"/>
                 </template>
             </progress-circle>
-        </div>
 
-        <div v-else-if="type === ProgressType.Bar"  class="lkt-progress--content">
             <progress-bar
+                v-else-if="type === ProgressType.Bar"
                 ref="progressRef"
                 v-bind="<ProgressBarProps>{
                     progress,
