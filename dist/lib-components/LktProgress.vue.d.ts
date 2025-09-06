@@ -8,6 +8,7 @@ declare const progress: import("vue").Ref<number, number>;
 declare const progressHigherLimit: import("vue").Ref<number, number>;
 declare const progressLowerLimit: import("vue").Ref<number, number>;
 declare const hasHover: import("vue").Ref<boolean, boolean>;
+declare const progressRef: import("vue").Ref<null, null>;
 declare const updateCircleProgress: (n: number) => number;
 declare const classes: import("vue").ComputedRef<string>;
 declare const onMouseEnter: (event: MouseEvent) => void, onMouseLeave: (event: MouseEvent) => void;
@@ -16,11 +17,11 @@ declare const strokeWidth: import("vue").Ref<number, number>;
 declare const circleWidth: import("vue").Ref<number, number>;
 declare const computedVisiblePercentage: import("vue").ComputedRef<string>;
 declare const __VLS_ctx: InstanceType<__VLS_PickNotAny<typeof __VLS_self, new () => {}>>;
-declare var __VLS_5: {}, __VLS_14: {
+declare var __VLS_5: {}, __VLS_16: {
     text: string;
     progress: number;
     unit?: import("lkt-vue-kernel").UnitConfig;
-}, __VLS_23: {
+}, __VLS_27: {
     text: string;
     progress: number;
     unit?: import("lkt-vue-kernel").UnitConfig;
@@ -28,9 +29,9 @@ declare var __VLS_5: {}, __VLS_14: {
 type __VLS_Slots = __VLS_PrettifyGlobal<__VLS_OmitStringIndex<typeof __VLS_ctx.$slots> & {
     header?: (props: typeof __VLS_5) => any;
 } & {
-    text?: (props: typeof __VLS_14) => any;
+    text?: (props: typeof __VLS_16) => any;
 } & {
-    text?: (props: typeof __VLS_23) => any;
+    text?: (props: typeof __VLS_27) => any;
 }>;
 declare const __VLS_self: import("vue").DefineComponent<ProgressConfig, {
     ProgressType: typeof ProgressType;
@@ -41,6 +42,7 @@ declare const __VLS_self: import("vue").DefineComponent<ProgressConfig, {
     progressHigherLimit: typeof progressHigherLimit;
     progressLowerLimit: typeof progressLowerLimit;
     hasHover: typeof hasHover;
+    progressRef: typeof progressRef;
     updateCircleProgress: typeof updateCircleProgress;
     classes: typeof classes;
     onMouseEnter: typeof onMouseEnter;
@@ -70,7 +72,10 @@ declare const __VLS_self: import("vue").DefineComponent<ProgressConfig, {
     pauseOnHover: boolean;
     valueFormat: import("lkt-vue-kernel").ProgressValueFormat;
 }, {}, {}, {}, string, import("vue").ComponentProvideOptions, false, {}, any>;
-declare const __VLS_component: import("vue").DefineComponent<ProgressConfig, {}, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
+declare const __VLS_component: import("vue").DefineComponent<ProgressConfig, {
+    pause: () => void;
+    start: () => void;
+}, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
     end: (...args: any[]) => void;
     mouseenter: (...args: any[]) => void;
     mouseleave: (...args: any[]) => void;

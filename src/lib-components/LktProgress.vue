@@ -45,6 +45,7 @@ if (props.animation === ProgressAnimation.Decremental) {
 }
 
 const hasHover = ref(false);
+const progressRef = ref(null);
 
 watch(() => props.modelValue, (v) => {
     if (v > 100) v = 100;
@@ -97,6 +98,17 @@ const circleWidth = ref(circleRadius.value * 2);
 const computedVisiblePercentage = computed(() => {
     return getFinalText(getVisiblePercentage(circleProgress.value, props.valueFormat), props.unit);
 });
+
+defineExpose({
+    pause: () => {
+        //@ts-ignore
+        if (progressRef.value) progressRef.value.pause();
+    },
+    start: () => {
+        //@ts-ignore
+        if (progressRef.value) progressRef.value.start();
+    },
+})
 </script>
 
 <template>
@@ -114,6 +126,7 @@ const computedVisiblePercentage = computed(() => {
 
         <div v-if="type === ProgressType.Circle"  class="lkt-progress-content">
             <progress-circle
+                ref="progressRef"
                 v-bind="<ProgressCircleProps>{
                     progress,
                     progressHigherLimit,
@@ -144,6 +157,7 @@ const computedVisiblePercentage = computed(() => {
 
         <div v-else-if="type === ProgressType.Bar"  class="lkt-progress-content">
             <progress-bar
+                ref="progressRef"
                 v-bind="<ProgressBarProps>{
                     progress,
                     progressHigherLimit,

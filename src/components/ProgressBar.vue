@@ -85,6 +85,16 @@ watch(() => props.hasHover, (hasHover: boolean) => {
         }
     }
 });
+
+defineExpose({
+    pause: () => {
+        paused.value = true;
+    },
+    start: () => {
+        paused.value = false;
+        animateProgress();
+    },
+})
 </script>
 
 <template>

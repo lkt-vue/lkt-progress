@@ -161,7 +161,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     hasHover: { type: Boolean }
   },
   emits: ["progress-updated"],
-  setup(__props, { emit: __emit }) {
+  setup(__props, { expose: __expose, emit: __emit }) {
     var _a2, _b2, _c;
     const props = __props;
     const currentProgress = ref(props.progress);
@@ -244,6 +244,15 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
           paused.value = false;
           animateProgress();
         }
+      }
+    });
+    __expose({
+      pause: () => {
+        paused.value = true;
+      },
+      start: () => {
+        paused.value = false;
+        animateProgress();
       }
     });
     return (_ctx, _cache) => {
@@ -346,7 +355,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     hasHover: { type: Boolean }
   },
   emits: ["progress-updated"],
-  setup(__props, { emit: __emit }) {
+  setup(__props, { expose: __expose, emit: __emit }) {
     var _a2;
     const props = __props;
     const currentProgress = ref(props.progress);
@@ -409,6 +418,15 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
         }
       }
     });
+    __expose({
+      pause: () => {
+        paused.value = true;
+      },
+      start: () => {
+        paused.value = false;
+        animateProgress();
+      }
+    });
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock("div", _hoisted_1$1, [
         createElementVNode("div", _hoisted_2$1, [
@@ -460,7 +478,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     "mouseleave",
     "end"
   ],
-  setup(__props, { emit: __emit }) {
+  setup(__props, { expose: __expose, emit: __emit }) {
     var _a2, _b2, _c, _d, _e, _f, _g, _h;
     const emit = __emit;
     const slots = useSlots();
@@ -479,6 +497,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       progress.value = progressHigherLimit.value;
     }
     const hasHover = ref(false);
+    const progressRef = ref(null);
     watch(() => props.modelValue, (v) => {
       if (v > 100) v = 100;
       if (v < 0) v = 0;
@@ -520,6 +539,14 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     const computedVisiblePercentage = computed(() => {
       return getFinalText(getVisiblePercentage(circleProgress.value, props.valueFormat), props.unit);
     });
+    __expose({
+      pause: () => {
+        if (progressRef.value) progressRef.value.pause();
+      },
+      start: () => {
+        if (progressRef.value) progressRef.value.start();
+      }
+    });
     return (_ctx, _cache) => {
       var _a3;
       const _component_lkt_header = resolveComponent("lkt-header");
@@ -539,6 +566,9 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
         ]), 1040)) : createCommentVNode("", true),
         _ctx.type === unref(Yt).Circle ? (openBlock(), createElementBlock("div", _hoisted_1, [
           createVNode(_sfc_main$2, mergeProps({
+            ref_key: "progressRef",
+            ref: progressRef
+          }, {
             progress: progress.value,
             progressHigherLimit: progressHigherLimit.value,
             progressLowerLimit: progressLowerLimit.value,
@@ -568,6 +598,9 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
           ]), 1040)
         ])) : _ctx.type === unref(Yt).Bar ? (openBlock(), createElementBlock("div", _hoisted_2, [
           createVNode(_sfc_main$1, mergeProps({
+            ref_key: "progressRef",
+            ref: progressRef
+          }, {
             progress: progress.value,
             progressHigherLimit: progressHigherLimit.value,
             progressLowerLimit: progressLowerLimit.value,
