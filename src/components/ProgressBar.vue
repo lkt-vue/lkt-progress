@@ -98,22 +98,22 @@ defineExpose({
 </script>
 
 <template>
-    <div class="lkt-progress-content">
-        <div class="lkt-progress-bar">
-            <div class="lkt-progress-bar-percentage"
+    <div class="lkt-progress--content">
+        <div class="lkt-progress--bar">
+            <div class="lkt-progress--bar-percentage"
                  :style="progressBarStyles"
                  role="progressbar"
                  :aria-valuenow="text"
                  :aria-valuemin="0"
                  :aria-valuemax="100"/>
         </div>
-        <div class="lkt-progress-indicator" v-if="slots.text">
+        <div class="lkt-progress--indicator" v-if="slots.text">
             <slot name="text" v-bind="<ProgressTextSlot>{
                 text,
                 progress: currentProgress,
                 unit,
             }"/>
         </div>
-        <div v-else-if="valueFormat !== 'hidden'" class="lkt-progress-indicator">{{ text }}</div>
+        <div v-else-if="valueFormat !== 'hidden'" class="lkt-progress--indicator">{{ text }}</div>
     </div>
 </template>

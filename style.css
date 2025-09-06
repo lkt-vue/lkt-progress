@@ -20,7 +20,7 @@
 /**
  * Progress Bar
  */
-.lkt-progress-indicator {
+.lkt-progress--indicator {
     display: block;
     font-weight: var(--lkt-progress--progress--font-weight);
     font-size: var(--lkt-progress--progress--font-size);
@@ -28,7 +28,7 @@
     margin: var(--lkt-progress--progress--margin);
 }
 
-.lkt-progress-content {
+.lkt-progress--content {
     width: 100%;
     display: flex;
     align-items: center;
@@ -36,7 +36,7 @@
     justify-content: space-between;
 }
 
-.lkt-progress-bar {
+.lkt-progress--bar {
     width: 100%;
     height: var(--lkt-progress--bar--height);
     border-radius: var(--lkt-progress--bar--border-radius);
@@ -45,7 +45,7 @@
     border-color: var(--lkt-progress--bar--border-color);
 }
 
-.lkt-progress-bar-percentage {
+.lkt-progress--bar-percentage {
     height: 100%;
     background: var(--lkt-progress--bar--percentage-color);
     transition: var(--lkt-progress--transition);
@@ -72,14 +72,14 @@
 .progress-ring--background {
     fill: transparent;
     stroke: var(--lkt-progress--track--background);
-    transition: stroke linear 333ms;
+    transition: var(--lkt-progress--track--transition);
 }
 
 .progress-ring--circle {
     fill: transparent;
     stroke-linecap: round;
     stroke: var(--lkt-progress--circle--background);
-    transition: stroke linear 333ms;
+    transition: var(--lkt-progress--circle--transition);
 }
 
 .progress-ring--circle-border {
@@ -88,17 +88,15 @@
     stroke: var(--lkt-progress--circle--border-color);
 }
 
-.progress-ring__text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
 .progress-ring--ball {
     fill: var(--lkt-progress--ball--background);
     stroke: var(--lkt-progress--ball--border-color);
     stroke-linecap: round;
+}
+
+.lkt-progress.is-circle .lkt-progress--indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }

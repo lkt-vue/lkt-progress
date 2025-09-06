@@ -41,4 +41,6 @@
     --lkt-progress--circle--background: #444444;
     --lkt-progress--track--background: #eeeeee;
     --lkt-progress--track--border-color: #eeeeee;
+    --lkt-progress--track--transition: stroke linear 100ms;
+    --lkt-progress--circle--transition: stroke linear 100ms;
 }

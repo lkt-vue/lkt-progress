@@ -135,11 +135,11 @@ const _hoisted_6 = ["cx", "cy", "r", "stroke-dasharray", "stroke-dashoffset", "s
 const _hoisted_7 = ["cx", "cy", "r", "stroke-dasharray", "transform"];
 const _hoisted_8 = {
   key: 0,
-  class: "progress-ring__text"
+  class: "lkt-progress--indicator"
 };
 const _hoisted_9 = {
   key: 1,
-  class: "progress-ring__text"
+  class: "lkt-progress--indicator"
 };
 const _sfc_main$2 = /* @__PURE__ */ defineComponent({
   __name: "ProgressCircle",
@@ -328,16 +328,16 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _hoisted_1$1 = { class: "lkt-progress-content" };
-const _hoisted_2$1 = { class: "lkt-progress-bar" };
+const _hoisted_1$1 = { class: "lkt-progress--content" };
+const _hoisted_2$1 = { class: "lkt-progress--bar" };
 const _hoisted_3 = ["aria-valuenow"];
 const _hoisted_4 = {
   key: 0,
-  class: "lkt-progress-indicator"
+  class: "lkt-progress--indicator"
 };
 const _hoisted_5 = {
   key: 1,
-  class: "lkt-progress-indicator"
+  class: "lkt-progress--indicator"
 };
 const _sfc_main$1 = /* @__PURE__ */ defineComponent({
   __name: "ProgressBar",
@@ -431,7 +431,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
       return openBlock(), createElementBlock("div", _hoisted_1$1, [
         createElementVNode("div", _hoisted_2$1, [
           createElementVNode("div", {
-            class: "lkt-progress-bar-percentage",
+            class: "lkt-progress--bar-percentage",
             style: normalizeStyle(progressBarStyles.value),
             role: "progressbar",
             "aria-valuenow": _ctx.text,
@@ -452,11 +452,11 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
 });
 const _hoisted_1 = {
   key: 1,
-  class: "lkt-progress-content"
+  class: "lkt-progress--content"
 };
 const _hoisted_2 = {
   key: 2,
-  class: "lkt-progress-content"
+  class: "lkt-progress--content"
 };
 const _sfc_main = /* @__PURE__ */ defineComponent({
   __name: "LktProgress",

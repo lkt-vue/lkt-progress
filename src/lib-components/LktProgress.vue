@@ -124,7 +124,7 @@ defineExpose({
             </template>
         </lkt-header>
 
-        <div v-if="type === ProgressType.Circle"  class="lkt-progress-content">
+        <div v-if="type === ProgressType.Circle"  class="lkt-progress--content">
             <progress-circle
                 ref="progressRef"
                 v-bind="<ProgressCircleProps>{
@@ -155,7 +155,7 @@ defineExpose({
             </progress-circle>
         </div>
 
-        <div v-else-if="type === ProgressType.Bar"  class="lkt-progress-content">
+        <div v-else-if="type === ProgressType.Bar"  class="lkt-progress--content">
             <progress-bar
                 ref="progressRef"
                 v-bind="<ProgressBarProps>{

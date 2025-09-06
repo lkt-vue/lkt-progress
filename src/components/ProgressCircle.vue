@@ -188,13 +188,13 @@ defineExpose({
                 :transform="computedDirectionStyles"
             />
         </svg>
-        <div class="progress-ring__text" v-if="slots.text">
+        <div class="lkt-progress--indicator" v-if="slots.text">
             <slot name="text" v-bind="<ProgressTextSlot>{
                 text,
                 progress: currentProgress,
                 unit,
             }"/>
         </div>
-        <div v-else class="progress-ring__text">{{ text }}</div>
+        <div v-else class="lkt-progress--indicator">{{ text }}</div>
     </div>
 </template>
