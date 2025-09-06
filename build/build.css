@@ -17,6 +17,9 @@
     padding: var(--lkt-progress--padding);
 }
 
+/**
+ * Progress Bar
+ */
 .lkt-progress-indicator {
     display: block;
     font-weight: var(--lkt-progress--progress--font-weight);
@@ -47,35 +50,45 @@
     background: var(--lkt-progress--bar--percentage-color);
     transition: var(--lkt-progress--transition);
 }
-.progress-circle[data-v-3f793f8a] {
+
+/**
+ * Progress Circle
+ */
+.progress-circle {
     position: relative;
     display: inline-block;
 }
-.progress-ring[data-v-3f793f8a] {
+
+.progress-ring {
     transform: rotate(-90deg);
     overflow: visible;
 }
-.progress-ring--background-border[data-v-3f793f8a] {
+
+.progress-ring--background-border {
     fill: transparent;
     stroke: var(--lkt-progress--track--border-color);
 }
-.progress-ring--background[data-v-3f793f8a] {
+
+.progress-ring--background {
     fill: transparent;
     stroke: var(--lkt-progress--track--background);
     transition: stroke linear 333ms;
 }
-.progress-ring--circle[data-v-3f793f8a] {
+
+.progress-ring--circle {
     fill: transparent;
     stroke-linecap: round;
     stroke: var(--lkt-progress--circle--background);
     transition: stroke linear 333ms;
 }
-.progress-ring--circle-border[data-v-3f793f8a] {
+
+.progress-ring--circle-border {
     fill: transparent;
     stroke-linecap: round;
     stroke: var(--lkt-progress--circle--border-color);
 }
-.progress-ring__text[data-v-3f793f8a] {
+
+.progress-ring__text {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -83,7 +96,8 @@
     font-size: 1.5rem;
     font-weight: bold;
 }
-.progress-ring--ball[data-v-3f793f8a] {
+
+.progress-ring--ball {
     fill: var(--lkt-progress--ball--background);
     stroke: var(--lkt-progress--ball--border-color);
     stroke-linecap: round;

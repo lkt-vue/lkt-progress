@@ -198,7 +198,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     function animateProgress() {
       if (paused.value) return;
       if (currentProgress.value === animationLimit.value) return;
-      function animate(time) {
+      function animate() {
         if (paused.value || currentProgress.value === animationLimit.value) {
           if (animationId) {
             cancelAnimationFrame(animationId);
@@ -313,20 +313,12 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
             text: _ctx.text,
             progress: currentProgress.value,
             unit: _ctx.unit
-          })), void 0, true)
+          })))
         ])) : (openBlock(), createElementBlock("div", _hoisted_9, toDisplayString(_ctx.text), 1))
       ]);
     };
   }
 });
-const _export_sfc = (sfc, props) => {
-  const target = sfc.__vccOpts || sfc;
-  for (const [key, val] of props) {
-    target[key] = val;
-  }
-  return target;
-};
-const ProgressCircle = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-3f793f8a"]]);
 const _hoisted_1$1 = { class: "lkt-progress-content" };
 const _hoisted_2$1 = { class: "lkt-progress-bar" };
 const _hoisted_3 = ["aria-valuenow"];
@@ -373,7 +365,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     function animateProgress() {
       if (paused.value) return;
       if (currentProgress.value === animationLimit.value) return;
-      function animate(time) {
+      function animate() {
         if (paused.value || currentProgress.value === animationLimit.value) {
           if (animationId) {
             cancelAnimationFrame(animationId);
@@ -546,7 +538,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
           } : void 0
         ]), 1040)) : createCommentVNode("", true),
         _ctx.type === unref(Yt).Circle ? (openBlock(), createElementBlock("div", _hoisted_1, [
-          createVNode(ProgressCircle, mergeProps({
+          createVNode(_sfc_main$2, mergeProps({
             progress: progress.value,
             progressHigherLimit: progressHigherLimit.value,
             progressLowerLimit: progressLowerLimit.value,

@@ -32,7 +32,7 @@ function animateProgress() {
     if (paused.value) return;
     if (currentProgress.value === animationLimit.value) return;
 
-    function animate(time: number) {
+    function animate() {
         if (paused.value || currentProgress.value === animationLimit.value) {
             if (animationId) {
                 cancelAnimationFrame(animationId);

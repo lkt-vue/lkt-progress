@@ -57,7 +57,7 @@ function animateProgress() {
     if (paused.value) return;
     if (currentProgress.value === animationLimit.value) return;
 
-    function animate(time: number) {
+    function animate() {
         if (paused.value || currentProgress.value === animationLimit.value) {
             if (animationId) {
                 cancelAnimationFrame(animationId);
@@ -188,54 +188,3 @@ watch(() => props.hasHover, (hasHover: boolean) => {
         <div v-else class="progress-ring__text">{{ text }}</div>
     </div>
 </template>
-
-<style scoped>
-.progress-circle {
-    position: relative;
-    display: inline-block;
-}
-
-.progress-ring {
-    transform: rotate(-90deg);
-    overflow: visible;
-}
-
-.progress-ring--background-border {
-    fill: transparent;
-    stroke: var(--lkt-progress--track--border-color);
-}
-
-.progress-ring--background {
-    fill: transparent;
-    stroke: var(--lkt-progress--track--background);
-    transition: stroke linear 333ms;
-}
-
-.progress-ring--circle {
-    fill: transparent;
-    stroke-linecap: round;
-    stroke: var(--lkt-progress--circle--background);
-    transition: stroke linear 333ms;
-}
-
-.progress-ring--circle-border {
-    fill: transparent;
-    stroke-linecap: round;
-    stroke: var(--lkt-progress--circle--border-color);
-}
-
-.progress-ring__text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-.progress-ring--ball {
-    fill: var(--lkt-progress--ball--background);
-    stroke: var(--lkt-progress--ball--border-color);
-    stroke-linecap: round;
-}
-</style>
