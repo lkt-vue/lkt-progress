@@ -1,10 +1,18 @@
 <script setup lang="ts">
 import {computed, ref, useSlots, watch} from "vue";
-import {getDefaultValues, Progress, ProgressAnimation, ProgressConfig, ProgressType} from "lkt-vue-kernel";
+import {
+    getDefaultValues,
+    Progress,
+    ProgressAnimation,
+    ProgressConfig,
+    ProgressTextSlot,
+    ProgressType
+} from "lkt-vue-kernel";
 import ProgressCircle from "../components/ProgressCircle.vue";
 import {ProgressCircleProps} from "../props/ProgressCircleProps";
 import {ProgressBarProps} from "../props/ProgressBarProps";
 import ProgressBar from "../components/ProgressBar.vue";
+import {getFinalText, getVisiblePercentage} from "../functions/functions";
 
 // Emits
 const emit = defineEmits([
@@ -85,6 +93,10 @@ const circleRadius = ref(props.circle?.radius ?? 50);
 const ballRadius = ref(props.circle?.ball?.radius ?? 50);
 const strokeWidth = ref(props.circle?.track?.width ?? 10);
 const circleWidth = ref(circleRadius.value * 2);
+
+const computedVisiblePercentage = computed(() => {
+    return getFinalText(getVisiblePercentage(circleProgress.value, props.valueFormat), props.unit);
+});
 </script>
 
 <template>
@@ -93,14 +105,12 @@ const circleWidth = ref(circleRadius.value * 2);
         :class="classes"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave">
-        <header class="lkt-progress-header">
-            <template v-if="!!slots.header">
-                <slot name="header"/>
+
+        <lkt-header v-if="header?.text || slots.header" v-bind="header" class="lkt-banner--header">
+            <template v-if="slots.header" #text>
+                <slot name="header" />
             </template>
-            <template v-else>
-                {{ header }}
-            </template>
-        </header>
+        </lkt-header>
 
         <div v-if="type === ProgressType.Circle"  class="lkt-progress-content">
             <progress-circle
@@ -108,6 +118,8 @@ const circleWidth = ref(circleRadius.value * 2);
                     progress,
                     progressHigherLimit,
                     progressLowerLimit,
+                    unit,
+                    text: computedVisiblePercentage,
                     animation,
                     size: circleWidth,
                     ballRadius,
@@ -119,7 +131,15 @@ const circleWidth = ref(circleRadius.value * 2);
                     hasHover
                 }"
                 @progress-updated="updateCircleProgress"
-            />
+            >
+                <template #text="{text, progress, unit}" v-if="slots.text">
+                    <slot name="text" v-bind="<ProgressTextSlot>{
+                        text,
+                        progress,
+                        unit,
+                    }"/>
+                </template>
+            </progress-circle>
         </div>
 
         <div v-else-if="type === ProgressType.Bar"  class="lkt-progress-content">
@@ -128,6 +148,8 @@ const circleWidth = ref(circleRadius.value * 2);
                     progress,
                     progressHigherLimit,
                     progressLowerLimit,
+                    text: computedVisiblePercentage,
+                    unit,
                     animation,
                     size: circleWidth,
                     ballRadius,
@@ -139,7 +161,15 @@ const circleWidth = ref(circleRadius.value * 2);
                     hasHover
                 }"
                 @progress-updated="updateCircleProgress"
-            />
+            >
+                <template #text="{text, progress, unit}" v-if="slots.text">
+                    <slot name="text" v-bind="<ProgressTextSlot>{
+                        text,
+                        progress,
+                        unit,
+                    }"/>
+                </template>
+            </progress-bar>
         </div>
     </section>
 </template>

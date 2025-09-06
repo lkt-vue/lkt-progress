@@ -1,9 +1,11 @@
-import { ProgressAnimation, ProgressValueFormat } from "lkt-vue-kernel";
+import { ProgressAnimation, ProgressValueFormat, UnitConfig } from "lkt-vue-kernel";
 export interface ProgressCircleProps {
     animation: ProgressAnimation;
     progress: number;
+    text: string;
     progressHigherLimit: number;
     progressLowerLimit: number;
+    unit?: UnitConfig;
     size?: number;
     strokeWidth?: number;
     borderWidth?: number;

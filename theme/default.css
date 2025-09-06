@@ -18,10 +18,10 @@
     --lkt-progress--transition: all linear 100ms;
 
     /** Element: Header */
-    --lkt-progress--header--font-size: 13px;
-    --lkt-progress--header--font-weight: bold;
-    --lkt-progress--header--line-height: 1.4em;
-    --lkt-progress--header--margin: 0 0 3px;
+    --lkt-progress--progress--font-size: 13px;
+    --lkt-progress--progress--font-weight: bold;
+    --lkt-progress--progress--line-height: 1.4em;
+    --lkt-progress--progress--margin: 0 0 3px;
 
     /** Element: Content */
     --lkt-progress--content--gap: 15px;

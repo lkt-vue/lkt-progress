@@ -2,7 +2,7 @@ var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
 var _a, _b;
-import { defineComponent, ref, computed, watch, createElementBlock, openBlock, createElementVNode, toDisplayString, createCommentVNode, normalizeStyle, mergeDefaults, useSlots, normalizeClass, renderSlot, unref, Fragment, createTextVNode, createVNode, mergeProps } from "vue";
+import { defineComponent, ref, useSlots, computed, watch, createElementBlock, openBlock, createElementVNode, unref, renderSlot, normalizeProps, guardReactiveProps, toDisplayString, createCommentVNode, normalizeStyle, mergeDefaults, resolveComponent, normalizeClass, createBlock, mergeProps, createSlots, withCtx, createVNode } from "vue";
 import "lkt-i18n";
 import "lkt-string-tools";
 var It = ((c) => (c.Button = "button", c.Submit = "submit", c.Reset = "reset", c.Anchor = "anchor", c.Content = "content", c.Switch = "switch", c.HiddenSwitch = "hidden-switch", c.Split = "split", c.SplitLazy = "split-lazy", c.SplitEver = "split-ever", c.Tooltip = "tooltip", c.TooltipLazy = "tooltip-lazy", c.TooltipEver = "tooltip-ever", c.FileUpload = "file-upload", c.ImageUpload = "image-upload", c))(It || {});
@@ -58,12 +58,13 @@ var ot = (_b = class extends a {
     __publicField(this, "type", "bar");
     __publicField(this, "duration", 4e3);
     __publicField(this, "pauseOnHover", false);
-    __publicField(this, "header", "");
+    __publicField(this, "unit");
+    __publicField(this, "header", {});
     __publicField(this, "valueFormat", "auto");
     __publicField(this, "circle");
     this.feed(t);
   }
-}, __publicField(_b, "lktAllowUndefinedProps", ["circle"]), __publicField(_b, "lktDefaultValues", ["modelValue", "animation", "type", "duration", "pauseOnHover", "header", "valueFormat", "circle"]), _b);
+}, __publicField(_b, "lktAllowUndefinedProps", ["circle", "unit"]), __publicField(_b, "lktDefaultValues", ["modelValue", "animation", "type", "duration", "pauseOnHover", "header", "valueFormat", "circle", "unit"]), _b);
 var Qt = ((l) => (l.Table = "table", l.Item = "item", l.Ul = "ul", l.Ol = "ol", l.Carousel = "carousel", l.Accordion = "accordion", l))(Qt || {});
 var Zt = ((n) => (n[n.Auto = 0] = "Auto", n[n.PreferItem = 1] = "PreferItem", n[n.PreferCustomItem = 2] = "PreferCustomItem", n[n.PreferColumns = 3] = "PreferColumns", n))(Zt || {});
 var _t = ((o) => (o.NotDefined = "", o.ActionIcon = "action-icon", o))(_t || {});
@@ -100,6 +101,18 @@ const getVisiblePercentage = (progress, format) => {
   }
   return r;
 };
+const getFinalText = (visiblePercentage, unit) => {
+  if (!unit || typeof unit === "object" && Object.keys(unit).length === 0) return String(visiblePercentage);
+  if (typeof unit === "string") return `${visiblePercentage}${unit}`;
+  switch (unit.position) {
+    case "end":
+      return `${visiblePercentage}${unit.text}`;
+    case "start":
+      return `${unit.text}${visiblePercentage}`;
+    default:
+      return `${visiblePercentage}${unit.text}`;
+  }
+};
 const getAnimationDistance = (currentPercentage, animation, highLimit, lowLimit) => {
   switch (animation) {
     case zt.Incremental:
@@ -115,19 +128,28 @@ const getAnimationDistanceStep = (distance, duration) => {
 };
 const _hoisted_1$2 = { class: "progress-circle" };
 const _hoisted_2$2 = ["width", "height", "viewBox"];
-const _hoisted_3$2 = ["cx", "cy", "r", "stroke-width"];
+const _hoisted_3$1 = ["cx", "cy", "r", "stroke-width"];
 const _hoisted_4$1 = ["cx", "cy", "r", "stroke-width"];
-const _hoisted_5 = ["cx", "cy", "r", "stroke-dasharray", "stroke-dashoffset", "stroke-width", "transform"];
+const _hoisted_5$1 = ["cx", "cy", "r", "stroke-dasharray", "stroke-dashoffset", "stroke-width", "transform"];
 const _hoisted_6 = ["cx", "cy", "r", "stroke-dasharray", "stroke-dashoffset", "stroke-width", "transform"];
 const _hoisted_7 = ["cx", "cy", "r", "stroke-dasharray", "transform"];
-const _hoisted_8 = { class: "progress-ring__text" };
+const _hoisted_8 = {
+  key: 0,
+  class: "progress-ring__text"
+};
+const _hoisted_9 = {
+  key: 1,
+  class: "progress-ring__text"
+};
 const _sfc_main$2 = /* @__PURE__ */ defineComponent({
   __name: "ProgressCircle",
   props: {
     animation: {},
     progress: {},
+    text: {},
     progressHigherLimit: {},
     progressLowerLimit: {},
+    unit: {},
     size: { default: 120 },
     strokeWidth: { default: 12 },
     borderWidth: { default: 2 },
@@ -144,6 +166,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     const props = __props;
     const currentProgress = ref(props.progress);
     const emit = __emit;
+    const slots = useSlots();
     const size = ref((_a2 = props.size) != null ? _a2 : 120);
     const center = ref(size.value / 2);
     const strokeWidth = ref((_b2 = props.strokeWidth) != null ? _b2 : 12);
@@ -206,9 +229,6 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
         paused.value = true;
       }
     }
-    const computedVisiblePercentage = computed(() => {
-      return getVisiblePercentage(currentProgress.value, props.valueFormat);
-    });
     const computedDirectionStyles = computed(() => {
       if (props.direction === "left") return `rotate(-180 ${center.value} ${center.value}) scale(-1,1) translate(-${size.value} 0)`;
       return "";
@@ -242,7 +262,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
             stroke: "transparent",
             fill: "transparent",
             "stroke-width": strokeWidth.value
-          }, null, 8, _hoisted_3$2),
+          }, null, 8, _hoisted_3$1),
           createElementVNode("circle", {
             class: "progress-ring--background",
             cx: center.value,
@@ -264,7 +284,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
             "stroke-width": strokeWidth.value,
             "stroke-linecap": "round",
             transform: computedDirectionStyles.value
-          }, null, 8, _hoisted_5),
+          }, null, 8, _hoisted_5$1),
           createElementVNode("circle", {
             class: "progress-ring--circle",
             cx: center.value,
@@ -288,7 +308,13 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
             transform: computedDirectionStyles.value
           }, null, 8, _hoisted_7)
         ], 8, _hoisted_2$2)),
-        createElementVNode("div", _hoisted_8, toDisplayString(computedVisiblePercentage.value) + "%", 1)
+        unref(slots).text ? (openBlock(), createElementBlock("div", _hoisted_8, [
+          renderSlot(_ctx.$slots, "text", normalizeProps(guardReactiveProps({
+            text: _ctx.text,
+            progress: currentProgress.value,
+            unit: _ctx.unit
+          })), void 0, true)
+        ])) : (openBlock(), createElementBlock("div", _hoisted_9, toDisplayString(_ctx.text), 1))
       ]);
     };
   }
@@ -300,12 +326,16 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const ProgressCircle = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-8e3fd6d6"]]);
+const ProgressCircle = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-3f793f8a"]]);
 const _hoisted_1$1 = { class: "lkt-progress-content" };
 const _hoisted_2$1 = { class: "lkt-progress-bar" };
-const _hoisted_3$1 = ["aria-valuenow"];
+const _hoisted_3 = ["aria-valuenow"];
 const _hoisted_4 = {
   key: 0,
+  class: "lkt-progress-indicator"
+};
+const _hoisted_5 = {
+  key: 1,
   class: "lkt-progress-indicator"
 };
 const _sfc_main$1 = /* @__PURE__ */ defineComponent({
@@ -313,8 +343,10 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
   props: {
     animation: {},
     progress: {},
+    text: {},
     progressHigherLimit: {},
     progressLowerLimit: {},
+    unit: {},
     duration: { default: 1e3 },
     direction: { default: "right" },
     valueFormat: {},
@@ -334,10 +366,9 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     });
     const animationDistance = getAnimationDistance(props.progress, props.animation, props.progressHigherLimit, props.progressLowerLimit);
     const emit = __emit;
-    const computedVisiblePercentage = computed(() => {
-      return getVisiblePercentage(currentProgress.value, props.valueFormat);
-    }), progressBarStyles = computed(() => {
-      return "width: calc(" + computedVisiblePercentage.value + "%)";
+    const slots = useSlots();
+    const progressBarStyles = computed(() => {
+      return "width: calc(" + currentProgress.value + "%)";
     });
     function animateProgress() {
       if (paused.value) return;
@@ -393,23 +424,28 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
             class: "lkt-progress-bar-percentage",
             style: normalizeStyle(progressBarStyles.value),
             role: "progressbar",
-            "aria-valuenow": computedVisiblePercentage.value,
+            "aria-valuenow": _ctx.text,
             "aria-valuemin": 0,
             "aria-valuemax": 100
-          }, null, 12, _hoisted_3$1)
+          }, null, 12, _hoisted_3)
         ]),
-        _ctx.valueFormat !== "hidden" ? (openBlock(), createElementBlock("div", _hoisted_4, toDisplayString(computedVisiblePercentage.value) + "%", 1)) : createCommentVNode("", true)
+        unref(slots).text ? (openBlock(), createElementBlock("div", _hoisted_4, [
+          renderSlot(_ctx.$slots, "text", normalizeProps(guardReactiveProps({
+            text: _ctx.text,
+            progress: currentProgress.value,
+            unit: _ctx.unit
+          })))
+        ])) : _ctx.valueFormat !== "hidden" ? (openBlock(), createElementBlock("div", _hoisted_5, toDisplayString(_ctx.text), 1)) : createCommentVNode("", true)
       ]);
     };
   }
 });
-const _hoisted_1 = { class: "lkt-progress-header" };
-const _hoisted_2 = {
-  key: 0,
+const _hoisted_1 = {
+  key: 1,
   class: "lkt-progress-content"
 };
-const _hoisted_3 = {
-  key: 1,
+const _hoisted_2 = {
+  key: 2,
   class: "lkt-progress-content"
 };
 const _sfc_main = /* @__PURE__ */ defineComponent({
@@ -421,6 +457,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     duration: {},
     direction: {},
     pauseOnHover: { type: Boolean },
+    unit: {},
     header: {},
     valueFormat: {},
     circle: {}
@@ -488,22 +525,33 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     const ballRadius = ref((_e = (_d = (_c = props.circle) == null ? void 0 : _c.ball) == null ? void 0 : _d.radius) != null ? _e : 50);
     const strokeWidth = ref((_h = (_g = (_f = props.circle) == null ? void 0 : _f.track) == null ? void 0 : _g.width) != null ? _h : 10);
     const circleWidth = ref(circleRadius.value * 2);
+    const computedVisiblePercentage = computed(() => {
+      return getFinalText(getVisiblePercentage(circleProgress.value, props.valueFormat), props.unit);
+    });
     return (_ctx, _cache) => {
+      var _a3;
+      const _component_lkt_header = resolveComponent("lkt-header");
       return openBlock(), createElementBlock("section", {
         class: normalizeClass(["lkt-progress", classes.value]),
         onMouseenter: onMouseEnter,
         onMouseleave: onMouseLeave
       }, [
-        createElementVNode("header", _hoisted_1, [
-          !!unref(slots).header ? renderSlot(_ctx.$slots, "header", { key: 0 }) : (openBlock(), createElementBlock(Fragment, { key: 1 }, [
-            createTextVNode(toDisplayString(_ctx.header), 1)
-          ], 64))
-        ]),
-        _ctx.type === unref(Yt).Circle ? (openBlock(), createElementBlock("div", _hoisted_2, [
+        ((_a3 = _ctx.header) == null ? void 0 : _a3.text) || unref(slots).header ? (openBlock(), createBlock(_component_lkt_header, mergeProps({ key: 0 }, _ctx.header, { class: "lkt-banner--header" }), createSlots({ _: 2 }, [
+          unref(slots).header ? {
+            name: "text",
+            fn: withCtx(() => [
+              renderSlot(_ctx.$slots, "header")
+            ]),
+            key: "0"
+          } : void 0
+        ]), 1040)) : createCommentVNode("", true),
+        _ctx.type === unref(Yt).Circle ? (openBlock(), createElementBlock("div", _hoisted_1, [
           createVNode(ProgressCircle, mergeProps({
             progress: progress.value,
             progressHigherLimit: progressHigherLimit.value,
             progressLowerLimit: progressLowerLimit.value,
+            unit: _ctx.unit,
+            text: computedVisiblePercentage.value,
             animation: _ctx.animation,
             size: circleWidth.value,
             ballRadius: ballRadius.value,
@@ -513,12 +561,26 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
             valueFormat: _ctx.valueFormat,
             pauseOnHover: _ctx.pauseOnHover,
             hasHover: hasHover.value
-          }, { onProgressUpdated: updateCircleProgress }), null, 16)
-        ])) : _ctx.type === unref(Yt).Bar ? (openBlock(), createElementBlock("div", _hoisted_3, [
+          }, { onProgressUpdated: updateCircleProgress }), createSlots({ _: 2 }, [
+            unref(slots).text ? {
+              name: "text",
+              fn: withCtx(({ text, progress: progress2, unit }) => [
+                renderSlot(_ctx.$slots, "text", normalizeProps(guardReactiveProps({
+                  text,
+                  progress: progress2,
+                  unit
+                })))
+              ]),
+              key: "0"
+            } : void 0
+          ]), 1040)
+        ])) : _ctx.type === unref(Yt).Bar ? (openBlock(), createElementBlock("div", _hoisted_2, [
           createVNode(_sfc_main$1, mergeProps({
             progress: progress.value,
             progressHigherLimit: progressHigherLimit.value,
             progressLowerLimit: progressLowerLimit.value,
+            text: computedVisiblePercentage.value,
+            unit: _ctx.unit,
             animation: _ctx.animation,
             size: circleWidth.value,
             ballRadius: ballRadius.value,
@@ -528,7 +590,19 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
             valueFormat: _ctx.valueFormat,
             pauseOnHover: _ctx.pauseOnHover,
             hasHover: hasHover.value
-          }, { onProgressUpdated: updateCircleProgress }), null, 16)
+          }, { onProgressUpdated: updateCircleProgress }), createSlots({ _: 2 }, [
+            unref(slots).text ? {
+              name: "text",
+              fn: withCtx(({ text, progress: progress2, unit }) => [
+                renderSlot(_ctx.$slots, "text", normalizeProps(guardReactiveProps({
+                  text,
+                  progress: progress2,
+                  unit
+                })))
+              ]),
+              key: "0"
+            } : void 0
+          ]), 1040)
         ])) : createCommentVNode("", true)
       ], 34);
     };

@@ -14,10 +14,23 @@ declare const onMouseEnter: (event: MouseEvent) => void, onMouseLeave: (event: M
 declare const ballRadius: import("vue").Ref<number, number>;
 declare const strokeWidth: import("vue").Ref<number, number>;
 declare const circleWidth: import("vue").Ref<number, number>;
+declare const computedVisiblePercentage: import("vue").ComputedRef<string>;
 declare const __VLS_ctx: InstanceType<__VLS_PickNotAny<typeof __VLS_self, new () => {}>>;
-declare var __VLS_1: {};
+declare var __VLS_5: {}, __VLS_14: {
+    text: string;
+    progress: number;
+    unit?: import("lkt-vue-kernel").UnitConfig;
+}, __VLS_23: {
+    text: string;
+    progress: number;
+    unit?: import("lkt-vue-kernel").UnitConfig;
+};
 type __VLS_Slots = __VLS_PrettifyGlobal<__VLS_OmitStringIndex<typeof __VLS_ctx.$slots> & {
-    header?: (props: typeof __VLS_1) => any;
+    header?: (props: typeof __VLS_5) => any;
+} & {
+    text?: (props: typeof __VLS_14) => any;
+} & {
+    text?: (props: typeof __VLS_23) => any;
 }>;
 declare const __VLS_self: import("vue").DefineComponent<ProgressConfig, {
     ProgressType: typeof ProgressType;
@@ -35,6 +48,7 @@ declare const __VLS_self: import("vue").DefineComponent<ProgressConfig, {
     ballRadius: typeof ballRadius;
     strokeWidth: typeof strokeWidth;
     circleWidth: typeof circleWidth;
+    computedVisiblePercentage: typeof computedVisiblePercentage;
 }, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
     end: (...args: any[]) => void;
     mouseenter: (...args: any[]) => void;
@@ -46,9 +60,10 @@ declare const __VLS_self: import("vue").DefineComponent<ProgressConfig, {
     onMouseleave?: ((...args: any[]) => any) | undefined;
     "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
 }>, {
+    unit: string | import("lkt-vue-kernel").UnitConfig;
     type: ProgressType;
     animation: ProgressAnimation;
-    header: string;
+    header: import("lkt-vue-kernel").HeaderConfig;
     circle: import("lkt-vue-kernel").CircleConfig;
     duration: number;
     modelValue: number;
@@ -66,9 +81,10 @@ declare const __VLS_component: import("vue").DefineComponent<ProgressConfig, {},
     onMouseleave?: ((...args: any[]) => any) | undefined;
     "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
 }>, {
+    unit: string | import("lkt-vue-kernel").UnitConfig;
     type: ProgressType;
     animation: ProgressAnimation;
-    header: string;
+    header: import("lkt-vue-kernel").HeaderConfig;
     circle: import("lkt-vue-kernel").CircleConfig;
     duration: number;
     modelValue: number;

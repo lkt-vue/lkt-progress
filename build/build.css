@@ -17,13 +17,12 @@
     padding: var(--lkt-progress--padding);
 }
 
-.lkt-progress-header,
 .lkt-progress-indicator {
     display: block;
-    font-weight: var(--lkt-progress--header--font-weight);
-    font-size: var(--lkt-progress--header--font-size);
-    line-height: var(--lkt-progress--header--line-height);
-    margin: var(--lkt-progress--header--margin);
+    font-weight: var(--lkt-progress--progress--font-weight);
+    font-size: var(--lkt-progress--progress--font-size);
+    line-height: var(--lkt-progress--progress--line-height);
+    margin: var(--lkt-progress--progress--margin);
 }
 
 .lkt-progress-content {
@@ -48,66 +47,35 @@
     background: var(--lkt-progress--bar--percentage-color);
     transition: var(--lkt-progress--transition);
 }
-
-
-
-
-
-
-
-
-
-/*.lkt-progress.is-circle .lkt-progress-content {*/
-/*    position: relative;*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    justify-content: center;*/
-/*}*/
-
-/*!* Circle *!*/
-/*.lkt-progress-ring--circle {*/
-/*    fill: transparent;*/
-/*    stroke: var(--lkt-progress--bar--percentage-color, blue);*/
-/*    transform: rotate(-90deg);*/
-/*    transform-origin: 50% 50%;*/
-/*    transition: all 100ms ease-out;*/
-/*}*/
-
-/*.lkt-progress.is-circle .lkt-progress-indicator {*/
-/*    position: absolute;*/
-/*    font-size: 1.2rem;*/
-/*    font-weight: bold;*/
-/*    color: #333;*/
-/*}*/
-.progress-circle[data-v-8e3fd6d6] {
+.progress-circle[data-v-3f793f8a] {
     position: relative;
     display: inline-block;
 }
-.progress-ring[data-v-8e3fd6d6] {
+.progress-ring[data-v-3f793f8a] {
     transform: rotate(-90deg);
     overflow: visible;
 }
-.progress-ring--background-border[data-v-8e3fd6d6] {
+.progress-ring--background-border[data-v-3f793f8a] {
     fill: transparent;
     stroke: var(--lkt-progress--track--border-color);
 }
-.progress-ring--background[data-v-8e3fd6d6] {
+.progress-ring--background[data-v-3f793f8a] {
     fill: transparent;
     stroke: var(--lkt-progress--track--background);
     transition: stroke linear 333ms;
 }
-.progress-ring--circle[data-v-8e3fd6d6] {
+.progress-ring--circle[data-v-3f793f8a] {
     fill: transparent;
     stroke-linecap: round;
     stroke: var(--lkt-progress--circle--background);
     transition: stroke linear 333ms;
 }
-.progress-ring--circle-border[data-v-8e3fd6d6] {
+.progress-ring--circle-border[data-v-3f793f8a] {
     fill: transparent;
     stroke-linecap: round;
     stroke: var(--lkt-progress--circle--border-color);
 }
-.progress-ring__text[data-v-8e3fd6d6] {
+.progress-ring__text[data-v-3f793f8a] {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -115,7 +83,7 @@
     font-size: 1.5rem;
     font-weight: bold;
 }
-.progress-ring--ball[data-v-8e3fd6d6] {
+.progress-ring--ball[data-v-3f793f8a] {
     fill: var(--lkt-progress--ball--background);
     stroke: var(--lkt-progress--ball--border-color);
     stroke-linecap: round;

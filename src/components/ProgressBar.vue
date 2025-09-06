@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {computed, ref, watch} from "vue";
-import {getAnimationDistance, getAnimationDistanceStep, getVisiblePercentage} from "../functions/functions";
-import {ProgressAnimation} from "lkt-vue-kernel";
+import {computed, ref, useSlots, watch} from "vue";
+import {getAnimationDistance, getAnimationDistanceStep} from "../functions/functions";
+import {ProgressAnimation, ProgressTextSlot} from "lkt-vue-kernel";
 import {ProgressBarProps} from "../props/ProgressBarProps";
 
 const props = withDefaults(defineProps<ProgressBarProps>(), {
@@ -21,13 +21,10 @@ let animationLimit = computed(() => {
 const animationDistance = getAnimationDistance(props.progress, props.animation, props.progressHigherLimit, props.progressLowerLimit);
 
 const emit = defineEmits(['progress-updated']);
+const slots = useSlots();
 
-const
-    computedVisiblePercentage = computed(() => {
-        return getVisiblePercentage(currentProgress.value, props.valueFormat);
-    }),
-    progressBarStyles = computed(() => {
-        return 'width: calc(' + computedVisiblePercentage.value + '%)';
+const progressBarStyles = computed(() => {
+        return 'width: calc(' + currentProgress.value + '%)';
     });
 
 function animateProgress() {
@@ -96,10 +93,17 @@ watch(() => props.hasHover, (hasHover: boolean) => {
             <div class="lkt-progress-bar-percentage"
                  :style="progressBarStyles"
                  role="progressbar"
-                 :aria-valuenow="computedVisiblePercentage"
+                 :aria-valuenow="text"
                  :aria-valuemin="0"
                  :aria-valuemax="100"/>
         </div>
-        <div v-if="valueFormat !== 'hidden'" class="lkt-progress-indicator">{{ computedVisiblePercentage }}%</div>
+        <div class="lkt-progress-indicator" v-if="slots.text">
+            <slot name="text" v-bind="<ProgressTextSlot>{
+                text,
+                progress: currentProgress,
+                unit,
+            }"/>
+        </div>
+        <div v-else-if="valueFormat !== 'hidden'" class="lkt-progress-indicator">{{ text }}</div>
     </div>
 </template>

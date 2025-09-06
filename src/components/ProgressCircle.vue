@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {computed, ref, watch} from 'vue';
-import {getAnimationDistance, getAnimationDistanceStep, getVisiblePercentage} from "../functions/functions";
-import {ProgressAnimation} from "lkt-vue-kernel";
+import {computed, ref, useSlots, watch} from 'vue';
+import {getAnimationDistance, getAnimationDistanceStep} from "../functions/functions";
+import {ProgressAnimation, ProgressTextSlot} from "lkt-vue-kernel";
 import {ProgressCircleProps} from "../props/ProgressCircleProps";
 
 const props = withDefaults(defineProps<ProgressCircleProps>(), {
@@ -15,6 +15,7 @@ const props = withDefaults(defineProps<ProgressCircleProps>(), {
 const currentProgress = ref(props.progress);
 
 const emit = defineEmits(['progress-updated']);
+const slots = useSlots();
 
 const size = ref(props.size ?? 120);
 const center = ref(size.value / 2);
@@ -91,11 +92,6 @@ function pauseAnimation() {
         paused.value = true;
     }
 }
-
-
-const computedVisiblePercentage = computed(() => {
-    return getVisiblePercentage(currentProgress.value, props.valueFormat);
-});
 
 const computedDirectionStyles = computed(() => {
     if (props.direction === 'left') return `rotate(-180 ${center.value} ${center.value}) scale(-1,1) translate(-${size.value} 0)`;
@@ -181,9 +177,15 @@ watch(() => props.hasHover, (hasHover: boolean) => {
                 :stroke-width="2"
                 :transform="computedDirectionStyles"
             />
-
         </svg>
-        <div class="progress-ring__text">{{ computedVisiblePercentage }}%</div>
+        <div class="progress-ring__text" v-if="slots.text">
+            <slot name="text" v-bind="<ProgressTextSlot>{
+                text,
+                progress: currentProgress,
+                unit,
+            }"/>
+        </div>
+        <div v-else class="progress-ring__text">{{ text }}</div>
     </div>
 </template>
 
