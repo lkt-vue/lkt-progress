@@ -1,6 +1,6 @@
 {
   "name": "lkt-progress",
-  "version": "1.4.1",
+  "version": "2.0.0",
   "description": "",
   "type": "module",
   "module": "./dist/build.js",

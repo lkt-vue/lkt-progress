@@ -1,4 +1,4 @@
-import {ProgressAnimation, ProgressValueFormat, UnitConfig} from "lkt-vue-kernel";
+import {ProgressAnimation, ProgressAnimationConfig, ProgressValueFormat, UnitConfig} from "lkt-vue-kernel";
 
 export const getVisiblePercentage = (progress: number, format: ProgressValueFormat) => {
     let r = Number(progress).toFixed(2);
@@ -46,4 +46,17 @@ export const getAnimationDistance = (currentPercentage: number, animation: Progr
 
 export const getAnimationDistanceStep = (distance: number, duration: number) => {
     return (distance / duration) * (duration / 100);
+}
+
+export const parseAnimationConfig = (animation: ProgressAnimation|ProgressAnimationConfig) => {
+    if (typeof animation === 'string') return <ProgressAnimationConfig>{
+        type: animation,
+        autoplay: true,
+    }
+
+    if (typeof animation.autoplay === 'undefined') animation.autoplay = true;
+    if (typeof animation.type === 'undefined') animation.type = ProgressAnimation.None;
+
+    return animation;
+
 }

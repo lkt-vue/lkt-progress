@@ -16,9 +16,9 @@ let animationId: number | null = null;
 const paused = ref(false);
 
 let animationLimit = computed(() => {
-    return props.animation === ProgressAnimation.Incremental ? props.progressHigherLimit : props.progressLowerLimit;
+    return props.animation.type === ProgressAnimation.Incremental ? props.progressHigherLimit : props.progressLowerLimit;
 });
-const animationDistance = getAnimationDistance(props.progress, props.animation, props.progressHigherLimit, props.progressLowerLimit);
+const animationDistance = getAnimationDistance(props.progress, props.animation.type, props.progressHigherLimit, props.progressLowerLimit);
 
 const emit = defineEmits(['progress-updated']);
 const slots = useSlots();
@@ -42,10 +42,10 @@ function animateProgress() {
         }
 
         const progress = getAnimationDistanceStep(animationDistance, duration.value);
-        if (props.animation === ProgressAnimation.Incremental) {
+        if (props.animation.type === ProgressAnimation.Incremental) {
             currentProgress.value = Math.min(currentProgress.value + progress, props.progressHigherLimit);
 
-        } else if (props.animation === ProgressAnimation.Decremental) {
+        } else if (props.animation.type === ProgressAnimation.Decremental) {
             currentProgress.value = Math.max(currentProgress.value - progress, props.progressLowerLimit);
         }
         emit('progress-updated', currentProgress.value)

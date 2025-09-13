@@ -12,7 +12,7 @@ import ProgressCircle from "../components/ProgressCircle.vue";
 import {ProgressCircleProps} from "../props/ProgressCircleProps";
 import {ProgressBarProps} from "../props/ProgressBarProps";
 import ProgressBar from "../components/ProgressBar.vue";
-import {getFinalText, getVisiblePercentage} from "../functions/functions";
+import {getFinalText, getVisiblePercentage, parseAnimationConfig} from "../functions/functions";
 
 // Emits
 const emit = defineEmits([
@@ -27,19 +27,20 @@ const slots = useSlots();
 
 // Props
 const props = withDefaults(defineProps<ProgressConfig>(), getDefaultValues(Progress));
+const animationConfig = ref(parseAnimationConfig(props.animation));
 
 const progress = ref(Number(props.modelValue));
 if (progress.value > 100) progress.value = 100;
 if (progress.value < 0) progress.value = 0;
 
 const progressHigherLimit = ref(100);
-if (props.animation === ProgressAnimation.Incremental) {
+if (animationConfig.value.type === ProgressAnimation.Incremental) {
     progressHigherLimit.value = progress.value;
     progress.value = 0;
 }
 
 const progressLowerLimit = ref(0);
-if (props.animation === ProgressAnimation.Decremental) {
+if (animationConfig.value.type === ProgressAnimation.Decremental) {
     progressLowerLimit.value = progress.value;
     progress.value = progressHigherLimit.value;
 }
@@ -135,7 +136,7 @@ defineExpose({
                     progressLowerLimit,
                     unit,
                     text: computedVisiblePercentage,
-                    animation,
+                    animation: animationConfig,
                     size: circleWidth,
                     ballRadius,
                     strokeWidth,
@@ -165,7 +166,7 @@ defineExpose({
                     progressLowerLimit,
                     text: computedVisiblePercentage,
                     unit,
-                    animation,
+                    animation: animationConfig,
                     size: circleWidth,
                     ballRadius,
                     strokeWidth,

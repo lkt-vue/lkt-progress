@@ -4,6 +4,13 @@ import ProgressBar from "../components/ProgressBar.vue";
 declare const slots: Readonly<{
     [name: string]: import("vue").Slot<any> | undefined;
 }>;
+declare const animationConfig: import("vue").Ref<{
+    type: ProgressAnimation;
+    autoplay: boolean;
+}, import("lkt-vue-kernel").ProgressAnimationConfig | {
+    type: ProgressAnimation;
+    autoplay: boolean;
+}>;
 declare const progress: import("vue").Ref<number, number>;
 declare const progressHigherLimit: import("vue").Ref<number, number>;
 declare const progressLowerLimit: import("vue").Ref<number, number>;
@@ -38,6 +45,7 @@ declare const __VLS_self: import("vue").DefineComponent<ProgressConfig, {
     ProgressCircle: typeof ProgressCircle;
     ProgressBar: typeof ProgressBar;
     slots: typeof slots;
+    animationConfig: typeof animationConfig;
     progress: typeof progress;
     progressHigherLimit: typeof progressHigherLimit;
     progressLowerLimit: typeof progressLowerLimit;
@@ -64,7 +72,7 @@ declare const __VLS_self: import("vue").DefineComponent<ProgressConfig, {
 }>, {
     unit: string | import("lkt-vue-kernel").UnitConfig;
     type: ProgressType;
-    animation: ProgressAnimation;
+    animation: ProgressAnimation | import("lkt-vue-kernel").ProgressAnimationConfig;
     header: import("lkt-vue-kernel").HeaderConfig;
     circle: import("lkt-vue-kernel").CircleConfig;
     duration: number;
@@ -88,7 +96,7 @@ declare const __VLS_component: import("vue").DefineComponent<ProgressConfig, {
 }>, {
     unit: string | import("lkt-vue-kernel").UnitConfig;
     type: ProgressType;
-    animation: ProgressAnimation;
+    animation: ProgressAnimation | import("lkt-vue-kernel").ProgressAnimationConfig;
     header: import("lkt-vue-kernel").HeaderConfig;
     circle: import("lkt-vue-kernel").CircleConfig;
     duration: number;

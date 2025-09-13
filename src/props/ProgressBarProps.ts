@@ -1,7 +1,7 @@
-import {ProgressAnimation, ProgressValueFormat, UnitConfig} from "lkt-vue-kernel";
+import {ProgressAnimationConfig, ProgressValueFormat, UnitConfig} from "lkt-vue-kernel";
 
 export interface ProgressBarProps {
-    animation: ProgressAnimation
+    animation: ProgressAnimationConfig
     progress: number
     text: string
     progressHigherLimit: number
