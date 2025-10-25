@@ -1,11 +1,12 @@
+import { Ref } from 'vue';
 import { ProgressCircleProps } from "../props/ProgressCircleProps";
-declare const currentProgress: import("vue").Ref<number, number>;
+declare const currentProgress: Ref<number, number>;
 declare const slots: Readonly<{
     [name: string]: import("vue").Slot<any> | undefined;
 }>;
-declare const size: import("vue").Ref<number, number>;
-declare const center: import("vue").Ref<number, number>;
-declare const strokeWidth: import("vue").Ref<number, number>;
+declare const size: Ref<number, number>;
+declare const center: Ref<number, number>;
+declare const strokeWidth: Ref<number, number>;
 declare const radius: import("vue").ComputedRef<number>;
 declare const circumference: import("vue").ComputedRef<number>;
 declare const offset: import("vue").ComputedRef<number>;

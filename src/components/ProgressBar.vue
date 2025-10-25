@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import {computed, ref, useSlots, watch} from "vue";
-import {getAnimationDistance, getAnimationDistanceStep} from "../functions/functions";
+import {computed, Ref, ref, useSlots, watch} from "vue";
 import {ProgressAnimation, ProgressTextSlot} from "lkt-vue-kernel";
 import {ProgressBarProps} from "../props/ProgressBarProps";
+import {doProgressAnimation, doStopProgressAnimation} from "../functions/animation";
 
 const props = withDefaults(defineProps<ProgressBarProps>(), {
     duration: 1000,
@@ -12,66 +12,54 @@ const props = withDefaults(defineProps<ProgressBarProps>(), {
 const currentProgress = ref(props.progress);
 const duration = ref(props.duration ?? 1000);
 
-let animationId: number | null = null;
+let animationId: Ref<number | null> = ref(null);
 const paused = ref(false);
 
-let animationLimit = computed(() => {
+const animationLimit = computed(() => {
+    if (props.animation.externalControl) {
+        if (isNaN(props.progress)) return 100;
+        return props.progress;
+    }
     return props.animation.type === ProgressAnimation.Incremental ? props.progressHigherLimit : props.progressLowerLimit;
 });
-const animationDistance = getAnimationDistance(props.progress, props.animation.type, props.progressHigherLimit, props.progressLowerLimit);
 
 const emit = defineEmits(['progress-updated']);
 const slots = useSlots();
 
 const progressBarStyles = computed(() => {
-        return 'width: calc(' + currentProgress.value + '%)';
-    });
+
+    let r = [];
+    r.push(`transition: all linear ${duration.value}ms`);
+    r.push(`width: ${currentProgress.value}%`);
+
+    return r.join(';');
+});
 
 function animateProgress() {
-
-    if (paused.value) return;
-    if (currentProgress.value === animationLimit.value) return;
-
-    function animate() {
-        if (paused.value || currentProgress.value === animationLimit.value) {
-            if (animationId) {
-                cancelAnimationFrame(animationId);
-                animationId = null;
+    animationId = doProgressAnimation({
+        duration: duration.value,
+        animation: props.animation,
+        paused: paused.value,
+        current: currentProgress,
+        target: animationLimit.value,
+        events: {
+            onAnimatedFrame: () => {
+                emit('progress-updated', currentProgress.value)
             }
-            return;
         }
-
-        const progress = getAnimationDistanceStep(animationDistance, duration.value);
-        if (props.animation.type === ProgressAnimation.Incremental) {
-            currentProgress.value = Math.min(currentProgress.value + progress, props.progressHigherLimit);
-
-        } else if (props.animation.type === ProgressAnimation.Decremental) {
-            currentProgress.value = Math.max(currentProgress.value - progress, props.progressLowerLimit);
-        }
-        emit('progress-updated', currentProgress.value)
-        if (currentProgress.value !== animationLimit.value) {
-            animationId = requestAnimationFrame(animate);
-        } else {
-            cancelAnimationFrame(animationId);
-            animationId = null;
-        }
-    }
-
-    animationId = requestAnimationFrame(animate);
+    })
 }
 
 function pauseAnimation() {
-    if (animationId) {
-        cancelAnimationFrame(animationId);
-        animationId = null;
-        paused.value = true;
-    }
+    doStopProgressAnimation(animationId);
 }
-
-
 
 watch(() => props.progress, (newVal) => {
     animateProgress();
+}, { immediate: true });
+
+watch(() => props.duration, (newVal) => {
+    duration.value = newVal;
 }, { immediate: true });
 
 watch(() => props.hasHover, (hasHover: boolean) => {

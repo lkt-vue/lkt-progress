@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import {computed, ref, useSlots, watch} from 'vue';
-import {getAnimationDistance, getAnimationDistanceStep} from "../functions/functions";
+import {computed, Ref, ref, useSlots, watch} from 'vue';
 import {ProgressAnimation, ProgressTextSlot} from "lkt-vue-kernel";
 import {ProgressCircleProps} from "../props/ProgressCircleProps";
+import {doProgressAnimation, doStopProgressAnimation} from "../functions/animation";
 
 const props = withDefaults(defineProps<ProgressCircleProps>(), {
     size: 120,
@@ -26,14 +26,13 @@ const radius = computed(() => (size.value - strokeWidth.value) / 2);
 const circumference = computed(() => 2 * Math.PI * radius.value);
 const offset = computed(() => circumference.value * (1 - currentProgress.value / 100));
 
-let animationId: number | null = null;
+let animationId: Ref<number | null> = ref(null);
 const paused = ref(false);
 
-let animationLimit = computed(() => {
+const animationLimit = computed(() => {
+    if (props.animation.externalControl) return props.progress;
     return props.animation.type === ProgressAnimation.Incremental ? props.progressHigherLimit : props.progressLowerLimit;
 });
-const animationDistance = getAnimationDistance(props.progress, props.animation.type, props.progressHigherLimit, props.progressLowerLimit);
-
 
 const ballPos = computed(() => {
     const angle = 2 * Math.PI * (currentProgress.value / 100);
@@ -53,44 +52,22 @@ const ballRadius = computed(() => {
 const ballCircumference = computed(() => 2 * Math.PI * ballRadius.value);
 
 function animateProgress() {
-
-    if (paused.value) return;
-    if (currentProgress.value === animationLimit.value) return;
-
-    function animate() {
-        if (paused.value || currentProgress.value === animationLimit.value) {
-            if (animationId) {
-                cancelAnimationFrame(animationId);
-                animationId = null;
+    animationId = doProgressAnimation({
+        duration: duration.value,
+        animation: props.animation,
+        paused: paused.value,
+        current: currentProgress,
+        target: animationLimit.value,
+        events: {
+            onAnimatedFrame: () => {
+                emit('progress-updated', currentProgress.value)
             }
-            return;
         }
-
-        const progress = getAnimationDistanceStep(animationDistance, duration.value);
-        if (props.animation.type === ProgressAnimation.Incremental) {
-            currentProgress.value = Math.min(currentProgress.value + progress, props.progressHigherLimit);
-
-        } else if (props.animation.type === ProgressAnimation.Decremental) {
-            currentProgress.value = Math.max(currentProgress.value - progress, props.progressLowerLimit);
-        }
-        emit('progress-updated', currentProgress.value)
-        if (currentProgress.value !== animationLimit.value) {
-            animationId = requestAnimationFrame(animate);
-        } else {
-            cancelAnimationFrame(animationId);
-            animationId = null;
-        }
-    }
-
-    animationId = requestAnimationFrame(animate);
+    })
 }
 
 function pauseAnimation() {
-    if (animationId) {
-        cancelAnimationFrame(animationId);
-        animationId = null;
-        paused.value = true;
-    }
+    doStopProgressAnimation(animationId);
 }
 
 const computedDirectionStyles = computed(() => {
@@ -100,6 +77,10 @@ const computedDirectionStyles = computed(() => {
 
 watch(() => props.progress, (newVal) => {
     animateProgress();
+}, { immediate: true });
+
+watch(() => props.duration, (newVal) => {
+    duration.value = newVal;
 }, { immediate: true });
 
 watch(() => props.hasHover, (hasHover: boolean) => {

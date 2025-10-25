@@ -2,56 +2,57 @@ var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
 var _a, _b;
-import { defineComponent, ref, useSlots, computed, watch, createElementBlock, openBlock, createElementVNode, unref, renderSlot, normalizeProps, guardReactiveProps, toDisplayString, createCommentVNode, normalizeStyle, mergeDefaults, resolveComponent, normalizeClass, createBlock, mergeProps, createSlots, withCtx } from "vue";
+import { ref, defineComponent, useSlots, computed, watch, createElementBlock, openBlock, createElementVNode, unref, renderSlot, normalizeProps, guardReactiveProps, toDisplayString, createCommentVNode, normalizeStyle, mergeDefaults, resolveComponent, normalizeClass, createBlock, mergeProps, createSlots, withCtx } from "vue";
 import "lkt-i18n";
 import "lkt-string-tools";
-var It = ((c) => (c.Button = "button", c.Submit = "submit", c.Reset = "reset", c.Anchor = "anchor", c.Content = "content", c.Switch = "switch", c.HiddenSwitch = "hidden-switch", c.Split = "split", c.SplitLazy = "split-lazy", c.SplitEver = "split-ever", c.Tooltip = "tooltip", c.TooltipLazy = "tooltip-lazy", c.TooltipEver = "tooltip-ever", c.FileUpload = "file-upload", c.ImageUpload = "image-upload", c))(It || {});
-var Et = ((s) => (s.Text = "text", s.Email = "email", s.Tel = "tel", s.Password = "password", s.Search = "search", s.Number = "number", s.Color = "color", s.Range = "range", s.Textarea = "textarea", s.Html = "html", s.Date = "date", s.Time = "time", s.DateTime = "datetime", s.File = "file", s.Image = "image", s.Select = "select", s.Check = "check", s.Switch = "switch", s.Calc = "calc", s.Card = "card", s.Table = "table", s.Radio = "radio", s.ToggleButtonGroup = "toggle-button-group", s))(Et || {});
-var Te = ["lktDateProps", "lktStrictItem", "lktExcludedProps"], a = (_a = class {
-  constructor(t) {
+var Ee = ((l) => (l.Button = "button", l.Submit = "submit", l.Reset = "reset", l.Anchor = "anchor", l.Content = "content", l.Switch = "switch", l.HiddenSwitch = "hidden-switch", l.Split = "split", l.SplitLazy = "split-lazy", l.SplitEver = "split-ever", l.Tooltip = "tooltip", l.TooltipLazy = "tooltip-lazy", l.TooltipEver = "tooltip-ever", l.FileUpload = "file-upload", l.ImageUpload = "image-upload", l.InvisibleWrapper = "invisible-wrapper", l.Menu = "menu", l.Tab = "tab", l))(Ee || {});
+var Ie = ((s) => (s.Text = "text", s.Email = "email", s.Tel = "tel", s.Password = "password", s.Search = "search", s.Number = "number", s.Color = "color", s.Range = "range", s.Textarea = "textarea", s.Html = "html", s.Date = "date", s.Time = "time", s.DateTime = "datetime", s.File = "file", s.Image = "image", s.Select = "select", s.Check = "check", s.Switch = "switch", s.Calc = "calc", s.Card = "card", s.Table = "table", s.Radio = "radio", s.ToggleButtonGroup = "toggle-button-group", s))(Ie || {});
+var Pt = ["lktDateProps", "lktStrictItem", "lktExcludedProps"], a = (_a = class {
+  constructor(e) {
   }
-  feed(t = {}, o = this) {
-    if (typeof t == "object") for (let [r, n] of Object.entries(t)) o.assignProp(r, n);
+  feed(e = {}, o = this) {
+    if (typeof e == "object") for (let [r, n] of Object.entries(e)) o.assignProp(r, n);
   }
-  assignProp(t, o) {
-    if (!(Te.includes(t) || _a.lktExcludedProps.includes(t)) && true) {
-      if (_a.lktDateProps.includes(t)) {
-        this[t] = new Date(o);
+  assignProp(e, o) {
+    if (!(Pt.includes(e) || _a.lktExcludedProps.includes(e)) && true) {
+      if (_a.lktDateProps.includes(e)) {
+        this[e] = new Date(o);
         return;
       }
-      this[t] = o;
+      this[e] = o;
     }
   }
 }, __publicField(_a, "lktAllowUndefinedProps", []), __publicField(_a, "lktExcludedProps", []), __publicField(_a, "lktDateProps", []), __publicField(_a, "lktStrictItem", false), __publicField(_a, "lktDefaultValues", []), _a);
-var T = ((n) => (n.Auto = "auto", n.Always = "always", n.Lazy = "lazy", n.Ever = "ever", n))(T || {});
-var Mt = ((r) => (r.Transform = "transform", r.Height = "height", r.Display = "display", r))(Mt || {});
-var St = ((b) => (b.Href = "href", b.RouterLink = "router-link", b.RouterLinkBack = "router-link-back", b.Mail = "mail", b.Tel = "tel", b.Tab = "tab", b.Download = "download", b.Action = "action", b.Legacy = "", b))(St || {});
+var v = ((n) => (n.Auto = "auto", n.Always = "always", n.Lazy = "lazy", n.Ever = "ever", n))(v || {});
+var Me = ((r) => (r.Transform = "transform", r.Height = "height", r.Display = "display", r))(Me || {});
+var Se = ((m) => (m.Href = "href", m.RouterLink = "router-link", m.RouterLinkBack = "router-link-back", m.Mail = "mail", m.Tel = "tel", m.Tab = "tab", m.Download = "download", m.Action = "action", m.Legacy = "", m))(Se || {});
 var w = ((o) => (o.Static = "static", o.Parallax = "parallax", o))(w || {});
-var Dt = ((l) => (l.None = "", l.Field = "field", l.Button = "button", l.Anchor = "anchor", l.InlineDrop = "inline-drop", l.ColumnIndex = "column-index", l))(Dt || {});
-var Vt = ((r) => (r.Date = "date", r.Number = "number", r.Timer = "timer", r))(Vt || {});
-var vt = ((f) => (f.A0 = "a0", f.A1 = "a1", f.A2 = "a2", f.A3 = "a3", f.A4 = "a4", f.A5 = "a5", f.A6 = "a6", f.A7 = "a7", f.A8 = "a8", f.A9 = "a9", f))(vt || {});
-var Tt = ((n) => (n.List = "list", n.Inline = "inline", n.Count = "count", n.Table = "table", n))(Tt || {});
-var Ft = ((u) => (u.HTTPResponse = "http-response", u.MinStringLength = "min-str", u.MinNumber = "min-num", u.MaxStringLength = "max-str", u.MaxNumber = "max-num", u.Email = "email", u.Empty = "empty", u.EqualTo = "equal-to", u.MinNumbers = "min-numbers", u.MaxNumbers = "max-numbers", u.MinChars = "min-chars", u.MaxChars = "max-chars", u.MinUpperChars = "min-upper-chars", u.MaxUpperChars = "max-upper-chars", u.MinLowerChars = "min-lower-chars", u.MaxLowerChars = "max-lower-chars", u.MinSpecialChars = "min-special-chars", u.MaxSpecialChars = "max-special-chars", u))(Ft || {});
-var Ot = ((r) => (r.Ok = "ok", r.Ko = "ko", r.Info = "info", r))(Ot || {});
-var At = ((i) => (i.StorageUnit = "unit", i.Directory = "dir", i.Image = "img", i.Video = "vid", i.File = "file", i))(At || {});
-var wt = ((l) => (l.H1 = "h1", l.H2 = "h2", l.H3 = "h3", l.H4 = "h4", l.H5 = "h5", l.H6 = "h6", l))(wt || {});
-var Pt = ((o) => (o.NotDefined = "", o.Button = "button", o))(Pt || {});
-var jt = ((o) => (o.Start = "start", o.End = "end", o))(jt || {});
-var Wt = ((r) => (r.Create = "create", r.Update = "update", r.Read = "read", r))(Wt || {});
-var Nt = ((o) => (o.Inline = "inline", o.Modal = "modal", o))(Nt || {});
-var Ht = ((o) => (o.Top = "top", o.Bottom = "bottom", o))(Ht || {});
-var Ut = ((r) => (r.Changed = "changed", r.Always = "always", r.Never = "never", r))(Ut || {});
-var Rt = ((r) => (r.Manual = "manual", r.Auto = "auto", r.Delay = "delay", r))(Rt || {});
-var Kt = ((o) => (o.Toast = "toast", o.Inline = "inline", o))(Kt || {});
-var Gt = ((n) => (n.Current = "current", n.Modifications = "modifications", n.SplitView = "split-view", n.Differences = "differences", n))(Gt || {});
-var qt = ((n) => (n.Anchor = "anchor", n.Button = "button", n.Header = "header", n.Entry = "entry", n))(qt || {});
-var Xt = ((o) => (o.Modal = "modal", o.Confirm = "confirm", o))(Xt || {});
-var $t = ((l) => (l.Pages = "pages", l.PrevNext = "prev-next", l.PagesPrevNext = "pages-prev-next", l.PagesPrevNextFirstLast = "pages-prev-next-first-last", l.LoadMore = "load-more", l.Infinite = "infinite", l))($t || {});
-var zt = ((r) => (r.None = "", r.Incremental = "incremental", r.Decremental = "decremental", r))(zt || {});
-var Jt = ((i) => (i.NotDefined = "", i.Hidden = "hidden", i.Integer = "integer", i.Decimal = "decimal", i.Auto = "auto", i))(Jt || {});
-var Yt = ((o) => (o.Bar = "bar", o.Circle = "circle", o))(Yt || {});
-var ot = (_b = class extends a {
-  constructor(t = {}) {
+var De = ((g) => (g.None = "", g.Field = "field", g.Button = "button", g.Anchor = "anchor", g.InlineDrop = "inline-drop", g.ColumnIndex = "column-index", g))(De || {});
+var Ve = ((r) => (r.Date = "date", r.Number = "number", r.Timer = "timer", r))(Ve || {});
+var ve = ((u) => (u.A0 = "a0", u.A1 = "a1", u.A2 = "a2", u.A3 = "a3", u.A4 = "a4", u.A5 = "a5", u.A6 = "a6", u.A7 = "a7", u.A8 = "a8", u.A9 = "a9", u))(ve || {});
+var Te = ((n) => (n.List = "list", n.Inline = "inline", n.Count = "count", n.Table = "table", n))(Te || {});
+var Fe = ((l) => (l.HTTPResponse = "http-response", l.MinStringLength = "min-str", l.MinNumber = "min-num", l.MaxStringLength = "max-str", l.MaxNumber = "max-num", l.Email = "email", l.Empty = "empty", l.EqualTo = "equal-to", l.MinNumbers = "min-numbers", l.MaxNumbers = "max-numbers", l.MinChars = "min-chars", l.MaxChars = "max-chars", l.MinUpperChars = "min-upper-chars", l.MaxUpperChars = "max-upper-chars", l.MinLowerChars = "min-lower-chars", l.MaxLowerChars = "max-lower-chars", l.MinSpecialChars = "min-special-chars", l.MaxSpecialChars = "max-special-chars", l))(Fe || {});
+var Ae = ((r) => (r.Ok = "ok", r.Ko = "ko", r.Info = "info", r))(Ae || {});
+var we = ((i) => (i.StorageUnit = "unit", i.Directory = "dir", i.Image = "img", i.Video = "vid", i.File = "file", i))(we || {});
+var Oe = ((g) => (g.H1 = "h1", g.H2 = "h2", g.H3 = "h3", g.H4 = "h4", g.H5 = "h5", g.H6 = "h6", g))(Oe || {});
+var Pe = ((o) => (o.NotDefined = "", o.Button = "button", o))(Pe || {});
+var je = ((o) => (o.Start = "start", o.End = "end", o))(je || {});
+var We = ((r) => (r.Create = "create", r.Update = "update", r.Read = "read", r))(We || {});
+var Ne = ((o) => (o.Inline = "inline", o.Modal = "modal", o))(Ne || {});
+var He = ((o) => (o.Top = "top", o.Bottom = "bottom", o))(He || {});
+var Ue = ((r) => (r.Changed = "changed", r.Always = "always", r.Never = "never", r))(Ue || {});
+var Ke = ((r) => (r.Manual = "manual", r.Auto = "auto", r.Delay = "delay", r))(Ke || {});
+var Re = ((o) => (o.Toast = "toast", o.Inline = "inline", o))(Re || {});
+var Ge = ((n) => (n.Current = "current", n.Modifications = "modifications", n.SplitView = "split-view", n.Differences = "differences", n))(Ge || {});
+var qe = ((r) => (r.Hidden = "hidden", r.Always = "always", r.TabList = "tablist", r))(qe || {});
+var Xe = ((n) => (n.Anchor = "anchor", n.Button = "button", n.Header = "header", n.Entry = "entry", n))(Xe || {});
+var ze = ((o) => (o.Modal = "modal", o.Confirm = "confirm", o))(ze || {});
+var $e = ((m) => (m.Pages = "pages", m.PrevNext = "prev-next", m.PagesPrevNext = "pages-prev-next", m.PagesPrevNextFirstLast = "pages-prev-next-first-last", m.LoadMore = "load-more", m.Infinite = "infinite", m.TimelineAsc = "timeline-asc", m.TimelineDesc = "timeline-desc", m.TimelineAscDesc = "timeline-asc-desc", m))($e || {});
+var Je = ((r) => (r.None = "", r.Incremental = "incremental", r.Decremental = "decremental", r))(Je || {});
+var Ye = ((i) => (i.NotDefined = "", i.Hidden = "hidden", i.Integer = "integer", i.Decimal = "decimal", i.Auto = "auto", i))(Ye || {});
+var Qe = ((o) => (o.Bar = "bar", o.Circle = "circle", o))(Qe || {});
+var te = (_b = class extends a {
+  constructor(e = {}) {
     super();
     __publicField(this, "modelValue", 0);
     __publicField(this, "animation", "");
@@ -61,42 +62,47 @@ var ot = (_b = class extends a {
     __publicField(this, "unit");
     __publicField(this, "header", {});
     __publicField(this, "valueFormat", "auto");
+    __publicField(this, "text");
     __publicField(this, "circle");
-    this.feed(t);
+    this.feed(e);
   }
-}, __publicField(_b, "lktAllowUndefinedProps", ["circle", "unit"]), __publicField(_b, "lktDefaultValues", ["modelValue", "animation", "type", "duration", "pauseOnHover", "header", "valueFormat", "circle", "unit"]), _b);
-var Qt = ((l) => (l.Table = "table", l.Item = "item", l.Ul = "ul", l.Ol = "ol", l.Carousel = "carousel", l.Accordion = "accordion", l))(Qt || {});
-var Zt = ((n) => (n[n.Auto = 0] = "Auto", n[n.PreferItem = 1] = "PreferItem", n[n.PreferCustomItem = 2] = "PreferCustomItem", n[n.PreferColumns = 3] = "PreferColumns", n))(Zt || {});
-var _t = ((o) => (o.NotDefined = "", o.ActionIcon = "action-icon", o))(_t || {});
-var te = ((o) => (o.Message = "message", o.Button = "button", o))(te || {});
-var ee = ((r) => (r.Left = "left", r.Center = "center", r.Right = "right", r))(ee || {});
-var oe = ((o) => (o.Fixed = "fixed", o.Absolute = "absolute", o))(oe || {});
-var re = ((n) => (n.Top = "top", n.Bottom = "bottom", n.Center = "center", n.ReferrerCenter = "referrer-center", n))(re || {});
-var ne = ((i) => (i.Left = "left", i.Right = "right", i.Center = "center", i.LeftCorner = "left-corner", i.RightCorner = "right-corner", i))(ne || {});
-var ae = ((g) => (g.LktAnchor = "lkt-anchor", g.LktLayoutAccordion = "lkt-layout-accordion", g.LktTextAccordion = "lkt-text-accordion", g.LktLayoutBox = "lkt-layout-box", g.LktTextBox = "lkt-text-box", g.LktLayoutBanner = "lkt-layout-banner", g.LktTextBanner = "lkt-text-banner", g.LktButton = "lkt-button", g.LktLayout = "lkt-layout", g.LktHeader = "lkt-header", g.LktIcon = "lkt-icon", g.LktIcons = "lkt-icons", g.LktImage = "lkt-image", g.LktText = "lkt-text", g))(ae || {});
-var ft = ((n) => (n.Grid = "grid", n.FlexRow = "flex-row", n.FlexRows = "flex-rows", n.FlexColumn = "flex-column", n))(ft || {});
-var le = ((r) => (r.Draft = "draft", r.Public = "public", r.Scheduled = "scheduled", r))(le || {});
-var me = ((p) => (p[p.XXS = 1] = "XXS", p[p.XS = 2] = "XS", p[p.SM = 3] = "SM", p[p.MD = 4] = "MD", p[p.LG = 5] = "LG", p[p.XL = 6] = "XL", p[p.XXL = 7] = "XXL", p))(me || {});
-var de = ((n) => (n.None = "", n.Focus = "focus", n.Blur = "blur", n.Always = "always", n))(de || {});
-var ce = ((o) => (o.Message = "message", o.Inline = "inline", o))(ce || {});
-var pe = ((r) => (r.Auto = "auto", r.Local = "local", r.Remote = "remote", r))(pe || {});
-var ge = ((i) => (i.Refresh = "refresh", i.Close = "close", i.ReOpen = "reOpen", i.Exec = "exec", i.Open = "open", i))(ge || {});
-var Ce = ((o) => (o.Asc = "asc", o.Desc = "desc", o))(Ce || {});
-var xe = ((f) => (f.Create = "create", f.Update = "update", f.Edit = "edit", f.Drop = "drop", f.Sort = "sort", f.SwitchEditMode = "switch-edit-mode", f.InlineEdit = "inline-edit", f.InlineCreate = "inline-create", f.ModalCreate = "modal-create", f.InlineCreateEver = "inline-create-ever", f))(xe || {});
-var be = ((o) => (o.Lazy = "lazy", o.Ever = "ever", o))(be || {});
-var he = ((o) => (o.Page = "page", o.Element = "element", o))(he || {});
-var Be = ((o) => (o.Quick = "quick", o.Full = "full", o))(Be || {});
-function la(e) {
-  let t = new e(), o = {};
-  if (!Array.isArray(e.lktDefaultValues)) throw new Error("lktDefaultValues must be a keys array.");
-  for (let r of e.lktDefaultValues) r in t && (o[r] = t[r]);
+}, __publicField(_b, "lktAllowUndefinedProps", ["circle", "unit", "text"]), __publicField(_b, "lktDefaultValues", ["modelValue", "animation", "type", "duration", "pauseOnHover", "header", "valueFormat", "circle", "unit", "text"]), _b);
+var Ze = ((f) => (f.Table = "table", f.Item = "item", f.Ul = "ul", f.Ol = "ol", f.Carousel = "carousel", f.Accordion = "accordion", f.Calendar = "calendar", f))(Ze || {});
+var _e = ((n) => (n[n.Auto = 0] = "Auto", n[n.PreferItem = 1] = "PreferItem", n[n.PreferCustomItem = 2] = "PreferCustomItem", n[n.PreferColumns = 3] = "PreferColumns", n))(_e || {});
+var et = ((o) => (o.NotDefined = "", o.ActionIcon = "action-icon", o))(et || {});
+var tt = ((o) => (o.Message = "message", o.Button = "button", o))(tt || {});
+var ot = ((r) => (r.Left = "left", r.Center = "center", r.Right = "right", r))(ot || {});
+var rt = ((o) => (o.Fixed = "fixed", o.Absolute = "absolute", o))(rt || {});
+var nt = ((n) => (n.Top = "top", n.Bottom = "bottom", n.Center = "center", n.ReferrerCenter = "referrer-center", n))(nt || {});
+var at = ((i) => (i.Left = "left", i.Right = "right", i.Center = "center", i.LeftCorner = "left-corner", i.RightCorner = "right-corner", i))(at || {});
+var it = ((p) => (p.LktAnchor = "lkt-anchor", p.LktLayoutAccordion = "lkt-layout-accordion", p.LktTextAccordion = "lkt-text-accordion", p.LktLayoutBox = "lkt-layout-box", p.LktTextBox = "lkt-text-box", p.LktLayoutBanner = "lkt-layout-banner", p.LktTextBanner = "lkt-text-banner", p.LktButton = "lkt-button", p.LktLayout = "lkt-layout", p.LktHeader = "lkt-header", p.LktIcon = "lkt-icon", p.LktIcons = "lkt-icons", p.LktImage = "lkt-image", p.LktText = "lkt-text", p))(it || {});
+var se = ((n) => (n.Grid = "grid", n.FlexRow = "flex-row", n.FlexRows = "flex-rows", n.FlexColumn = "flex-column", n))(se || {});
+var st = ((r) => (r.Draft = "draft", r.Public = "public", r.Scheduled = "scheduled", r))(st || {});
+var dt = ((f) => (f[f.XXS = 1] = "XXS", f[f.XS = 2] = "XS", f[f.SM = 3] = "SM", f[f.MD = 4] = "MD", f[f.LG = 5] = "LG", f[f.XL = 6] = "XL", f[f.XXL = 7] = "XXL", f))(dt || {});
+var ct = ((n) => (n.PrevButton = "prev", n.NextButton = "next", n.DatePicker = "datePicker", n.GoToCurrent = "goToCurrent", n))(ct || {});
+var pt = ((o) => (o.Auto = "auto", o.Progress = "progress", o))(pt || {});
+var gt = ((n) => (n.None = "", n.Focus = "focus", n.Blur = "blur", n.Always = "always", n))(gt || {});
+var Ct = ((r) => (r.Error = "error", r.Errors = "errors", r.All = "all", r))(Ct || {});
+var xt = ((o) => (o.Message = "message", o.Inline = "inline", o))(xt || {});
+var bt = ((r) => (r.Auto = "auto", r.Local = "local", r.Remote = "remote", r))(bt || {});
+var ht = ((i) => (i.Refresh = "refresh", i.Close = "close", i.ReOpen = "reOpen", i.Exec = "exec", i.Open = "open", i))(ht || {});
+var kt = ((o) => (o.Asc = "asc", o.Desc = "desc", o))(kt || {});
+var yt = ((r) => (r.Always = "always", r.Lazy = "lazy", r.Ever = "ever", r))(yt || {});
+var Lt = ((u) => (u.Create = "create", u.Update = "update", u.Edit = "edit", u.Drop = "drop", u.Sort = "sort", u.SwitchEditMode = "switch-edit-mode", u.InlineEdit = "inline-edit", u.InlineCreate = "inline-create", u.ModalCreate = "modal-create", u.InlineCreateEver = "inline-create-ever", u))(Lt || {});
+var Bt = ((o) => (o.Lazy = "lazy", o.Ever = "ever", o))(Bt || {});
+var Et = ((o) => (o.Page = "page", o.Element = "element", o))(Et || {});
+var Dt = ((o) => (o.Quick = "quick", o.Full = "full", o))(Dt || {});
+function La(t) {
+  let e = new t(), o = {};
+  if (!Array.isArray(t.lktDefaultValues)) throw new Error("lktDefaultValues must be a keys array.");
+  for (let r of t.lktDefaultValues) r in e && (o[r] = e[r]);
   return o;
 }
 const getVisiblePercentage = (progress, format) => {
   let r = Number(progress).toFixed(2);
-  if (format === Jt.Auto) {
+  if (format === Ye.Auto) {
     if (r.indexOf(".00") > -1) r = r.replace(".00", "");
-  } else if (format === Jt.Integer) {
+  } else if (format === Ye.Integer) {
     r = parseInt(r);
   }
   return r;
@@ -113,16 +119,6 @@ const getFinalText = (visiblePercentage, unit) => {
       return `${visiblePercentage}${unit.text}`;
   }
 };
-const getAnimationDistance = (currentPercentage, animation, highLimit, lowLimit) => {
-  switch (animation) {
-    case zt.Incremental:
-      return highLimit - currentPercentage;
-    case zt.Decremental:
-      return currentPercentage - lowLimit;
-    default:
-      return 0;
-  }
-};
 const getAnimationDistanceStep = (distance, duration) => {
   return distance / duration * (duration / 100);
 };
@@ -132,8 +128,53 @@ const parseAnimationConfig = (animation) => {
     autoplay: true
   };
   if (typeof animation.autoplay === "undefined") animation.autoplay = true;
-  if (typeof animation.type === "undefined") animation.type = zt.None;
+  if (typeof animation.externalControl === "undefined") animation.externalControl = false;
+  if (typeof animation.type === "undefined") animation.type = Je.None;
   return animation;
+};
+const doProgressAnimation = (args) => {
+  if (args.paused) return;
+  if (args.current.value === args.target && !args.animation.externalControl) return;
+  if (isNaN(args.target) || isNaN(args.current.value)) return;
+  let zero;
+  const animationId = ref(null);
+  const distance = Math.abs(args.target - args.current.value);
+  function animate(timestamp) {
+    if (args.paused || args.current.value === args.target) {
+      doStopProgressAnimation(animationId);
+      return;
+    }
+    if (isNaN(args.target) || isNaN(args.current.value)) {
+      doStopProgressAnimation(animationId);
+      return;
+    }
+    if (!zero) zero = timestamp;
+    let elapsed = timestamp - zero;
+    let pendingTime = args.duration - elapsed;
+    let progress = getAnimationDistanceStep(distance, pendingTime);
+    if (!isNaN(progress)) {
+      if (args.animation.type === Je.Incremental) {
+        args.current.value = Math.min(args.current.value + progress, args.target);
+      } else if (args.animation.type === Je.Decremental) {
+        args.current.value = Math.max(args.current.value - progress, args.target);
+      }
+    }
+    let keepAnimating = args.current.value !== args.target;
+    if (typeof args.events.onAnimatedFrame === "function") args.events.onAnimatedFrame();
+    if (keepAnimating) {
+      animationId.value = requestAnimationFrame(animate);
+    } else {
+      doStopProgressAnimation(animationId);
+    }
+  }
+  animationId.value = requestAnimationFrame(animate);
+  return animationId;
+};
+const doStopProgressAnimation = (animationId) => {
+  if (animationId.value) {
+    cancelAnimationFrame(animationId.value);
+    animationId.value = null;
+  }
 };
 const _hoisted_1$2 = { class: "progress-circle" };
 const _hoisted_2$1 = ["width", "height", "viewBox"];
@@ -183,12 +224,12 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     const radius = computed(() => (size.value - strokeWidth.value) / 2);
     const circumference = computed(() => 2 * Math.PI * radius.value);
     const offset = computed(() => circumference.value * (1 - currentProgress.value / 100));
-    let animationId = null;
+    let animationId = ref(null);
     const paused = ref(false);
-    let animationLimit = computed(() => {
-      return props.animation.type === zt.Incremental ? props.progressHigherLimit : props.progressLowerLimit;
+    const animationLimit = computed(() => {
+      if (props.animation.externalControl) return props.progress;
+      return props.animation.type === Je.Incremental ? props.progressHigherLimit : props.progressLowerLimit;
     });
-    const animationDistance = getAnimationDistance(props.progress, props.animation.type, props.progressHigherLimit, props.progressLowerLimit);
     const ballPos = computed(() => {
       const angle = 2 * Math.PI * (currentProgress.value / 100);
       const cx = size.value / 2;
@@ -205,38 +246,21 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     });
     const ballCircumference = computed(() => 2 * Math.PI * ballRadius.value);
     function animateProgress() {
-      if (paused.value) return;
-      if (currentProgress.value === animationLimit.value) return;
-      function animate() {
-        if (paused.value || currentProgress.value === animationLimit.value) {
-          if (animationId) {
-            cancelAnimationFrame(animationId);
-            animationId = null;
+      animationId = doProgressAnimation({
+        duration: duration.value,
+        animation: props.animation,
+        paused: paused.value,
+        current: currentProgress,
+        target: animationLimit.value,
+        events: {
+          onAnimatedFrame: () => {
+            emit("progress-updated", currentProgress.value);
           }
-          return;
         }
-        const progress = getAnimationDistanceStep(animationDistance, duration.value);
-        if (props.animation.type === zt.Incremental) {
-          currentProgress.value = Math.min(currentProgress.value + progress, props.progressHigherLimit);
-        } else if (props.animation.type === zt.Decremental) {
-          currentProgress.value = Math.max(currentProgress.value - progress, props.progressLowerLimit);
-        }
-        emit("progress-updated", currentProgress.value);
-        if (currentProgress.value !== animationLimit.value) {
-          animationId = requestAnimationFrame(animate);
-        } else {
-          cancelAnimationFrame(animationId);
-          animationId = null;
-        }
-      }
-      animationId = requestAnimationFrame(animate);
+      });
     }
     function pauseAnimation() {
-      if (animationId) {
-        cancelAnimationFrame(animationId);
-        animationId = null;
-        paused.value = true;
-      }
+      doStopProgressAnimation(animationId);
     }
     const computedDirectionStyles = computed(() => {
       if (props.direction === "left") return `rotate(-180 ${center.value} ${center.value}) scale(-1,1) translate(-${size.value} 0)`;
@@ -244,6 +268,9 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     });
     watch(() => props.progress, (newVal) => {
       animateProgress();
+    }, { immediate: true });
+    watch(() => props.duration, (newVal) => {
+      duration.value = newVal;
     }, { immediate: true });
     watch(() => props.hasHover, (hasHover) => {
       if (props.pauseOnHover) {
@@ -369,53 +396,45 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     const props = __props;
     const currentProgress = ref(props.progress);
     const duration = ref((_a2 = props.duration) != null ? _a2 : 1e3);
-    let animationId = null;
+    let animationId = ref(null);
     const paused = ref(false);
-    let animationLimit = computed(() => {
-      return props.animation.type === zt.Incremental ? props.progressHigherLimit : props.progressLowerLimit;
+    const animationLimit = computed(() => {
+      if (props.animation.externalControl) {
+        if (isNaN(props.progress)) return 100;
+        return props.progress;
+      }
+      return props.animation.type === Je.Incremental ? props.progressHigherLimit : props.progressLowerLimit;
     });
-    const animationDistance = getAnimationDistance(props.progress, props.animation.type, props.progressHigherLimit, props.progressLowerLimit);
     const emit = __emit;
     const slots = useSlots();
     const progressBarStyles = computed(() => {
-      return "width: calc(" + currentProgress.value + "%)";
+      let r = [];
+      r.push(`transition: all linear ${duration.value}ms`);
+      r.push(`width: ${currentProgress.value}%`);
+      return r.join(";");
     });
     function animateProgress() {
-      if (paused.value) return;
-      if (currentProgress.value === animationLimit.value) return;
-      function animate() {
-        if (paused.value || currentProgress.value === animationLimit.value) {
-          if (animationId) {
-            cancelAnimationFrame(animationId);
-            animationId = null;
+      animationId = doProgressAnimation({
+        duration: duration.value,
+        animation: props.animation,
+        paused: paused.value,
+        current: currentProgress,
+        target: animationLimit.value,
+        events: {
+          onAnimatedFrame: () => {
+            emit("progress-updated", currentProgress.value);
           }
-          return;
         }
-        const progress = getAnimationDistanceStep(animationDistance, duration.value);
-        if (props.animation.type === zt.Incremental) {
-          currentProgress.value = Math.min(currentProgress.value + progress, props.progressHigherLimit);
-        } else if (props.animation.type === zt.Decremental) {
-          currentProgress.value = Math.max(currentProgress.value - progress, props.progressLowerLimit);
-        }
-        emit("progress-updated", currentProgress.value);
-        if (currentProgress.value !== animationLimit.value) {
-          animationId = requestAnimationFrame(animate);
-        } else {
-          cancelAnimationFrame(animationId);
-          animationId = null;
-        }
-      }
-      animationId = requestAnimationFrame(animate);
+      });
     }
     function pauseAnimation() {
-      if (animationId) {
-        cancelAnimationFrame(animationId);
-        animationId = null;
-        paused.value = true;
-      }
+      doStopProgressAnimation(animationId);
     }
     watch(() => props.progress, (newVal) => {
       animateProgress();
+    }, { immediate: true });
+    watch(() => props.duration, (newVal) => {
+      duration.value = newVal;
     }, { immediate: true });
     watch(() => props.hasHover, (hasHover) => {
       if (props.pauseOnHover) {
@@ -472,8 +491,9 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     unit: {},
     header: {},
     valueFormat: {},
+    text: { type: [String, Function] },
     circle: {}
-  }, la(ot)),
+  }, La(te)),
   emits: [
     "update:modelValue",
     "mouseenter",
@@ -481,7 +501,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     "end"
   ],
   setup(__props, { expose: __expose, emit: __emit }) {
-    var _a2, _b2, _c, _d, _e, _f, _g, _h;
+    var _a2, _b2, _c, _d, _e2, _f, _g, _h;
     const emit = __emit;
     const slots = useSlots();
     const props = __props;
@@ -490,32 +510,32 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     if (progress.value > 100) progress.value = 100;
     if (progress.value < 0) progress.value = 0;
     const progressHigherLimit = ref(100);
-    if (animationConfig.value.type === zt.Incremental) {
+    if (animationConfig.value.type === Je.Incremental) {
       progressHigherLimit.value = progress.value;
       progress.value = 0;
     }
     const progressLowerLimit = ref(0);
-    if (animationConfig.value.type === zt.Decremental) {
+    if (animationConfig.value.type === Je.Decremental) {
       progressLowerLimit.value = progress.value;
       progress.value = progressHigherLimit.value;
     }
     const hasHover = ref(false);
     const progressRef = ref(null);
-    watch(() => props.modelValue, (v) => {
-      if (v > 100) v = 100;
-      if (v < 0) v = 0;
-      progress.value = v;
+    watch(() => props.modelValue, (v2) => {
+      if (v2 > 100) v2 = 100;
+      if (v2 < 0) v2 = 0;
+      progress.value = v2;
     });
-    watch(progress, (v) => {
-      emit("update:modelValue", v);
+    watch(progress, (v2) => {
+      emit("update:modelValue", v2);
     });
-    const circleProgress = ref(progress.value);
-    const updateCircleProgress = (n) => circleProgress.value = n;
+    const calculatedProgress = ref(progress.value);
+    const updateCalculatedProgress = (n) => calculatedProgress.value = n;
     const classes = computed(() => {
       let r = ["lkt-progress--fill-0"];
-      if (props.type === Yt.Circle) r.push("is-circle");
-      if (props.type === Yt.Bar) r.push("is-bar");
-      const p = props.type === Yt.Bar ? progress.value : circleProgress.value;
+      if (props.type === Qe.Circle) r.push("is-circle");
+      if (props.type === Qe.Bar) r.push("is-bar");
+      const p = props.type === Qe.Bar ? progress.value : calculatedProgress.value;
       if (p >= 10) r.push("lkt-progress--fill-10");
       if (p >= 20) r.push("lkt-progress--fill-20");
       if (p >= 30) r.push("lkt-progress--fill-30");
@@ -536,11 +556,19 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       emit("mouseleave", event);
     };
     const circleRadius = ref((_b2 = (_a2 = props.circle) == null ? void 0 : _a2.radius) != null ? _b2 : 50);
-    const ballRadius = ref((_e = (_d = (_c = props.circle) == null ? void 0 : _c.ball) == null ? void 0 : _d.radius) != null ? _e : 50);
+    const ballRadius = ref((_e2 = (_d = (_c = props.circle) == null ? void 0 : _c.ball) == null ? void 0 : _d.radius) != null ? _e2 : 50);
     const strokeWidth = ref((_h = (_g = (_f = props.circle) == null ? void 0 : _f.track) == null ? void 0 : _g.width) != null ? _h : 10);
     const circleWidth = ref(circleRadius.value * 2);
     const computedVisiblePercentage = computed(() => {
-      return getFinalText(getVisiblePercentage(circleProgress.value, props.valueFormat), props.unit);
+      const r = getFinalText(getVisiblePercentage(calculatedProgress.value, props.valueFormat), props.unit);
+      switch (typeof props.text) {
+        case "undefined":
+          return r;
+        case "function":
+          return props.text(r);
+        default:
+          return props.text;
+      }
     });
     __expose({
       pause: () => {
@@ -568,7 +596,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
           } : void 0
         ]), 1040)) : createCommentVNode("", true),
         createElementVNode("div", _hoisted_1, [
-          _ctx.type === unref(Yt).Circle ? (openBlock(), createBlock(_sfc_main$2, mergeProps({
+          _ctx.type === unref(Qe).Circle ? (openBlock(), createBlock(_sfc_main$2, mergeProps({
             key: 0,
             ref_key: "progressRef",
             ref: progressRef
@@ -587,7 +615,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
             valueFormat: _ctx.valueFormat,
             pauseOnHover: _ctx.pauseOnHover,
             hasHover: hasHover.value
-          }, { onProgressUpdated: updateCircleProgress }), createSlots({ _: 2 }, [
+          }, { onProgressUpdated: updateCalculatedProgress }), createSlots({ _: 2 }, [
             unref(slots).text ? {
               name: "text",
               fn: withCtx(({ text, progress: progress2, unit }) => [
@@ -599,7 +627,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
               ]),
               key: "0"
             } : void 0
-          ]), 1040)) : _ctx.type === unref(Yt).Bar ? (openBlock(), createBlock(_sfc_main$1, mergeProps({
+          ]), 1040)) : _ctx.type === unref(Qe).Bar ? (openBlock(), createBlock(_sfc_main$1, mergeProps({
             key: 1,
             ref_key: "progressRef",
             ref: progressRef
@@ -618,7 +646,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
             valueFormat: _ctx.valueFormat,
             pauseOnHover: _ctx.pauseOnHover,
             hasHover: hasHover.value
-          }, { onProgressUpdated: updateCircleProgress }), createSlots({ _: 2 }, [
+          }, { onProgressUpdated: updateCalculatedProgress }), createSlots({ _: 2 }, [
             unref(slots).text ? {
               name: "text",
               fn: withCtx(({ text, progress: progress2, unit }) => [

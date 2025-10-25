@@ -41,7 +41,9 @@ if (animationConfig.value.type === ProgressAnimation.Incremental) {
 
 const progressLowerLimit = ref(0);
 if (animationConfig.value.type === ProgressAnimation.Decremental) {
-    progressLowerLimit.value = progress.value;
+    // if (!animationConfig.value.externalControl) {
+        progressLowerLimit.value = progress.value;
+    // }
     progress.value = progressHigherLimit.value;
 }
 
@@ -58,15 +60,15 @@ watch(progress, (v) => {
     emit('update:modelValue', v);
 })
 
-const circleProgress = ref(progress.value);
-const updateCircleProgress = (n:number) => circleProgress.value = n;
+const calculatedProgress = ref(progress.value);
+const updateCalculatedProgress = (n:number) => calculatedProgress.value = n;
 
 const classes = computed(() => {
         let r = ['lkt-progress--fill-0'];
 
         if (props.type === ProgressType.Circle) r.push('is-circle');
         if (props.type === ProgressType.Bar) r.push('is-bar');
-        const p = props.type === ProgressType.Bar ? progress.value : circleProgress.value;
+        const p = props.type === ProgressType.Bar ? progress.value : calculatedProgress.value;
 
         if (p >= 10) r.push('lkt-progress--fill-10');
         if (p >= 20) r.push('lkt-progress--fill-20');
@@ -97,7 +99,17 @@ const strokeWidth = ref(props.circle?.track?.width ?? 10);
 const circleWidth = ref(circleRadius.value * 2);
 
 const computedVisiblePercentage = computed(() => {
-    return getFinalText(getVisiblePercentage(circleProgress.value, props.valueFormat), props.unit);
+    const r = getFinalText(getVisiblePercentage(calculatedProgress.value, props.valueFormat), props.unit);
+    switch (typeof props.text) {
+        case 'undefined':
+            return r;
+
+        case 'function':
+            return props.text(r);
+
+        default:
+            return props.text;
+    }
 });
 
 defineExpose({
@@ -144,9 +156,9 @@ defineExpose({
                     direction,
                     valueFormat,
                     pauseOnHover,
-                    hasHover
+                    hasHover,
                 }"
-                @progress-updated="updateCircleProgress"
+                @progress-updated="updateCalculatedProgress"
             >
                 <template #text="{text, progress, unit}" v-if="slots.text">
                     <slot name="text" v-bind="<ProgressTextSlot>{
@@ -176,7 +188,7 @@ defineExpose({
                     pauseOnHover,
                     hasHover
                 }"
-                @progress-updated="updateCircleProgress"
+                @progress-updated="updateCalculatedProgress"
             >
                 <template #text="{text, progress, unit}" v-if="slots.text">
                     <slot name="text" v-bind="<ProgressTextSlot>{

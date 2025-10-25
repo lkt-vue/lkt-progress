@@ -7,22 +7,24 @@ declare const slots: Readonly<{
 declare const animationConfig: import("vue").Ref<{
     type: ProgressAnimation;
     autoplay: boolean;
+    externalControl: boolean;
 }, import("lkt-vue-kernel").ProgressAnimationConfig | {
     type: ProgressAnimation;
     autoplay: boolean;
+    externalControl: boolean;
 }>;
 declare const progress: import("vue").Ref<number, number>;
 declare const progressHigherLimit: import("vue").Ref<number, number>;
 declare const progressLowerLimit: import("vue").Ref<number, number>;
 declare const hasHover: import("vue").Ref<boolean, boolean>;
 declare const progressRef: import("vue").Ref<null, null>;
-declare const updateCircleProgress: (n: number) => number;
+declare const updateCalculatedProgress: (n: number) => number;
 declare const classes: import("vue").ComputedRef<string>;
 declare const onMouseEnter: (event: MouseEvent) => void, onMouseLeave: (event: MouseEvent) => void;
 declare const ballRadius: import("vue").Ref<number, number>;
 declare const strokeWidth: import("vue").Ref<number, number>;
 declare const circleWidth: import("vue").Ref<number, number>;
-declare const computedVisiblePercentage: import("vue").ComputedRef<string>;
+declare const computedVisiblePercentage: import("vue").ComputedRef<any>;
 declare const __VLS_ctx: InstanceType<__VLS_PickNotAny<typeof __VLS_self, new () => {}>>;
 declare var __VLS_5: {}, __VLS_16: {
     text: string;
@@ -51,7 +53,7 @@ declare const __VLS_self: import("vue").DefineComponent<ProgressConfig, {
     progressLowerLimit: typeof progressLowerLimit;
     hasHover: typeof hasHover;
     progressRef: typeof progressRef;
-    updateCircleProgress: typeof updateCircleProgress;
+    updateCalculatedProgress: typeof updateCalculatedProgress;
     classes: typeof classes;
     onMouseEnter: typeof onMouseEnter;
     onMouseLeave: typeof onMouseLeave;
@@ -75,6 +77,7 @@ declare const __VLS_self: import("vue").DefineComponent<ProgressConfig, {
     animation: ProgressAnimation | import("lkt-vue-kernel").ProgressAnimationConfig;
     header: import("lkt-vue-kernel").HeaderConfig;
     circle: import("lkt-vue-kernel").CircleConfig;
+    text: string | Function;
     duration: number;
     modelValue: number;
     pauseOnHover: boolean;
@@ -99,6 +102,7 @@ declare const __VLS_component: import("vue").DefineComponent<ProgressConfig, {
     animation: ProgressAnimation | import("lkt-vue-kernel").ProgressAnimationConfig;
     header: import("lkt-vue-kernel").HeaderConfig;
     circle: import("lkt-vue-kernel").CircleConfig;
+    text: string | Function;
     duration: number;
     modelValue: number;
     pauseOnHover: boolean;

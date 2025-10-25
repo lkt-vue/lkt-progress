@@ -44,6 +44,10 @@ export const getAnimationDistance = (currentPercentage: number, animation: Progr
     }
 }
 
+export const getExternalAnimationDistance = (currentPercentage: number, limit: number) => {
+    return Math.abs(currentPercentage - limit)
+}
+
 export const getAnimationDistanceStep = (distance: number, duration: number) => {
     return (distance / duration) * (duration / 100);
 }
@@ -55,6 +59,7 @@ export const parseAnimationConfig = (animation: ProgressAnimation|ProgressAnimat
     }
 
     if (typeof animation.autoplay === 'undefined') animation.autoplay = true;
+    if (typeof animation.externalControl === 'undefined') animation.externalControl = false;
     if (typeof animation.type === 'undefined') animation.type = ProgressAnimation.None;
 
     return animation;

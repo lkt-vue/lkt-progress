@@ -1,5 +1,6 @@
+import { Ref } from "vue";
 import { ProgressBarProps } from "../props/ProgressBarProps";
-declare const currentProgress: import("vue").Ref<number, number>;
+declare const currentProgress: Ref<number, number>;
 declare const slots: Readonly<{
     [name: string]: import("vue").Slot<any> | undefined;
 }>;
