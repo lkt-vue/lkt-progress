@@ -12,7 +12,7 @@ import ProgressCircle from "../components/ProgressCircle.vue";
 import {ProgressCircleProps} from "../props/ProgressCircleProps";
 import {ProgressBarProps} from "../props/ProgressBarProps";
 import ProgressBar from "../components/ProgressBar.vue";
-import {getFinalText, getVisiblePercentage, parseAnimationConfig} from "../functions/functions";
+import {calcProgressAndLimits, getFinalText, getVisiblePercentage, parseAnimationConfig} from "../functions/functions";
 
 // Emits
 const emit = defineEmits([
@@ -29,23 +29,19 @@ const slots = useSlots();
 const props = withDefaults(defineProps<ProgressConfig>(), getDefaultValues(Progress));
 const animationConfig = ref(parseAnimationConfig(props.animation));
 
-const progress = ref(Number(props.modelValue));
-if (progress.value > 100) progress.value = 100;
-if (progress.value < 0) progress.value = 0;
+let parsedProgressData = calcProgressAndLimits(props.modelValue, animationConfig);
+const progress = ref(parsedProgressData[0]);
+const progressHigherLimit = ref(parsedProgressData[1]);
+const progressLowerLimit = ref(parsedProgressData[2]);
 
-const progressHigherLimit = ref(100);
-if (animationConfig.value.type === ProgressAnimation.Incremental) {
-    progressHigherLimit.value = progress.value;
-    progress.value = 0;
-}
-
-const progressLowerLimit = ref(0);
-if (animationConfig.value.type === ProgressAnimation.Decremental) {
-    // if (!animationConfig.value.externalControl) {
-        progressLowerLimit.value = progress.value;
-    // }
-    progress.value = progressHigherLimit.value;
-}
+const target = computed(() => {
+    if (typeof animationConfig.value.to !== 'undefined') return animationConfig.value.to;
+    if (animationConfig.value.externalControl) {
+        if (isNaN(progress.value)) return 100;
+        return progress.value;
+    }
+    return animationConfig.value.type === ProgressAnimation.Incremental ? progressHigherLimit.value : progressLowerLimit.value;
+});
 
 const hasHover = ref(false);
 const progressRef = ref(null);
@@ -144,8 +140,7 @@ defineExpose({
                 ref="progressRef"
                 v-bind="<ProgressCircleProps>{
                     progress,
-                    progressHigherLimit,
-                    progressLowerLimit,
+                    target,
                     unit,
                     text: computedVisiblePercentage,
                     animation: animationConfig,
@@ -157,6 +152,7 @@ defineExpose({
                     valueFormat,
                     pauseOnHover,
                     hasHover,
+                    events,
                 }"
                 @progress-updated="updateCalculatedProgress"
             >
@@ -174,8 +170,7 @@ defineExpose({
                 ref="progressRef"
                 v-bind="<ProgressBarProps>{
                     progress,
-                    progressHigherLimit,
-                    progressLowerLimit,
+                    target,
                     text: computedVisiblePercentage,
                     unit,
                     animation: animationConfig,
@@ -186,7 +181,8 @@ defineExpose({
                     direction,
                     valueFormat,
                     pauseOnHover,
-                    hasHover
+                    hasHover,
+                    events,
                 }"
                 @progress-updated="updateCalculatedProgress"
             >

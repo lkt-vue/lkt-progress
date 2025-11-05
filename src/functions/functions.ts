@@ -1,4 +1,5 @@
 import {ProgressAnimation, ProgressAnimationConfig, ProgressValueFormat, UnitConfig} from "lkt-vue-kernel";
+import {ref, Ref} from "vue";
 
 export const getVisiblePercentage = (progress: number, format: ProgressValueFormat) => {
     let r = Number(progress).toFixed(2);
@@ -63,5 +64,41 @@ export const parseAnimationConfig = (animation: ProgressAnimation|ProgressAnimat
     if (typeof animation.type === 'undefined') animation.type = ProgressAnimation.None;
 
     return animation;
+}
 
+export const calcProgressAndLimits = (progress: number, animationConfig: Ref<ProgressAnimationConfig>) => {
+    let _progress = Number(progress);
+    if (_progress > 100) _progress = 100;
+    if (_progress < 0) _progress = 0;
+
+    let highLimit = 100;
+    if (animationConfig.value.type === ProgressAnimation.Incremental) {
+        highLimit = _progress;
+        _progress = 0;
+    }
+
+    let lowerLimit = 0;
+    if (animationConfig.value.type === ProgressAnimation.Decremental) {
+        // if (!animationConfig.value.externalControl) {
+        lowerLimit = _progress;
+        // }
+        _progress = highLimit;
+    }
+
+    if (typeof animationConfig.value.to !== 'undefined') {
+
+        if (animationConfig.value.type === ProgressAnimation.Incremental) {
+            highLimit = animationConfig.value.to;
+        }
+
+        if (animationConfig.value.type === ProgressAnimation.Decremental) {
+            lowerLimit = animationConfig.value.to;
+        }
+    }
+
+    if (typeof animationConfig.value.from !== 'undefined') {
+        _progress = animationConfig.value.from;
+    }
+
+    return [_progress, lowerLimit, highLimit];
 }

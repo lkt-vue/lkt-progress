@@ -43,6 +43,7 @@
     border-width: var(--lkt-progress--bar--border-width);
     border-style: var(--lkt-progress--bar--border-style);
     border-color: var(--lkt-progress--bar--border-color);
+    overflow: hidden;
 }
 
 .lkt-progress--bar-percentage {

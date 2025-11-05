@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {computed, Ref, ref, useSlots, watch} from "vue";
-import {ProgressAnimation, ProgressTextSlot} from "lkt-vue-kernel";
+import {computed, onMounted, Ref, ref, useSlots, watch} from "vue";
+import {ProgressTextSlot} from "lkt-vue-kernel";
 import {ProgressBarProps} from "../props/ProgressBarProps";
 import {doProgressAnimation, doStopProgressAnimation} from "../functions/animation";
 
@@ -15,14 +15,6 @@ const duration = ref(props.duration ?? 1000);
 let animationId: Ref<number | null> = ref(null);
 const paused = ref(false);
 
-const animationLimit = computed(() => {
-    if (props.animation.externalControl) {
-        if (isNaN(props.progress)) return 100;
-        return props.progress;
-    }
-    return props.animation.type === ProgressAnimation.Incremental ? props.progressHigherLimit : props.progressLowerLimit;
-});
-
 const emit = defineEmits(['progress-updated']);
 const slots = useSlots();
 
@@ -36,25 +28,29 @@ const progressBarStyles = computed(() => {
 });
 
 function animateProgress() {
+    paused.value = false;
     animationId = doProgressAnimation({
         duration: duration.value,
         animation: props.animation,
         paused: paused.value,
         current: currentProgress,
-        target: animationLimit.value,
+        target: props.target,
         events: {
             onAnimatedFrame: () => {
                 emit('progress-updated', currentProgress.value)
-            }
+            },
+            onAnimationEnd: props.events.onEnd
         }
     })
 }
 
 function pauseAnimation() {
+    paused.value = true;
     doStopProgressAnimation(animationId);
 }
 
 watch(() => props.progress, (newVal) => {
+    pauseAnimation();
     animateProgress();
 }, { immediate: true });
 
@@ -64,10 +60,9 @@ watch(() => props.duration, (newVal) => {
 
 watch(() => props.hasHover, (hasHover: boolean) => {
     if (props.pauseOnHover) {
-
         if (hasHover) {
             pauseAnimation();
-        } else if (currentProgress.value !== animationLimit.value) {
+        } else if (currentProgress.value !== props.target) {
             paused.value = false;
             animateProgress()
         }
@@ -76,12 +71,26 @@ watch(() => props.hasHover, (hasHover: boolean) => {
 
 defineExpose({
     pause: () => {
-        paused.value = true;
+        pauseAnimation();
     },
     start: () => {
-        paused.value = false;
         animateProgress();
     },
+})
+
+onMounted(() => {
+    if (props.animation.autoplay) {
+        animateProgress();
+        console.log('mounted bar: ', {
+
+            duration: duration.value,
+            animation: props.animation,
+            paused: paused.value,
+            current: currentProgress.value,
+            target: props.target,
+        }
+    )
+    }
 })
 </script>
 

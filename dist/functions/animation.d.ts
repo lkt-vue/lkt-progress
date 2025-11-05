@@ -8,6 +8,7 @@ export declare const doProgressAnimation: (args: {
     target: number;
     events: {
         onAnimatedFrame: Function;
+        onAnimationEnd?: Function;
     };
 }) => undefined | Ref<number | null>;
 export declare const doStopProgressAnimation: (animationId: Ref<number | null>) => void;

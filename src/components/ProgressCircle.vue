@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {computed, Ref, ref, useSlots, watch} from 'vue';
-import {ProgressAnimation, ProgressTextSlot} from "lkt-vue-kernel";
+import {computed, onMounted, Ref, ref, useSlots, watch} from 'vue';
+import {ProgressTextSlot} from "lkt-vue-kernel";
 import {ProgressCircleProps} from "../props/ProgressCircleProps";
 import {doProgressAnimation, doStopProgressAnimation} from "../functions/animation";
 
@@ -29,11 +29,6 @@ const offset = computed(() => circumference.value * (1 - currentProgress.value /
 let animationId: Ref<number | null> = ref(null);
 const paused = ref(false);
 
-const animationLimit = computed(() => {
-    if (props.animation.externalControl) return props.progress;
-    return props.animation.type === ProgressAnimation.Incremental ? props.progressHigherLimit : props.progressLowerLimit;
-});
-
 const ballPos = computed(() => {
     const angle = 2 * Math.PI * (currentProgress.value / 100);
     const cx = size.value / 2;
@@ -52,21 +47,24 @@ const ballRadius = computed(() => {
 const ballCircumference = computed(() => 2 * Math.PI * ballRadius.value);
 
 function animateProgress() {
+    paused.value = false;
     animationId = doProgressAnimation({
         duration: duration.value,
         animation: props.animation,
         paused: paused.value,
         current: currentProgress,
-        target: animationLimit.value,
+        target: props.target,
         events: {
             onAnimatedFrame: () => {
                 emit('progress-updated', currentProgress.value)
-            }
+            },
+            onAnimationEnd: props.events.onEnd
         }
     })
 }
 
 function pauseAnimation() {
+    paused.value = true;
     doStopProgressAnimation(animationId);
 }
 
@@ -76,6 +74,7 @@ const computedDirectionStyles = computed(() => {
 })
 
 watch(() => props.progress, (newVal) => {
+    pauseAnimation();
     animateProgress();
 }, { immediate: true });
 
@@ -85,10 +84,9 @@ watch(() => props.duration, (newVal) => {
 
 watch(() => props.hasHover, (hasHover: boolean) => {
     if (props.pauseOnHover) {
-
         if (hasHover) {
             pauseAnimation();
-        } else if (currentProgress.value !== animationLimit.value) {
+        } else if (currentProgress.value !== props.target) {
             paused.value = false;
             animateProgress()
         }
@@ -97,12 +95,17 @@ watch(() => props.hasHover, (hasHover: boolean) => {
 
 defineExpose({
     pause: () => {
-        paused.value = true;
+        pauseAnimation();
     },
     start: () => {
-        paused.value = false;
         animateProgress();
     },
+})
+
+onMounted(() => {
+    if (props.animation.autoplay) {
+        animateProgress()
+    }
 })
 </script>
 
